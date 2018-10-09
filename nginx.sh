@@ -14,6 +14,14 @@ lxc exec nginx -- apt update && apt upgrade -y
 echo "Installing nginx"
 lxc exec nginx -- apt install nginx -y
 echo
+echo "Updating iptables"
+echo
+iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 80 -j DNAT --to-destination 10.0.0.2:80
+iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 443 -j DNAT --to-destination 10.0.0.2:443
+echo
+echo "Here are your current PREROUTING Rules"
+iptables -t nat -L PREROUTING
+echo
 echo "##############################"
 echo "          Complete            "
 echo "##############################"
