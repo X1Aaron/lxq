@@ -1,4 +1,8 @@
 #!/bin/bash
+PUBLIC_IP=`curl ifconfig.me`
+echo
+echo Your Public IP is $PUBLIC_IP
+echo
 echo "Creating Container nginx..."
 lxc launch ubuntu:18.04 nginx
 echo "Setting IP Address"
