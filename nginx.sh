@@ -1,3 +1,4 @@
+#!/bin/bash
 echo
 echo "Creating Container nginx..."
 lxc launch ubuntu:18.04 nginx
