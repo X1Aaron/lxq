@@ -9,6 +9,43 @@ echo "Install snapd"
 apt install snapd
 echo "Install LXD via Snap"
 snap install lxd
+echo "Configuing LXD"
+  cat <<EOF | lxd init --preseed
+config: {}
+networks:
+- config:
+    ipv4.address: 10.0.0.1/24
+    ipv4.nat: "true"
+    ipv6.address: none
+  description: ""
+  managed: false
+  name: lxdbr0
+  type: ""
+storage_pools:
+- config:
+    size: 20GB
+  description: ""
+  name: default
+  driver: zfs
+profiles:
+- config: {}
+  description: ""
+  devices:
+    eth0:
+      name: eth0
+      nictype: bridged
+      parent: lxdbr0
+      type: nic
+    root:
+      path: /
+      pool: default
+      type: disk
+  name: default
+cluster: null
+EOF
+echo
+echo
+read -p "Press [Enter] key to continue..."
 echo "Creating Container nginx..."
 lxc launch ubuntu:18.04 nginx
 echo "Setting IP Address"
