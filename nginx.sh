@@ -8,9 +8,9 @@ lxc network attach lxdbr0 nginx eth0 eth0
 lxc config device set nginx eth0 ipv4.address 10.0.0.2
 lxc restart nginx
 echo "Updating Container..."
-lxc exec nginx -- apt update && apt upgrade -y
+lxc exec nginx -- apt-get update && apt-get upgrade -y
 echo "Installing nginx"
-lxc exec nginx -- apt install nginx -y
+lxc exec nginx -- apt-get install nginx -y
 echo
 echo "Updating iptables"
 echo
