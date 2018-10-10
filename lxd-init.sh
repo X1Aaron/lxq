@@ -1,4 +1,5 @@
 #!/bin/bash
+#add a check here to make sure LXD isn't installed already.
 PUBLIC_IP=`curl ifconfig.me`
 echo
 echo Your Public IP is $PUBLIC_IP
