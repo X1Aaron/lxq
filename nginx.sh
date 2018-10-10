@@ -3,12 +3,17 @@ PUBLIC_IP=`curl ifconfig.me`
 echo
 echo Your Public IP is $PUBLIC_IP
 echo
+echo "Setuping Up Firewall"
+ufw enable ssh
+ufw --force enable
 echo "Remove LXD Packages"
-apt remove --purge lxd lxd-client liblxc1 lxcfs
+apt remove --purge lxd lxd-client liblxc1 lxcfs -y
 echo "Install snapd"
-apt install snapd
+apt install snapd -y
 echo "Install LXD via Snap"
 snap install lxd
+echo "Updating PATH"
+export PATH=$PATH:/snap/bin
 echo "Configuing LXD"
   cat <<EOF | lxd init --preseed
 config: {}
@@ -44,8 +49,6 @@ profiles:
 cluster: null
 EOF
 echo
-echo
-read -p "Press [Enter] key to continue..."
 echo "Creating Container nginx..."
 lxc launch ubuntu:18.04 nginx
 echo "Setting IP Address"
