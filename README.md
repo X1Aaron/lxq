@@ -2,7 +2,7 @@
 
 ## One Liner:
 
-curl -sSL https://raw.githubusercontent.com/aaronstuder/lxd/master/nginx.sh | bash
+curl -sSL https://raw.githubusercontent.com/aaronstuder/lxd/master/menu.sh | bash
 
 | Container | IP Address |
 | ------------- | ------------- |
