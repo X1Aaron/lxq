@@ -4,8 +4,8 @@ echo
 echo Your Public IP is $PUBLIC_IP
 echo
 echo "Setuping Up Firewall"
-ufw enable ssh
-ufw --force enable
+#ufw enable ssh
+#ufw --force enable
 echo "Remove LXD Packages"
 apt remove --purge lxd lxd-client liblxc1 lxcfs -y
 echo "Install snapd"
