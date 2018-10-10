@@ -1,4 +1,5 @@
 #!/bin/bash
+PUBLIC_IP=`curl ifconfig.me`
 echo
 echo "Creating Container nginx..."
 lxc launch ubuntu:18.04 nginx
