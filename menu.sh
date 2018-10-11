@@ -10,8 +10,7 @@ else
 LXD_STATUS=NotInstalled
 fi
 
-function check_update {
-    echo "Checking update"
+function install_lxc {
     wget https://raw.githubusercontent.com/aaronstuder/lxd/master/lxd-init.sh && chmod a+x lxd-init.sh && ./lxd-init.sh
 }
 
@@ -27,7 +26,7 @@ while (( !all_done )); do
     echo "Choose an option: "
     select opt in "${options[@]}"; do
         case $REPLY in
-            1) check_update; break ;;
+            1) install_lxc; break ;;
             2) reinstall_theme; break ;;
             3) all_done=1; break ;;
             *) echo "What's that?" ;;
