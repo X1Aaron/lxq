@@ -15,5 +15,5 @@ lxc exec nextcloud -- apt-get install snapd
 lxc exec nextcloud -- snap install nextcloud
 echo "Setting up Nginx" 
 lxc exec nginx -- wget https://raw.githubusercontent.com/aaronstuder/lxd/master/conf/nextcloud.conf -P /etc/nginx/conf.d/
-lxd exec nginx -- sed -i 's/$domain_name/lxd1.net/g' /etc/nginx/conf.d/nextcloud.conf
+lxd exec nginx -- systemctl reload nginx
 echo Done!
