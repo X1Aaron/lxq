@@ -7,11 +7,12 @@ echo
 echo -n "What is your CloudFlare API Key?"
 read CF_Key
 echo
-echo CloudFlare Key set to: $CF_Key
+echo CloudFlare Key is $CF_Key
 echo
-
-
-
+echo "Installing acme.sh..."
+curl https://get.acme.sh | sh
+echo "Installing Certs..."
+acme.sh  --issue -d '*.example.com'  --dns dns_cf
 
 #CF_Key="sdfsdfsdfljlbjkljlkjsdfoiwje"
 #CF_Email="xxxx@sss.com"
