@@ -17,10 +17,9 @@ echo Domain Name is $domain_name
 echo
 echo "Installing acme.sh..."
 curl https://get.acme.sh | sh
+export PATH=$PATH:~/.acme.sh/
 echo "Installing Certs..."
 acme.sh  --issue -d '*.$domain_name'  --dns dns_cf
 
-#CF_Key="sdfsdfsdfljlbjkljlkjsdfoiwje"
-#CF_Email="xxxx@sss.com"
-#acme.sh  --issue -d example.com  -d '*.example.com'  --dns dns_cf
-#certbot certonly --manual --preferred-challenges dns -d *.$domain_name
+
+
