@@ -16,6 +16,7 @@ curl -sSL https://raw.githubusercontent.com/aaronstuder/lxd/master/menu.sh | bas
 | Host  | 10.0.0.1 | N/A |
 | NGINX  | 10.0.0.2 | 80/TCP 443/TCP |
 | Open VPN | 10.0.0.3 | 1194/UDP |
+
 #To Do
 - Make wget only download one file
 - Enable firewall working
