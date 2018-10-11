@@ -7,11 +7,11 @@ curl -sSL https://raw.githubusercontent.com/aaronstuder/lxd/master/menu.sh | bas
 | Container | IP Address | Ports Forwarded to Container |
 | ------------- | ------------- | ----- |
 | Host      | 10.0.0.1 | N/A |
-| NGINX     | 10.0.0.2 | 80/TCP 443/TCP |
-| Open VPN  | 10.0.0.3 | 1194/UDP |
-| PiHole    | 10.0.0.4 | 53/UDP |
-|
-
+| nginx     | 10.0.0.2 | 80/TCP 443/TCP |
+| openvpn   | 10.0.0.3 | 1194/UDP |
+| pihole    | 10.0.0.4 | 53/UDP |
+| nextcloud | 10.0.0.5 | None |
+| rocketchat| 10.0.0.6 | None |
 
 #To Do
 - Make wget only download one file
