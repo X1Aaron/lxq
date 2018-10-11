@@ -11,10 +11,10 @@ curl -sSL https://raw.githubusercontent.com/aaronstuder/lxd/master/menu.sh | bas
 | OpenVPN |10.0.0.3 ||
 
 
-| First Header  | Second Header | |
-| ------------- | ------------- | |
-| Content Cell  | Content Cell  | |
-| Content Cell  | Content Cell  | |
+| First Header  | Second Header | Test |
+| ------------- | ------------- | ----- |
+| Content Cell  | Content Cell  | Test |
+| Content Cell  | Content Cell  | Test |
 
 #To Do
 - Make wget only download one file
