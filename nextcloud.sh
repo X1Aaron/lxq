@@ -1,5 +1,6 @@
 #!/bin/bash
-
+#domain_name=lxd1.net
+#echo "Domain Name = $domain_name 
 echo
 echo "Creating Container nextcloud..."
 lxc launch ubuntu:18.04 nextcloud
@@ -11,5 +12,8 @@ echo "Updating Container..."
 lxc exec nextcloud -- apt-get update && apt-get upgrade -y
 echo "Installing nextcloud"
 lxc exec nextcloud -- apt-get install snapd
-lxc exec nextcloud --snap install nextcloud
+lxc exec nextcloud -- snap install nextcloud
+echo "Setting up Nginx" 
+lxc exec nginx -- wget https://raw.githubusercontent.com/aaronstuder/lxd/master/conf/nextcloud.conf -P /etc/nginx/conf.d/
+lxd exec nginx -- sed -i 's/$domain_name/lxd1.net/g' /etc/nginx/conf.d/nextcloud.conf
 echo Done!
