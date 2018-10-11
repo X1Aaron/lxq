@@ -4,7 +4,7 @@
 
 curl -sSL https://raw.githubusercontent.com/aaronstuder/lxd/master/menu.sh | bash
 
-| Container | IP Address | Ports Forwarded |
+| Container | IP Address | Forwarded |
 | ------------- | ------------- |
 | Host | 10.0.0.1 ||
 | Nginx | 10.0.0.2 | 80/443 |
