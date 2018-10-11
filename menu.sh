@@ -30,7 +30,7 @@ while (( !all_done )); do
             1) install_lxc; break ;;
             2) install_nginx; break ;;
             3) install_nextcloud; break ;;
-            3) all_done=1; break ;;
+            4) all_done=1; break ;;
             *) echo "What's that?" ;;
         esac
     done
