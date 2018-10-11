@@ -9,7 +9,8 @@ lxc network attach lxdbr0 nextcloud eth0 eth0
 lxc config device set nextcloud eth0 ipv4.address 10.0.0.10
 lxc restart nextcloud
 echo "Updating Container..."
-lxc exec nextcloud -- apt-get update && apt-get upgrade -y
+lxc exec nextcloud -- apt-get update
+lxc exec nextcloud -- apt-get upgrade -y
 echo "Installing nextcloud"
 lxc exec nextcloud -- apt-get install snapd
 lxc exec nextcloud -- snap install nextcloud
