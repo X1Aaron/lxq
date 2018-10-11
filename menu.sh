@@ -17,7 +17,7 @@ function install_nginx {
 }
 
 function install_nextcloud {
-    wget https://raw.githubusercontent.com/aaronstuder/lxd/master/nginx.sh && chmod a+x nginx.sh && ./nginx.sh
+    wget https://raw.githubusercontent.com/aaronstuder/lxd/master/nextcloud.sh && chmod a+x nextcloud.sh && ./nextcloud.sh
 }
 
 all_done=0
