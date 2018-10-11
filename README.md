@@ -34,8 +34,7 @@ curl -sSL https://raw.githubusercontent.com/aaronstuder/lxd/master/menu.sh | bas
 
 
 #To Do
-- Make wget only download one file
 - Enable firewall working
 - Setup Logging
-- make scripts only run once
+- Error Checking (Only Run if Condition met)
 - 
