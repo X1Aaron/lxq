@@ -3,9 +3,9 @@
 # check if LXD is installed
 if [ -d "/snap/bin/" ];
 then
-LXD_STATUS=Installed
+LXD_STATUS="[Installed]"
 else
-LXD_STATUS=NotInstalled
+LXD_STATUS="[Not Installed]"
 fi
 
 function install_lxc {
