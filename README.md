@@ -11,11 +11,11 @@ curl -sSL https://raw.githubusercontent.com/aaronstuder/lxd/master/menu.sh | bas
 | OpenVPN |10.0.0.3 ||
 
 
-| First Header  | Second Header | Test |
+| Container | IP | Forwarded |
 | ------------- | ------------- | ----- |
-| Content Cell  | Content Cell  | Test |
-| Content Cell  | Content Cell  | Test |
-
+| Host  | Content Cell  | Test |
+| NGINX  | Content Cell  | Test |
+| Open VPN | 10.0.0.3 | 1194 UDP |
 #To Do
 - Make wget only download one file
 - Enable firewall working
