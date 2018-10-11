@@ -15,7 +15,7 @@ curl -sSL https://raw.githubusercontent.com/aaronstuder/lxd/master/menu.sh | bas
 | blank     | 10.0.0.7  | |None |
 | blank     | 10.0.0.8  | |None |
 | blank     | 10.0.0.9  | |None |
-| blank     | 10.0.0.10 | |None |
+| nextcloud | 10.0.0.10 | 80/tcp | |
 | blank     | 10.0.0.11 | |None |
 | blank     | 10.0.0.12 | |None |
 | blank     | 10.0.0.13 | |None |
