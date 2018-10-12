@@ -1,4 +1,4 @@
-# LXD
+# LXQ
 
 ## One Liner:
 
