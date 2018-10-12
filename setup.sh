@@ -1,15 +1,6 @@
 #!/bin/bash
 #add a check here to make sure LXD isn't installed already.
 
-### Variables - Start
-PUBLIC_IP=`curl ifconfig.me`
-echo
-echo "What is your domain name?"
-read domain_name
-echo
-a='*.'
-c="$a$domain_name"
-n=nginx
 echo What is your Cloudflare Email Address?
 read cf_email
 echo
@@ -22,8 +13,14 @@ dns_cloudflare_email = $cf_email
 dns_cloudflare_api_key = $cf_key
 EOF
 
-### Variables - End
-
+PUBLIC_IP=`curl ifconfig.me`
+echo
+echo "What is your domain name?"
+read domain_name
+echo
+a='*.'
+c="$a$domain_name"
+n=nginx
 
 echo
 echo Your Public IP is $PUBLIC_IP
