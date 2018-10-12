@@ -99,15 +99,10 @@ lxc exec $n -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials ~/
 
 echo "Updating iptables to Forward 443 to nginx Container"
 echo
-iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 80 -j DNAT --to-destination 10.0.0.2:80
 iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 443 -j DNAT --to-destination 10.0.0.2:443
 echo
 echo "Here are your current PREROUTING Rules"
 iptables -t nat -L PREROUTING
-echo "$n Setup Complete!"
-
-
-
-
-
-
+echo "Setup Complete!"
+echo
+echo "Open your web browser to https://$domain_name"
