@@ -95,13 +95,7 @@ echo
 echo "Setting Up HTTPS for $domain_name"
 lxc file push cloudflare.ini nginx/root/
 lxc exec $n -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials ~/cloudflare.ini -d $domain_name  -d c$ --agree-tos --noninteractive --manual-public-ip-logging-ok --email $email
-echo "Checking to see if certificate is installed..."
-if [ -f "/etc/letsencrypt/live/$domain_name/fullchain.pem" ];
-then
-echo "Certificate is installed!"
-else
-echo "ERROR: Certificate is NOT installed"
-fi
+
 echo "Enabling HTTPS on $domain_name..."
 lxc exec nginx -- wget -nc https://raw.githubusercontent.com/aaronstuder/lxd/master/conf/nginx.conf -P /etc/nginx/conf.d/
 lxc exec nginx -- systemctl reload nginx
