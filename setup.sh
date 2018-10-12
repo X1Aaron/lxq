@@ -94,7 +94,7 @@ lxc exec $n -- apt-get install nginx software-properties-common certbot python3-
 echo
 echo "Setting Up HTTPS for $domain_name"
 lxc file push cloudflare.ini nginx/root/
-certbot certonly --dns-cloudflare --dns-cloudflare-credentials ~/cloudflare.ini -d lxd1.net  -d *.lxd1.net --agree-tos --noninteractive --manual-public-ip-logging-ok --email aaronstuder@gmail.com
+lxc exec $n -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials ~/cloudflare.ini -d lxd1.net  -d *.lxd1.net --agree-tos --noninteractive --manual-public-ip-logging-ok --email aaronstuder@gmail.com
 
 
 echo "Updating iptables to Forward 443 to nginx Container"
