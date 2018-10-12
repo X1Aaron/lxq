@@ -93,6 +93,7 @@ echo "Installing Packages..."
 lxc exec $n -- apt-get install nginx software-properties-common certbot python3-certbot-dns-cloudflare -y
 echo
 echo "Setting Up HTTPS for $domain_name"
+lxc file push cloudflare.ini nginx/root/
 certbot certonly --dns-cloudflare --dns-cloudflare-credentials ~/cloudflare.ini -d lxd1.net  -d *.lxd1.net --agree-tos --noninteractive --manual-public-ip-logging-ok --email aaronstuder@gmail.com
 
 
