@@ -98,11 +98,13 @@ lxc exec $n -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials ~/
 echo "Checking to see if certificate is installed..."
 if [ -f "/etc/letsencrypt/live/$domain_name/fullchain.pem" ];
 then
-echo "Certificate is installed"
+echo "Certificate is installed!"
 else
-echo "Certificate is NOT installed"
+echo "ERROR: Certificate is NOT installed"
 fi
-
+echo "Enabling HTTPS on $domain_name..."
+lxc exec nginx -- wget -nc https://raw.githubusercontent.com/aaronstuder/lxd/master/conf/nginx.conf -P /etc/nginx/conf.d/
+lxc exec nginx -- systemctl reload nginx
 echo "Updating iptables to Forward 443 to nginx Container"
 echo
 iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 443 -j DNAT --to-destination 10.0.0.2:443
