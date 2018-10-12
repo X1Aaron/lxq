@@ -1,6 +1,6 @@
 #!/bin/bash
-#add a check here to make sure LXD isn't installed already.
-
+echo What is your email address? [Used for Let’s Encrypt]
+read email
 echo What is your Cloudflare Email Address?
 read cf_email
 echo
