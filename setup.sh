@@ -96,7 +96,8 @@ echo "Installing Packages..."
 lxc exec $n -- apt-get install nginx software-properties-common certbot python3-certbot-dns-cloudflare -y
 echo
 echo "Setting Up HTTPS for $domain_name"
-certbot certonly --dns-cloudflare --dns-cloudflare-credentials ~/cloudflare.ini  -d $c --agree-tos --manual-public-ip-logging-ok
+certbot certonly --dns-cloudflare --dns-cloudflare-credentials ~/cloudflare.ini -d lxd1.net  -d *.lxd1.net --agree-tos --noninteractive --manual-public-ip-logging-ok --email aaronstuder@gmail.com
+
 
 echo "Updating iptables to Forward 443 to nginx Container"
 echo
