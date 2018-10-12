@@ -95,7 +95,13 @@ echo
 echo "Setting Up HTTPS for $domain_name"
 lxc file push cloudflare.ini nginx/root/
 lxc exec $n -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials ~/cloudflare.ini -d $domain_name  -d c$ --agree-tos --noninteractive --manual-public-ip-logging-ok --email $email
-
+echo "Checking to see if certificate is installed..."
+if [ -f "/etc/letsencrypt/live/$domain_name/fullchain.pem" ];
+then
+echo "Certificate is installed"
+else
+echo "Certificate is NOT installed"
+fi
 
 echo "Updating iptables to Forward 443 to nginx Container"
 echo
