@@ -7,8 +7,12 @@ echo
 echo "Setuping Up Firewall"
 #ufw enable ssh
 #ufw --force enable
+echo Updating...
+apt-get update
+apt-get upgrade -y
 echo "Remove LXD Packages"
 apt remove --purge lxd lxd-client liblxc1 lxcfs -y
+apt-get autoremove
 echo "Install snapd"
 apt install snapd -y
 echo "Install LXD via Snap"
