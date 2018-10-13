@@ -85,7 +85,7 @@ lxc network attach lxdbr0 $n eth0 eth0
 lxc config device set $n eth0 ipv4.address 10.0.0.2
 lxc restart $n
 echo "Updating Container..."
-sleep 3s
+sleep 5s
 lxc exec $n -- apt-get update
 lxc exec $n -- apt-get upgrade -y
 echo "Adding certbot repository..."
