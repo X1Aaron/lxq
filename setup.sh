@@ -1,10 +1,12 @@
 #!/bin/bash
-echo What is your email address? [Used for Let’s Encrypt]
+echo "Installing Script Requirements..."
+apt-get install curl wget -y
+echo "What is your email address? [Used for Let’s Encrypt]"
 read email
-echo What is your Cloudflare Email Address?
+echo "What is your Cloudflare Email Address?"
 read cf_email
 echo
-echo What is your Cloudflare API Key?
+echo "What is your Cloudflare API Key?"
 read cf_key
 
 cat > cloudflare.ini <<EOF
