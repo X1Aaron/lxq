@@ -12,7 +12,7 @@ cat > cloudflare.ini <<EOF
 dns_cloudflare_email = $cf_email
 dns_cloudflare_api_key = $cf_key
 EOF
-
+#Install curl?
 PUBLIC_IP=`curl ifconfig.me`
 echo
 echo "What is your domain name?"
