@@ -8,10 +8,8 @@ c=nextcloud
 echo
 echo "Creating Container nextcloud..."
 lxc launch ubuntu:18.04 $c
-echo "Setting IP Address"
-lxc network attach lxdbr0 $c eth0 eth0
-lxc config device set $c eth0 ipv4.address 10.0.0.10
-lxc restart $c
+echo "Getting IP Address"
+lxc list "$c" -c 4 | awk '!/IPV4/{ if ( $2 != "" ) print $2}'
 echo "Updating Container..."
 sleep 3s
 lxc exec $c -- apt-get update
