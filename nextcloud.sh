@@ -17,8 +17,8 @@ lxc exec $c -- apt-get update
 lxc exec $c -- apt-get upgrade -y
 echo "Installing $c"
 lxc exec $c -- snap install $c
-echo "Gererating Certificate..."
-
+#echo "Gererating Certificate..."
+echo "Creating nginx .conf file"
 cat > nextcloud.conf <<EOF
 
 server {
