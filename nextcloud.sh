@@ -1,9 +1,9 @@
-
 #!/bin/bash
-#echo "Enter your FQDN [Fully Qualified Domain Name]"
-#read FQDN
-
 c=nextcloud
+#echo "Enter the Domain Name you would like to use for $c"
+#read domain_name
+
+
 
 echo
 echo "Creating Container $c..."
@@ -17,14 +17,7 @@ lxc exec $c -- apt-get update
 lxc exec $c -- apt-get upgrade -y
 echo "Installing $c"
 lxc exec $c -- snap install $c
-echo "Gererating Certificate"
-
-echo "Configuring nginx..."
-lxc exec nginx -- wget -nc https://raw.githubusercontent.com/aaronstuder/lxd/master/conf/nextcloud.conf -P /etc/nginx/conf.d/
-lxc exec nginx -- systemctl reload nginx
-echo "Waiting 15 Seconds..."
-sleep 15s
-echo Done!
+echo "Gererating Certificate..."
 
 cat > nextcloud.conf <<EOF
 
@@ -41,9 +34,19 @@ server {
                 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
                 proxy_set_header Host $http_host;
                 proxy_set_header X-NginX-Proxy true;
-                proxy_pass http://10.0.0.10:80;
+                proxy_pass http://$IP:80;
                 proxy_redirect off;
         }
 }
 
 EOF
+
+
+
+echo "Configuring nginx..."
+lxc exec nginx -- wget -nc https://raw.githubusercontent.com/aaronstuder/lxd/master/conf/nextcloud.conf -P /etc/nginx/conf.d/
+lxc exec nginx -- systemctl reload nginx
+echo "Waiting 15 Seconds..."
+sleep 15s
+echo Done!
+
