@@ -11,7 +11,7 @@ lxc launch ubuntu:18.04 $c
 echo "Getting IP Address"
 sleep 5s
 IP=`lxc list "$c" -c 4 | awk '!/IPV4/{ if ( $2 != "" ) print $2}'`
-IP Address is $IP
+echo "IP Address is $IP"
 echo "Updating Container..."
 sleep 3s
 lxc exec $c -- apt-get update
