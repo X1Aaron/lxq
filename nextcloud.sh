@@ -40,11 +40,9 @@ server {
 }
 
 EOF
-
-
-
 echo "Configuring nginx..."
-lxc exec nginx -- wget -nc https://raw.githubusercontent.com/aaronstuder/lxd/master/conf/nextcloud.conf -P /etc/nginx/conf.d/
+lxc file push nextcloud.conf nginx/etc/nginx/conf.d/
+echo "Restarting nginx..."
 lxc exec nginx -- systemctl reload nginx
 echo "Waiting 15 Seconds..."
 sleep 15s
