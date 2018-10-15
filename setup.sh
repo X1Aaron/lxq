@@ -49,7 +49,7 @@ echo "Configuing LXD..."
 config: {}
 networks:
 - config:
-    ipv4.address: 10.0.0.1/24
+    ipv4.address: auto
     ipv4.nat: "true"
     ipv6.address: none
   description: ""
