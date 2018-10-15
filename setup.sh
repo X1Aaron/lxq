@@ -84,7 +84,7 @@ echo "Creating Container [$n]"
 lxc launch ubuntu:18.04 $n
 echo "Getting IP Address"
 IP=`lxc list "$c" -c 4 | awk '!/IPV4/{ if ( $2 != "" ) print $2}'`
-IP Address is $IP
+echo "IP Address is $IP"
 echo "Updating Container..."
 sleep 5s
 lxc exec $n -- apt-get update
