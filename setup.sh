@@ -35,6 +35,8 @@ echo Updating System...
 apt-get update
 apt-get upgrade -y
 echo "Installing Packages..."
+echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
+echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
 apt-get install zfsutils-linux iptables-persistent -y
 echo "Removing LXD Packages..."
 apt remove --purge lxd lxd-client liblxc1 lxcfs -y
