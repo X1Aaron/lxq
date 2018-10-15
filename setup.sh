@@ -1,12 +1,15 @@
 #!/bin/bash
+echo
 echo "What is your email address? [Used for Let’s Encrypt]"
 read email
+echo
 echo "What is your Cloudflare Email Address?"
 read cf_email
 echo
 echo "What is your Cloudflare API Key?"
 read cf_key
-echo "Creating cloudflare.ini..." 
+echo
+echo "Creating cloudflare.ini in /root/.secrets/..." 
 mkdir /root/.secrets/
 chmod 0700 /root/.secrets/
 cat > cloudflare.ini <<EOF
@@ -15,7 +18,6 @@ dns_cloudflare_email = $cf_email
 dns_cloudflare_api_key = $cf_key
 EOF
 chmod 0400 /root/.secrets/cloudflare.ini
-
 echo
 echo "What is your domain name?"
 read domain_name
