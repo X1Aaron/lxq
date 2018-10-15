@@ -8,7 +8,7 @@ read cf_email
 echo
 echo "What is your Cloudflare API Key?"
 read cf_key
-
+echo "Writing cloudflare.ini..." 
 cat > cloudflare.ini <<EOF
 # Cloudflare API credentials used by Certbot
 dns_cloudflare_email = $cf_email
