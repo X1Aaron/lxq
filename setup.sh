@@ -1,6 +1,4 @@
 #!/bin/bash
-echo "Installing Requirements..."
-apt-get install curl wget -y
 echo "What is your email address? [Used for Let’s Encrypt]"
 read email
 echo "What is your Cloudflare Email Address?"
@@ -39,7 +37,7 @@ apt-get upgrade -y
 echo "Installing Packages..."
 echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
 echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
-apt-get install zfsutils-linux iptables-persistent -y
+apt-get install zfsutils-linux iptables-persistent curl wget -y
 echo "Removing LXD Packages..."
 apt remove --purge lxd lxd-client liblxc1 lxcfs -y
 apt-get autoremove -y
