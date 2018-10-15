@@ -86,6 +86,7 @@ echo
 echo "Creating Container [$n]"
 lxc launch ubuntu:18.04 $n
 echo "Getting IP Address"
+sleep 5s
 IP=$(lxc list "nginx" -c 4 | awk '!/IPV4/{ if ( $2 != "" ) print $2}')
 echo "IP Address is $IP"
 echo "Updating Container..."
