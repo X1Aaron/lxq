@@ -100,9 +100,24 @@ echo "Setting Up HTTPS for $domain_name"
 lxc file push cloudflare.ini nginx/root/
 lxc exec $n -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials ~/cloudflare.ini -d $domain_name  -d c$ --agree-tos --noninteractive --manual-public-ip-logging-ok --email $email
 
-echo "Enabling HTTPS on $domain_name..."
-lxc exec nginx -- wget -nc https://raw.githubusercontent.com/aaronstuder/lxd/master/conf/nginx.conf -P /etc/nginx/conf.d/
+echo "Creating nginx .conf file"
+cat > nextcloud.conf <<EOF
+server {
+          client_max_body_size 40M;
+          listen 443 ssl;
+          server_name lxd1.net;
+          ssl on;
+          ssl_certificate /etc/letsencrypt/live/lxd1.net/fullchain.pem;
+          ssl_certificate_key /etc/letsencrypt/live/lxd1.net/privkey.pem;
+          root /var/www/html;
+          index index.nginx-debian.html;
+}
+EOF
+echo "Configuring nginx..."
+lxc file push nextcloud.conf nginx/etc/nginx/conf.d/
+echo "Restarting nginx..."
 lxc exec nginx -- systemctl reload nginx
+
 echo "Updating iptables to Forward 443 to nginx Container"
 echo
 iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 443 -j DNAT --to-destination 10.0.0.2:443
