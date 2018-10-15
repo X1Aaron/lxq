@@ -15,7 +15,7 @@ dns_cloudflare_email = $cf_email
 dns_cloudflare_api_key = $cf_key
 EOF
 
-PUBLIC_IP=`curl ifconfig.me`
+
 echo
 echo "What is your domain name?"
 read domain_name
@@ -24,6 +24,7 @@ a='*.'
 c="$a$domain_name"
 n=nginx
 
+PUBLIC_IP=`curl ifconfig.me`
 echo
 echo Your Public IP is $PUBLIC_IP
 echo
