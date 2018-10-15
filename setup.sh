@@ -26,10 +26,6 @@ a='*.'
 c="$a$domain_name"
 n=nginx
 
-PUBLIC_IP=`curl ifconfig.me`
-echo
-echo Your Public IP is $PUBLIC_IP
-echo
 echo "Allowing SSH and Enabling Firewall..."
 ufw allow ssh
 ufw --force enable
@@ -122,7 +118,11 @@ echo "Configuring nginx..."
 lxc file push nextcloud.conf nginx/etc/nginx/conf.d/
 echo "Restarting nginx..."
 lxc exec nginx -- systemctl reload nginx
-
+echo "Getting your public IP address..."
+PUBLIC_IP=`curl ifconfig.me`
+echo
+echo "Your Public IP is $PUBLIC_IP"
+echo
 echo "Updating iptables to Forward 443 to nginx Container"
 echo
 iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 443 -j DNAT --to-destination $IP:443
