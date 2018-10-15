@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "Installing Script Requirements..."
+echo "Installing Requirements..."
 apt-get install curl wget -y
 echo "What is your email address? [Used for Let’s Encrypt]"
 read email
@@ -33,6 +33,8 @@ ufw --force enable
 echo Updating System...
 apt-get update
 apt-get upgrade -y
+echo "Installing Packages..."
+apt-get install zfsutils-linux iptables-persistent -y
 echo "Removing LXD Packages..."
 apt remove --purge lxd lxd-client liblxc1 lxcfs -y
 apt-get autoremove -y
