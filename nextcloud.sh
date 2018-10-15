@@ -1,7 +1,7 @@
 
 #!/bin/bash
-echo "Enter your FQDN [Fully Qualified Domain Name]"
-read FQDN
+#echo "Enter your FQDN [Fully Qualified Domain Name]"
+#read FQDN
 
 c=nextcloud
 
