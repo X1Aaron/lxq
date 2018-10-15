@@ -8,13 +8,15 @@ read cf_email
 echo
 echo "What is your Cloudflare API Key?"
 read cf_key
-echo "Writing cloudflare.ini..." 
+echo "Creating cloudflare.ini..." 
+mkdir /root/.secrets/
+chmod 0700 /root/.secrets/
 cat > cloudflare.ini <<EOF
 # Cloudflare API credentials used by Certbot
 dns_cloudflare_email = $cf_email
 dns_cloudflare_api_key = $cf_key
 EOF
-
+chmod 0400 /root/.secrets/cloudflare.ini
 
 echo
 echo "What is your domain name?"
@@ -101,7 +103,7 @@ lxc exec $n -- apt-get install nginx software-properties-common certbot python3-
 echo
 echo "Setting Up HTTPS for $domain_name"
 lxc file push cloudflare.ini nginx/root/
-lxc exec $n -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials ~/cloudflare.ini -d $domain_name  -d c$ --agree-tos --noninteractive --manual-public-ip-logging-ok --email $email
+lxc exec $n -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials /root/.secrets/cloudflare.ini -d $domain_name  -d c$ --agree-tos --noninteractive --manual-public-ip-logging-ok --email $email
 
 echo "Creating nginx .conf file"
 cat > nextcloud.conf <<EOF
