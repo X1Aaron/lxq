@@ -27,11 +27,11 @@ sed -i "s/<<IP>>/$IP/g" nextcloud.conf
 echo
 echo "Pushing temporary .conf file to container..."
 lxc file push nextcloud.conf nginx/etc/nginx/conf.d/
-echo "Generating Certificates..."
-certbot --nginx -n --email aaronstuder@gmail.com --agree-tos --domains $domain_name
-echo
 echo "Restarting nginx..."
 lxc exec nginx -- systemctl reload nginx
+echo
+echo "Generating Certificates..."
+lxc exec nginx -- certbot --nginx -n --email aaronstuder@gmail.com --agree-tos --domains $domain_name
 echo
 echo "Gererating Certificate..."
 echo "Waiting 15 Seconds..."
