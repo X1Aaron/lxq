@@ -2,7 +2,7 @@
 echo "Allowing SSH and Enabling Firewall..."
 ufw allow ssh
 ufw --force enable
-echo Updating System...
+echo "Updating System..."
 apt-get update
 apt-get upgrade -y
 echo "Installing Packages..."
