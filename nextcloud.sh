@@ -20,8 +20,8 @@ echo "Installing $c"
 lxc exec $c -- snap install $c
 echo "Configuring nginx..."
 wget https://github.com/aaronstuder/lxd/blob/master/conf/nextcloud.conf
-sed -i 's/old-text/new-text/g' nextcloud.conf
-sed -i 's/old-text/new-text/g' nextcloud.conf
+sed -i 's/<<domain_name>>/$domain_name/g' nextcloud.conf
+sed -i 's/<<IP>>/$IP/g' nextcloud.conf
 lxc file push nextcloud.conf nginx/etc/nginx/conf.d/
 echo "Restarting nginx..."
 lxc exec nginx -- systemctl reload nginx
