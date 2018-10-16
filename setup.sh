@@ -1,31 +1,4 @@
 #!/bin/bash
-echo
-echo "What is your email address? [Used for Let’s Encrypt]"
-read email
-echo
-echo "What is your Cloudflare Email Address?"
-read cf_email
-echo
-echo "What is your Cloudflare API Key?"
-read cf_key
-echo
-echo "Creating cloudflare.ini in /root/.secrets/..." 
-mkdir /root/.secrets/
-chmod 0700 /root/.secrets/
-cat > cloudflare.ini <<EOF
-# Cloudflare API credentials used by Certbot
-dns_cloudflare_email = $cf_email
-dns_cloudflare_api_key = $cf_key
-EOF
-chmod 0400 /root/.secrets/cloudflare.ini
-echo
-echo "What is your domain name?"
-read domain_name
-echo
-a='*.'
-c="$a$domain_name"
-n=nginx
-
 echo "Allowing SSH and Enabling Firewall..."
 ufw allow ssh
 ufw --force enable
@@ -91,33 +64,10 @@ echo "Updating Container..."
 sleep 5s
 lxc exec $n -- apt-get update
 lxc exec $n -- apt-get upgrade -y
-echo "Adding certbot repository..."
-lxc exec $n -- add-apt-repository ppa:certbot/certbot -y
-lxc exec $n -- apt-get update
 echo "Installing Packages..."
-lxc exec $n -- apt-get install nginx software-properties-common certbot python3-certbot-dns-cloudflare -y
+lxc exec $n -- apt-get install nginx -y
 echo
-echo "Setting Up HTTPS for $domain_name"
-lxc file push cloudflare.ini nginx/root/
-lxc exec $n -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials /root/.secrets/cloudflare.ini -d $domain_name  -d c$ --agree-tos --noninteractive --manual-public-ip-logging-ok --email $email
 
-echo "Creating nginx .conf file"
-cat > nextcloud.conf <<EOF
-server {
-          client_max_body_size 40M;
-          listen 443 ssl;
-          server_name lxd1.net;
-          ssl on;
-          ssl_certificate /etc/letsencrypt/live/lxd1.net/fullchain.pem;
-          ssl_certificate_key /etc/letsencrypt/live/lxd1.net/privkey.pem;
-          root /var/www/html;
-          index index.nginx-debian.html;
-}
-EOF
-echo "Configuring nginx..."
-lxc file push nextcloud.conf nginx/etc/nginx/conf.d/
-echo "Restarting nginx..."
-lxc exec nginx -- systemctl reload nginx
 echo "Getting your public IP address..."
 PUBLIC_IP=`curl ifconfig.me`
 echo
