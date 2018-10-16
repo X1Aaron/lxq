@@ -20,13 +20,15 @@ echo
 echo "Installing $c"
 lxc exec $c -- snap install $c
 echo
-echo "Creating .conf file..."
-wget -nc https://raw.githubusercontent.com/aaronstuder/lxd/master/conf/nextcloud.conf
+echo "Creating temporary .conf file..."
+wget -nc https://raw.githubusercontent.com/aaronstuder/lxd/master/conf/nextcloud-temp.conf
 sed -i "s/<<domain_name>>/$domain_name/g" nextcloud.conf
 sed -i "s/<<IP>>/$IP/g" nextcloud.conf
 echo
-echo "Pushing .conf file to container..."
+echo "Pushing temporary .conf file to container..."
 lxc file push nextcloud.conf nginx/etc/nginx/conf.d/
+echo "Generating Certificates..."
+certbot --nginx -n --email aaronstuder@gmail.com --agree-tos --domains $domain_name
 echo
 echo "Restarting nginx..."
 lxc exec nginx -- systemctl reload nginx
