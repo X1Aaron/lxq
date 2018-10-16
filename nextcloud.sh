@@ -25,7 +25,7 @@ wget -nc https://raw.githubusercontent.com/aaronstuder/lxd/master/conf/nextcloud
 sed -i "s/<<domain_name>>/$domain_name/g" nextcloud.conf
 sed -i "s/<<IP>>/$IP/g" nextcloud.conf
 echo
-echo "Pushing temporary .conf file to container..."
+echo "Pushing .conf file to container..."
 lxc file push nextcloud.conf nginx/etc/nginx/conf.d/
 echo "Restarting nginx..."
 lxc exec nginx -- systemctl reload nginx
