@@ -18,33 +18,14 @@ lxc exec $c -- apt-get update
 lxc exec $c -- apt-get upgrade -y
 echo "Installing $c"
 lxc exec $c -- snap install $c
-#echo "Gererating Certificate..."
-echo "Creating nginx .conf file"
-cat > nextcloud.conf <<EOF
-
-server {
-        client_max_body_size 40M;
-        listen 443 ssl;
-        server_name nextcloud.lxd1.net;
-        ssl          on;
-        ssl_certificate /etc/letsencrypt/live/lxd1.net/fullchain.pem;
-        ssl_certificate_key /etc/letsencrypt/live/lxd1.net/privkey.pem;
-
-        location / {
-                proxy_set_header X-Real-IP $remote_addr;
-                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                proxy_set_header Host $http_host;
-                proxy_set_header X-NginX-Proxy true;
-                proxy_pass http://$IP:80;
-                proxy_redirect off;
-        }
-}
-
-EOF
 echo "Configuring nginx..."
+wget https://github.com/aaronstuder/lxd/blob/master/conf/nextcloud.conf
+sed -i 's/old-text/new-text/g' nextcloud.conf
+sed -i 's/old-text/new-text/g' nextcloud.conf
 lxc file push nextcloud.conf nginx/etc/nginx/conf.d/
 echo "Restarting nginx..."
 lxc exec nginx -- systemctl reload nginx
+echo "Gererating Certificate..."
 echo "Waiting 15 Seconds..."
 sleep 15s
 echo Done!
