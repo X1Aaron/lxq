@@ -19,7 +19,7 @@ lxc exec $c -- apt-get upgrade -y
 echo "Installing $c"
 lxc exec $c -- snap install $c
 echo "Configuring nginx..."
-wget https://github.com/aaronstuder/lxd/blob/master/conf/nextcloud.conf
+wget https://raw.githubusercontent.com/aaronstuder/lxd/master/nextcloud.sh
 sed -i 's/<<domain_name>>/$domain_name/g' nextcloud.conf
 sed -i 's/<<IP>>/$IP/g' nextcloud.conf
 lxc file push nextcloud.conf nginx/etc/nginx/conf.d/
