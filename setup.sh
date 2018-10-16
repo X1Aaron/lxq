@@ -123,8 +123,9 @@ PUBLIC_IP=`curl ifconfig.me`
 echo
 echo "Your Public IP is $PUBLIC_IP"
 echo
-echo "Updating iptables to Forward 443 to nginx Container"
+echo "Updating iptables to Forward 80/443 to nginx Container"
 echo
+iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 80 -j DNAT --to-destination $IP:80
 iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 443 -j DNAT --to-destination $IP:443
 echo
 echo "Here are your current PREROUTING Rules"
