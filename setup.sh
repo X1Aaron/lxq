@@ -54,6 +54,7 @@ cluster: null
 EOF
 echo LXD Setup Complete!
 echo
+n=nginx
 echo "Creating Container [$n]"
 lxc launch ubuntu:18.04 $n
 echo "Getting IP Address"
@@ -82,4 +83,3 @@ echo "Here are your current PREROUTING Rules"
 iptables -t nat -L PREROUTING
 echo "Setup Complete!"
 echo
-echo "Open your web browser to https://$domain_name"
