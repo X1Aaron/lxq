@@ -31,7 +31,7 @@ echo "Restarting nginx..."
 lxc exec nginx -- systemctl reload nginx
 echo
 echo "Generating Certificates..."
-lxc exec nginx -- certbot --nginx -n --email aaronstuder@gmail.com --agree-tos --domains $domain_name
+lxc exec nginx -- certbot --nginx -n --email aaronstuder@gmail.com --agree-tos --domains $domain_name --redirect
 echo
 echo "Gererating Certificate..."
 echo "Waiting 15 Seconds..."
