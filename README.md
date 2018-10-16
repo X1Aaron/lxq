@@ -2,5 +2,5 @@
 
 ## One Liner:
 
-curl -sSL https://raw.githubusercontent.com/aaronstuder/lxd/master/setup.sh | bash
+curl -sSL https://raw.githubusercontent.com/aaronstuder/lxq/master/setup.sh | bash
 
