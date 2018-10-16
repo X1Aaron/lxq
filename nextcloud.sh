@@ -20,7 +20,7 @@ echo
 echo "Installing $c"
 lxc exec $c -- snap install $c
 echo
-echo "Creating .conf file... NGINX...
+echo "Creating .conf file..."
 wget -nc https://raw.githubusercontent.com/aaronstuder/lxd/master/conf/nextcloud.conf
 sed -i "s/<<domain_name>>/$domain_name/g" nextcloud.conf
 sed -i "s/<<IP>>/$IP/g" nextcloud.conf
