@@ -3,7 +3,7 @@
 update () {
 #!/bin/bash
 echo "Downloading latest version..."
-wget -quiet -O /tmp/lxq https://raw.githubusercontent.com/aaronstuder/lxq/master/lxq
+wget --quiet -O /tmp/lxq https://raw.githubusercontent.com/aaronstuder/lxq/master/lxq
 # Spawn update script
 cat > updateScript.sh << EOF
 #!/bin/bash
