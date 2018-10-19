@@ -25,7 +25,7 @@ curl -sSL https://raw.githubusercontent.com/aaronstuder/lxq/master/init | bash
 }
 
 nextcloud () {
-wget -O /opt/lxq/scripts/nextcloud-install https://raw.githubusercontent.com/aaronstuder/lxq/master/apps/nextcloud/nextcloud-install
+wget -quiet -O /opt/lxq/scripts/nextcloud-install https://raw.githubusercontent.com/aaronstuder/lxq/master/apps/nextcloud/nextcloud-install
 chmod a+x /opt/lxq/scripts/nextcloud-install
 /opt/lxq/scripts/nextcloud-install
 }
