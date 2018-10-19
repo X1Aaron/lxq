@@ -1,6 +1,22 @@
 #!/bin/bash 
 update () {
-echo "Updating Script..."
+#!/bin/bash
+echo "Downloading latest version..."
+wget -O /tmp/lxq https://raw.githubusercontent.com/aaronstuder/lxq/master/lxq
+# Spawn update script
+cat > updateScript.sh << EOF
+#!/bin/bash
+# Overwrite old file with new
+if mv /tmp/lxq /opt/lxq/lxq; then
+  chmod a+x /opt/lxq/lxq
+  echo "Done. Update complete."
+else
+  echo "Failed!"
+fi
+EOF
+
+echo -n "Inserting update process..."
+exec /bin/bash updateScript.sh
 }
 
 install_nextcloud () {
