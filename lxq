@@ -20,12 +20,12 @@ echo -n "Inserting update process..."
 exec /bin/bash updateScript.sh
 }
 
-install_nextcloud () {
-echo "Updating Script..."
+init () {
+curl -sSL https://raw.githubusercontent.com/aaronstuder/lxq/master/init | bash
 }
 
-###TEST###
+nextcloud () {
+curl -sSL https://raw.githubusercontent.com/aaronstuder/lxq/master/apps/nextcloud/install | bash
+}
 
 $1
-
-$1 $2
