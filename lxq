@@ -1,4 +1,5 @@
-#!/bin/bash 
+#!/bin/bash
+#10/19/2018 4:40PM
 update () {
 #!/bin/bash
 echo "Downloading latest version..."
