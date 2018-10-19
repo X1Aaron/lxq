@@ -1,4 +1,6 @@
 #!/bin/bash
+echo Test
+read test
 echo "Allowing SSH and Enabling Firewall..."
 ufw allow ssh
 ufw --force enable
