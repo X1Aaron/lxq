@@ -3,7 +3,7 @@ update () {
 echo "Updating Script..."
 }
 
-install nextcloud () {
+install_nextcloud () {
 echo "Updating Script..."
 }
 
