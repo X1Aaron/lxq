@@ -1,1 +1,2 @@
-
+mkdir /opt/lxq
+wget -O /opt/lxq/lxq https://raw.githubusercontent.com/aaronstuder/lxq/master/lxq
