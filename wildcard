@@ -25,12 +25,6 @@ echo
 a='*.'
 c="$a$domain_name"
 n=nginx
-echo "Installing Packages..."
-lxc exec $n -- apt-get install nginx software-properties-common certbot python3-certbot-dns-cloudflare -y
-echo
-echo "Adding certbot repository..."
-lxc exec $n -- add-apt-repository ppa:certbot/certbot -y
-lxc exec $n -- apt-get update
 echo "Setting Up HTTPS for $domain_name"
 lxc file push cloudflare.ini nginx/root/
 lxc exec $n -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials /root/.secrets/cloudflare.ini -d $domain_name  -d c$ --agree-tos --noninteractive --manual-public-ip-logging-ok --email $email
