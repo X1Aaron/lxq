@@ -17,7 +17,7 @@ echo "Removing LXD Packages..."
 apt-get remove --purge lxd lxd-client liblxc1 lxcfs -y
 apt-get autoremove -y
 echo "Installing snapd..."
-apt install snapd -y
+apt-get install snapd -y
 echo "Installing LXD via Snap..."
 snap install lxd
 echo "Updating PATH..."
