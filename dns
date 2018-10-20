@@ -6,15 +6,15 @@ echo
 echo "What is your Cloudflare API Key?"
 read cf_key
 echo
-echo "Creating cloudflare.ini in /root/.secrets/..." 
-mkdir /root/.secrets/
-chmod 0700 /root/.secrets/
+echo "Creating cloudflare.ini in ~/.secrets/certbot/..." 
+mkdir ~/.secrets/certbot/
+chmod 0700 ~/.secrets/certbot/
 cat > cloudflare.ini <<EOF
 # Cloudflare API credentials used by Certbot
 dns_cloudflare_email = $cf_email
 dns_cloudflare_api_key = $cf_key
 EOF
-chmod 0400 /root/.secrets/cloudflare.ini
+chmod 0400 ~/.secrets/certbot/cloudflare.ini
 echo
 }
 
