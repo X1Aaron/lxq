@@ -37,7 +37,6 @@ else
 lxc exec nginx -- certbot --nginx -n --email aaronstuder@gmail.com --agree-tos --domains $domain_name --redirect
 fi
 echo
-echo "Gererating Certificate..."
 echo "Waiting 15 Seconds..."
 sleep 15s
 echo Done!
