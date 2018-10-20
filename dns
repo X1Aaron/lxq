@@ -7,8 +7,6 @@ echo "What is your Cloudflare API Key?"
 read cf_key
 echo
 echo "Creating cloudflare.ini..." 
-mkdir ~/.secrets/certbot/
-
 cat > cloudflare.ini <<EOF
 # Cloudflare API credentials used by Certbot
 dns_cloudflare_email = $cf_email
@@ -17,9 +15,8 @@ EOF
 lxc exec nginx -- mkdir /root/.secrets/
 lxc exec nginx -- mkdir /root/.secrets/certbot/
 lxc file push cloudflare.ini nginx/root/.secrets/certbot/
-lxc exec nginx -- chmod 0400 ~/.secrets/certbot/cloudflare.ini
 lxc exec nginx -- chmod 0700 ~/.secrets/certbot/
-
+lxc exec nginx -- chmod 0400 ~/.secrets/certbot/cloudflare.ini
 echo $dns setup complete!
 }
 
