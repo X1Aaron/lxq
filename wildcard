@@ -3,28 +3,11 @@ echo
 echo "What is your email address? [Used for Let’s Encrypt]"
 read email
 echo
-echo "What is your Cloudflare Email Address?"
-read cf_email
-echo
-echo "What is your Cloudflare API Key?"
-read cf_key
-echo
-echo "Creating cloudflare.ini in /root/.secrets/..." 
-mkdir /root/.secrets/
-chmod 0700 /root/.secrets/
-cat > cloudflare.ini <<EOF
-# Cloudflare API credentials used by Certbot
-dns_cloudflare_email = $cf_email
-dns_cloudflare_api_key = $cf_key
-EOF
-chmod 0400 /root/.secrets/cloudflare.ini
-echo
 echo "What is your domain name?"
 read domain_name
 echo
 a='*.'
 c="$a$domain_name"
-n=nginx
-echo "Setting Up HTTPS for $domain_name"
+echo "Installing Wildcard Certificate for $domain_name..."
 lxc file push cloudflare.ini nginx/root/
 lxc exec $n -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials /root/.secrets/cloudflare.ini -d $domain_name  -d c$ --agree-tos --noninteractive --manual-public-ip-logging-ok --email $email
