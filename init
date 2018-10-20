@@ -65,6 +65,9 @@ echo "Updating Container..."
 sleep 5s
 lxc exec $n -- apt-get update
 lxc exec $n -- apt-get upgrade -y
+echo "Adding certbot repository..."
+lxc exec $n -- add-apt-repository ppa:certbot/certbot -y
+lxc exec $n -- apt-get update
 echo "Installing Packages..."
 lxc exec $n -- apt-get install nginx software-properties-common certbot python3-certbot-dns-cloudflare -y
 echo
