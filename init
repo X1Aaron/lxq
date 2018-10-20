@@ -66,7 +66,7 @@ sleep 5s
 lxc exec $n -- apt-get update
 lxc exec $n -- apt-get upgrade -y
 echo "Installing Packages..."
-lxc exec $n -- apt-get install nginx -y
+lxc exec $n -- apt-get install nginx software-properties-common certbot python3-certbot-dns-cloudflare -y
 echo
 
 echo "Getting your public IP address..."
