@@ -1,1 +1,24 @@
+cloudflare () {
+echo
+echo "What is your Cloudflare Email Address?"
+read cf_email
+echo
+echo "What is your Cloudflare API Key?"
+read cf_key
+echo
+echo "Creating cloudflare.ini in /root/.secrets/..." 
+mkdir /root/.secrets/
+chmod 0700 /root/.secrets/
+cat > cloudflare.ini <<EOF
+# Cloudflare API credentials used by Certbot
+dns_cloudflare_email = $cf_email
+dns_cloudflare_api_key = $cf_key
+EOF
+chmod 0400 /root/.secrets/cloudflare.ini
+echo
+}
 
+echo Who is your DNS Provider?
+read dns
+
+$dns
