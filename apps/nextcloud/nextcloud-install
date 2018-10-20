@@ -31,11 +31,7 @@ echo "Restarting nginx..."
 lxc exec nginx -- systemctl reload nginx
 echo
 echo "Generating Certificates..."
-if [ -f /opt/lxq/wildcard.txt ]
-then echo "Skipping certificate generation - Wildcard certificate is Installed"
-else 
 lxc exec nginx -- certbot --nginx -n --email aaronstuder@gmail.com --agree-tos --domains $domain_name --redirect
-fi
 echo
 echo "Waiting 15 Seconds..."
 sleep 15s
