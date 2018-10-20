@@ -63,8 +63,8 @@ IP=$(lxc list "nginx" -c 4 | awk '!/IPV4/{ if ( $2 != "" ) print $2}')
 echo "IP Address is $IP"
 echo "Updating Container..."
 sleep 5s
-#lxc exec $n -- apt-get update
-#lxc exec $n -- apt-get upgrade -y
+lxc exec $n -- apt-get update
+lxc exec $n -- apt-get upgrade -y
 echo "Adding certbot repository..."
 lxc exec $n -- add-apt-repository ppa:certbot/certbot -y
 lxc exec $n -- apt-get update
