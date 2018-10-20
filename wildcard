@@ -10,4 +10,4 @@ a='*.'
 c="$a$domain_name"
 echo "Installing Wildcard Certificate for $domain_name..."
 lxc file push cloudflare.ini nginx/root/
-lxc exec $n -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials /root/.secrets/cloudflare.ini -d $domain_name  -d c$ --agree-tos --noninteractive --manual-public-ip-logging-ok --email $email
+lxc exec nginx -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials /root/.secrets/cloudflare.ini -d $domain_name  -d c$ --agree-tos --noninteractive --manual-public-ip-logging-ok --email $email
