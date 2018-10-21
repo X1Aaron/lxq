@@ -19,11 +19,13 @@ exec /bin/bash updateScript.sh
 }
 
 init () {
-curl -sSL https://raw.githubusercontent.com/aaronstuder/lxq/master/init | bash
+wget https://raw.githubusercontent.com/aaronstuder/lxq/master/init
+chmod a+x init
+./init
 }
 
 nextcloud () {
-wget -quiet -O /opt/lxq/scripts/nextcloud-install https://raw.githubusercontent.com/aaronstuder/lxq/master/apps/nextcloud/nextcloud-install
+wget --quiet -O /opt/lxq/scripts/nextcloud-install https://raw.githubusercontent.com/aaronstuder/lxq/master/apps/nextcloud/nextcloud-install
 chmod a+x /opt/lxq/scripts/nextcloud-install
 /opt/lxq/scripts/nextcloud-install
 }
