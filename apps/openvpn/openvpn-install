@@ -11,7 +11,7 @@ sleep 5s
 lxc exec $c -- apt-get update
 lxc exec $c -- apt-get upgrade -y
 
-echo "Installing Packages..."
+echo "Installing OpenVPN..."
 lxc exec $c -- curl -O https://raw.githubusercontent.com/Angristan/openvpn-install/master/openvpn-install.sh
 lxc exec $c -- chmod +x openvpn-install.sh
 lxc exec $c --./openvpn-install.sh
