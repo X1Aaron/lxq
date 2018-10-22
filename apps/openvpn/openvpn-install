@@ -1,3 +1,4 @@
+#!/bin/bash
 c=openvpn
 echo "Creating Container [$c]"
 lxc launch ubuntu:18.04 $c
