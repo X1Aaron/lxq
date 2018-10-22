@@ -30,4 +30,10 @@ chmod a+x /opt/lxq/scripts/nextcloud-install
 /opt/lxq/scripts/nextcloud-install
 }
 
+rocketchat () {
+wget --quiet -O /opt/lxq/scripts/rocketchat-install https://raw.githubusercontent.com/aaronstuder/lxq/master/apps/rocketchat/rocketchat-install
+chmod a+x /opt/lxq/scripts/rocketchat-install
+/opt/lxq/scripts/rocketchat-install
+}
+
 $1
