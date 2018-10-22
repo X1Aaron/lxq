@@ -18,7 +18,7 @@ lxc exec $c -- apt-get update
 lxc exec $c -- apt-get upgrade -y
 echo
 echo "Installing $c"
-lxc exec $c -- snap install $c
+lxc exec $c -- snap install rocketchat-server
 echo
 echo "Downloading .conf file..."
 wget --quiet -nc https://raw.githubusercontent.com/aaronstuder/lxq/master/apps/$c/$c.conf
