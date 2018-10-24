@@ -12,12 +12,12 @@ init () {
 
 nextcloud () {
   update()
-  /opt/lxq/scripts/nextcloud-install
+  /opt/lxq/apps/nextcloud/nextcloud-install
 }
 
 rocketchat () {
   update()
-  /opt/lxq/scripts/rocketchat-install
+  /opt/lxq/apps/nextcloud/rocketchat-install
 }
 
 $1
