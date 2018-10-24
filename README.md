@@ -7,7 +7,13 @@
 
 ## Install
 
-curl -sSL https://raw.githubusercontent.com/aaronstuder/lxq/master/setup | bash
+First, get the script and make it executable :
+
+`curl -O https://raw.githubusercontent.com/aaronstuder/lxq/master/setup`
+`chmod +x setup.sh`
+Then run it :
+
+`./setup`
 
 ## Available Apps
 
