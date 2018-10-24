@@ -20,4 +20,9 @@ rocketchat () {
   /opt/lxq/apps/nextcloud/rocketchat-install
 }
 
+install () {
+  update()
+  /opt/lxq/apps/$2/$2-install
+}
+
 $1
