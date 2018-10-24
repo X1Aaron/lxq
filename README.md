@@ -9,3 +9,7 @@
 
 curl -sSL https://raw.githubusercontent.com/aaronstuder/lxq/master/setup | bash
 
+## Advailable Apps
+
+* Nextcloud
+* Rocket.Chat
