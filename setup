@@ -11,6 +11,7 @@ echo "export PATH=$PATH:/opt/lxq" >> ~/.profile
 source ~/.profile
 
 echo
+echo
 echo "#################"
 echo "Install Complete!"
 echo "#################"
