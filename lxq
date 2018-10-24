@@ -1,39 +1,23 @@
 #!/bin/bash
-#10/19/2018 4:40PM
-update () {
-#!/bin/bash
-wget --quiet -O /tmp/lxq https://raw.githubusercontent.com/aaronstuder/lxq/master/lxq
-# Spawn update script
-cat > updateScript.sh << EOF
-#!/bin/bash
-# Overwrite old file with new
-if mv /tmp/lxq /opt/lxq/lxq; then
-  chmod a+x /opt/lxq/lxq
-  echo "Done. Update complete."
-else
-  echo "Failed!"
-fi
-EOF
 
-exec /bin/bash updateScript.sh
+update () {
+  git pull https://github.com/aaronstuder/lxq.git /opt/lxq/
+  exit 0;
 }
 
 init () {
-wget https://raw.githubusercontent.com/aaronstuder/lxq/master/init
-chmod a+x init
-./init
+  update()
+  /opt/lxq/init
 }
 
 nextcloud () {
-wget --quiet -O /opt/lxq/scripts/nextcloud-install https://raw.githubusercontent.com/aaronstuder/lxq/master/apps/nextcloud/nextcloud-install
-chmod a+x /opt/lxq/scripts/nextcloud-install
-/opt/lxq/scripts/nextcloud-install
+  update()
+  /opt/lxq/scripts/nextcloud-install
 }
 
 rocketchat () {
-wget --quiet -O /opt/lxq/scripts/rocketchat-install https://raw.githubusercontent.com/aaronstuder/lxq/master/apps/rocketchat/rocketchat-install
-chmod a+x /opt/lxq/scripts/rocketchat-install
-/opt/lxq/scripts/rocketchat-install
+  update()
+  /opt/lxq/scripts/rocketchat-install
 }
 
 $1
