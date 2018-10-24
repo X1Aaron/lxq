@@ -10,7 +10,9 @@
 First, get the script and make it executable :
 
 `curl -O https://raw.githubusercontent.com/aaronstuder/lxq/master/setup`
+
 `chmod +x setup.sh`
+
 Then run it :
 
 `./setup`
