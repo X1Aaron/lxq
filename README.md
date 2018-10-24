@@ -5,7 +5,7 @@
 * Allows you to easily install apps nextcloud, rocketchat, etc.
 * All apps work for HTTPS
 
-## One Liner:
+## Install
 
 curl -sSL https://raw.githubusercontent.com/aaronstuder/lxq/master/setup | bash
 
