@@ -11,7 +11,7 @@ First, get the script and make it executable :
 
 `curl -O https://raw.githubusercontent.com/aaronstuder/lxq/master/setup`
 
-`chmod +x setup.sh`
+`chmod +x setup`
 
 Then run it :
 
