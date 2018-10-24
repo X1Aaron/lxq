@@ -14,15 +14,15 @@ init () {
   exec /opt/lxq/init
 }
 
-nextcloud () {
-  update
-  /opt/lxq/apps/nextcloud/nextcloud-install
-}
-
-rocketchat () {
-  update
-  /opt/lxq/apps/nextcloud/rocketchat-install
-}
+#nextcloud () {
+#  update
+#  /opt/lxq/apps/nextcloud/nextcloud-install
+#}
+#
+#rocketchat () {
+#  update
+#  /opt/lxq/apps/nextcloud/rocketchat-install
+#}
 
 install () {
   update
