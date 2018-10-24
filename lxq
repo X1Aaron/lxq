@@ -10,7 +10,7 @@ chmod a+x lxq
 
 init () {
   update
-  /opt/lxq/init
+  exec /opt/lxq/init
 }
 
 nextcloud () {
