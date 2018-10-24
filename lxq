@@ -4,7 +4,7 @@ update () {
 cd /opt/lxq/
 git fetch --all
 git reset --hard origin/master
-  #git pull #https://github.com/aaronstuder/lxq.git /opt/lxq/
+chmod a+x lxq
   exit 0;
 }
 
