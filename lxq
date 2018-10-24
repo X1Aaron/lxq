@@ -6,22 +6,22 @@ update () {
 }
 
 init () {
-  update()
+  update
   /opt/lxq/init
 }
 
 nextcloud () {
-  update()
+  update
   /opt/lxq/apps/nextcloud/nextcloud-install
 }
 
 rocketchat () {
-  update()
+  update
   /opt/lxq/apps/nextcloud/rocketchat-install
 }
 
 install () {
-  update()
+  update
   /opt/lxq/apps/$2/$2-install
 }
 
