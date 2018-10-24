@@ -1,7 +1,10 @@
 #!/bin/bash
 
 update () {
-  git pull #https://github.com/aaronstuder/lxq.git /opt/lxq/
+cd /opt/lxq/
+git fetch --all
+git reset --hard origin/master
+  #git pull #https://github.com/aaronstuder/lxq.git /opt/lxq/
   exit 0;
 }
 
