@@ -5,6 +5,7 @@ cd /opt/lxq/
 git fetch --all
 git reset --hard origin/master
 chmod a+x lxq
+chmod a+x init
   #exit 0;
 }
 
