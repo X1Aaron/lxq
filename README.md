@@ -9,13 +9,13 @@
 
 First, get the script and make it executable :
 
-`curl -O https://raw.githubusercontent.com/aaronstuder/lxq/master/setup`
+`curl -O https://raw.githubusercontent.com/aaronstuder/lxq/master/setup.sh`
 
-`chmod +x setup`
+`chmod +x setup.sh`
 
 Then run it :
 
-`./setup`
+`./setup.sh`
 
 ## Available Apps
 
