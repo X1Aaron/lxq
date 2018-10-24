@@ -6,6 +6,7 @@ git fetch --all
 git reset --hard origin/master
 chmod a+x lxq
 chmod a+x init
+find /opt/lxq/ -type f -iname "*.sh" -exec chmod +x {} \;
   #exit 0;
 }
 
