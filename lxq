@@ -11,17 +11,17 @@ find /opt/lxq/ -type f -iname "*.sh" -exec chmod +x {} \;
 
 init () {
   update
-  exec /opt/lxq/init
+  exec /opt/lxq/init.sh
 }
 
 nextcloud () {
   update
-  /opt/lxq/apps/nextcloud/nextcloud-install
+  /opt/lxq/apps/nextcloud/nextcloud-install.sh
 }
 
 rocketchat () {
   update
-  /opt/lxq/apps/nextcloud/rocketchat-install
+  /opt/lxq/apps/nextcloud/rocketchat-install.sh
 }
 
 $1
