@@ -1,4 +1,5 @@
 configure auto updates for ubuntu 18.04
+https://help.ubuntu.com/lts/serverguide/automatic-updates.html.en
 
 add:
 netdata
