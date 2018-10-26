@@ -106,7 +106,7 @@ nextcloud () {
   /opt/lxq/apps/nextcloud/nextcloud-install.sh
 }
 
-install cat () {
+cat () {
     echo "Works!"
 }
 
