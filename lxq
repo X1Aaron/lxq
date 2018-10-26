@@ -78,8 +78,8 @@ init() { #TODO comment this code, and figure out a way to only do this if it's r
   echo
   echo "Updating iptables to forward 80/443 to nginx Container"
   echo
-  iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 80 -j DNAT --to-destination $IP:80
-  iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 443 -j DNAT --to-destination $IP:443
+  iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 80 -j DNAT --to-destination $CONTAINER_LOCAL_IP:80
+  iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 443 -j DNAT --to-destination $CONTAINER_LOCAL_IP:443
   netfilter-persistent save
   echo
   echo "Here are your current PREROUTING Rules"
