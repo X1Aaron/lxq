@@ -5,7 +5,6 @@ update() {
   git fetch --all # don't we need the git url here?
   git reset --hard origin/master
   chmod a+x lxq
-  find /opt/lxq/ -type f -iname "*.sh" -exec chmod +x {} \;
 }
 
 create_container() {
@@ -56,12 +55,10 @@ init() {
   echo "Installing Packages..."
   echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
   echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
-  apt-get install zfsutils-linux iptables-persistent curl wget -y
+  apt-get install zfsutils-linux iptables-persistent snapd netdata -y
   echo "Removing LXD Packages..."
   apt-get remove --purge lxd lxd-client liblxc1 lxcfs -y
   apt-get autoremove -y
-  echo "Installing snapd..."
-  apt-get install snapd -y
   echo "Installing LXD via Snap..."
   snap install lxd
   echo "Updating PATH..."
@@ -125,4 +122,4 @@ init() {
   echo
 }
 
-init
+$1
