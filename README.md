@@ -24,6 +24,8 @@ or
 * Look into using bitnami as app source
 * Add Wildcard Support for letsencrypt
 * Add DNS Support (Needed for Wildcard Support)
+* configure auto updates for ubuntu 18.04
+  https://help.ubuntu.com/lts/serverguide/automatic-updates.html.en
 
 ### Future Ideas
 * Setup a Centralized Log Container
