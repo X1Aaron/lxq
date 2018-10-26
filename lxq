@@ -77,7 +77,7 @@ init() { #TODO comment this code, and figure out a way to only do this if it's r
   echo "Installing Packages..."
   echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
   echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
-  apt-get install zfsutils-linux iptables-persistent curl wget -y
+  apt-get install zfsutils-linux iptables-persistent snapd netdata -y
   echo "Removing LXD Packages..."
   apt-get remove --purge lxd lxd-client liblxc1 lxcfs -y
   apt-get autoremove -y
