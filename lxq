@@ -1,6 +1,7 @@
 #!/bin/bash
 
 menu() {
+  echo
   echo "Welcome to LXQ"
   echo
   echo "Please select a command"
