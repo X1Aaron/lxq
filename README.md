@@ -22,7 +22,7 @@ or
 
 ## TODO
 * Look into using bitnami as app source
-* Add Wildcard Support
+* Add Wildcard Support for letsencrypt
 * Add DNS Support (Needed for Wildcard Support)
 
 ### Future Ideas
