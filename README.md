@@ -24,3 +24,6 @@ or
 * Look into using bitnami as app source
 * Add Wildcard Support
 * Add DNS Support (Needed for Wildcard Support)
+
+### Future Ideas
+* Setup a Centralized Log Container
