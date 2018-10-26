@@ -1,0 +1,31 @@
+config: {}
+    networks:
+    - config:
+        ipv4.address: auto
+        ipv4.nat: "true"
+        ipv6.address: none
+      description: ""
+      managed: false
+      name: lxdbr0
+      type: ""
+    storage_pools:
+    - config:
+        size: 20GB
+      description: ""
+      name: default
+      driver: zfs
+    profiles:
+    - config: {}
+      description: ""
+      devices:
+        eth0:
+          name: eth0
+          nictype: bridged
+          parent: lxdbr0
+          type: nic
+        root:
+          path: /
+          pool: default
+          type: disk
+      name: default
+    cluster: null
