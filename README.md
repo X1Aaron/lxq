@@ -27,3 +27,4 @@ or
 
 ### Future Ideas
 * Setup a Centralized Log Container
+* WebGUI
