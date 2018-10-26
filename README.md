@@ -7,6 +7,9 @@
 
 ## Install
 
+One Line: `wget https://raw.githubusercontent.com/aaronstuder/lxq/master/setup.sh -O - | sudo bash`
+
+or
 1. `git clone https://github.com/aaronstuder/lxq.git /opt/lxq`
 2. `chmod +x /opt/lxq/setup.sh`
 3. `/opt/lxq/setup.sh`
