@@ -106,9 +106,14 @@ nextcloud () {
   /opt/lxq/apps/nextcloud/nextcloud-install.sh
 }
 
+function install cat () {
+    echo "Works!"
+}
+
+
 rocketchat () {
   update
   /opt/lxq/apps/nextcloud/rocketchat-install.sh
 }
 
-$1
+$@
