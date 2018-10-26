@@ -85,7 +85,7 @@ init() { #TODO comment this code, and figure out a way to only do this if it's r
   echo "Updating PATH..."
   export PATH=$PATH:/snap/bin
   echo "Configuing LXD..."
-    cat <<EOF | lxd init --preseed
+    cat << EOF | lxd init --preseed
     config: {}
     networks:
     - config:
