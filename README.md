@@ -7,17 +7,15 @@
 
 ## Install
 
-First, get the script and make it executable :
-
-`curl -O https://raw.githubusercontent.com/aaronstuder/lxq/master/setup.sh`
-
-`chmod +x setup.sh`
-
-Then run it :
-
-`./setup.sh`
+1. `git clone https://github.com/aaronstuder/lxq.git /opt/lxq`
+2. `chmod +x /opt/lxq/setup.sh`
+3. `/opt/lxq/setup.sh`
 
 ## Available Apps
 
 * Nextcloud
 * Rocket.Chat
+
+
+## TODO
+Look into using bitnami as app source
