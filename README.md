@@ -1,6 +1,6 @@
 # LXQ
 
-* Setups LXD and creates a container with NGINX as a reserve proxy.
+* Setups LXD and creates a container with NGINX as a reverse proxy.
 * Uses certbot to get Let's Encrypt certificates for each app
 * Allows you to easily install apps nextcloud, rocketchat, etc.
 * All apps are HTTPS
