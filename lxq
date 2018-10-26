@@ -112,5 +112,6 @@ menu() {
   esac
 }
 
+$1
 
 menu
