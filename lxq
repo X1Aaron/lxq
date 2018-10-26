@@ -28,7 +28,6 @@ update() {
   git fetch --all # don't we need the git url here?
   git reset --hard origin/master
   chmod a+x lxq
-  find /opt/lxq/ -type f -iname "*.sh" -exec chmod +x {} \;
 }
 
 create_container() {
@@ -81,8 +80,6 @@ init() { #TODO comment this code, and figure out a way to only do this if it's r
   echo "Removing LXD Packages..."
   apt-get remove --purge lxd lxd-client liblxc1 lxcfs -y
   apt-get autoremove -y
-  echo "Installing snapd..."
-  apt-get install snapd -y
   echo "Installing LXD via Snap..."
   snap install lxd
   echo "Updating PATH..."
