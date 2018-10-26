@@ -1,10 +1,34 @@
 #!/bin/bash
 
+menu() {
+  echo "Welcome to LXQ"
+  echo
+  echo "Please select a command"
+  echo "1. Update"
+  echo "2. Create new container" #this may just point to lxd reference, if user doesn't want ubuntu18.04 container
+  echo "3. Install Nextcloud"
+  #etc
+  echo -n "Enter a number:"
+  read USER_INPUT
+  
+  case "$USER_INPUT" in
+  1) update
+    ;;
+  2) create_container
+    ;;
+  3) nextcloud
+    ;;
+  *) echo "Invalid input"
+    ;;
+  esac
+}
+
 update() {
   cd /opt/lxq/
   git fetch --all # don't we need the git url here?
   git reset --hard origin/master
   chmod a+x lxq
+  find /opt/lxq/ -type f -iname "*.sh" -exec chmod +x {} \;
 }
 
 create_container() {
@@ -35,16 +59,14 @@ create_container() {
 }
 
 nextcloud() {
-  update
-  /opt/lxq/apps/nextcloud/nextcloud-install.sh
+  /opt/lxq/apps/nextcloud/nextcloud-install.sh #TODO move contents of script into this function
 }
 
 rocketchat() {
-  update
-  /opt/lxq/apps/nextcloud/rocketchat-install.sh
+  /opt/lxq/apps/nextcloud/rocketchat-install.sh #TODO move contents of script into this function
 }
 
-init() {
+init() { #TODO comment this code, and figure out a way to only do this if it's running for the first time. Maybe test for a hidden file?
   update
   echo "Allowing SSH and Enabling Firewall..."
   ufw allow ssh
@@ -55,10 +77,12 @@ init() {
   echo "Installing Packages..."
   echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
   echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
-  apt-get install zfsutils-linux iptables-persistent snapd netdata -y
+  apt-get install zfsutils-linux iptables-persistent curl wget -y
   echo "Removing LXD Packages..."
   apt-get remove --purge lxd lxd-client liblxc1 lxcfs -y
   apt-get autoremove -y
+  echo "Installing snapd..."
+  apt-get install snapd -y
   echo "Installing LXD via Snap..."
   snap install lxd
   echo "Updating PATH..."
@@ -122,4 +146,4 @@ init() {
   echo
 }
 
-$1
+menu
