@@ -116,4 +116,6 @@ rocketchat () {
   /opt/lxq/apps/nextcloud/rocketchat-install.sh
 }
 
-$@
+$1_$2
+
+echo "$1_$2"
