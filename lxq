@@ -94,6 +94,12 @@ init() { #TODO comment this code, and figure out a way to only do this if it's r
   lxc exec nginx -- apt-get install nginx software-properties-common python-certbot-nginx -y
   echo
 
+    until [[ -n "$CONTAINER_LOCAL_IP" ]] # loop until the container has an ip address
+   do
+    sleep .1
+    local CONTAINER_LOCAL_IP=$(lxc list $CONTAINER_NAME -c 4 --format csv | awk '{print $1}')
+   done
+
   echo "Getting your public IPv4 address..."
   PUBLIC_IP=`curl -4 ifconfig.co`
   echo
