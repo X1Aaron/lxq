@@ -9,6 +9,10 @@ update() {
 
 create_container() {
 
+test=$1
+
+echo "...$test..."
+exit
 echo
 echo "Creating Container $1..."
 lxc launch ubuntu:18.04 $1
