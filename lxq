@@ -47,7 +47,7 @@ echo "Installing Nextcloud..."
 lxc exec $CONTAINER_NAME -- snap install nextcloud
 echo
 echo "Pushing .conf file to container..."
-cp nginx.temp $CONTAINER_NAME.conf
+cp /opt/lxq/nginx.temp $CONTAINER_NAME.conf
 sed -i "s/<<DOMAIN_NAME>>/$DOMAIN_NAME/g" nextcloud.conf
 sed -i "s/<<CONTAINER_LOCAL_IP>>/$CONTAINER_LOCAL_IP/g" nextcloud.conf
 sed -i "s/<<CONTAINER_PORT>>/$CONTAINER_PORT/g" nextcloud.conf
