@@ -9,7 +9,7 @@ update() {
 
 create_container() {
 
-test=$1
+test=$2
 
 echo "...$test..."
 exit
