@@ -9,9 +9,7 @@ update() {
 
 create_container() {
 
-local CONTAINER_NAME=$1
-
-echo "$CONTAINER_NAME"
+echo"$2"
 
 exit
 
