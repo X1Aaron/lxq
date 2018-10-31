@@ -46,25 +46,11 @@ create_container $CONTAINER_NAME
 echo "Installing Nextcloud..."
 lxc exec $CONTAINER_NAME -- snap install nextcloud
 echo
-cat >nextcloud.conf <<EOF
-
-server {
-        client_max_body_size 40M;
-        listen 80;
-        server_name $DOMAIN_NAME;
-        location / {
-                proxy_set_header X-Real-IP \$remote_addr;
-                proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-                proxy_set_header Host \$http_host;
-                proxy_set_header X-NginX-Proxy true;
-                proxy_pass http:\/\/ $CONTAINER_LOCAL_IP:$CONTAINER_PORT;
-                proxy_redirect off;
-        }
-}
-
-EOF
-
 echo "Pushing .conf file to container..."
+cp nginx.temp $CONTAINER_NAME.conf
+sed -i "s/<<DOMAIN_NAME>>/$DOMAIN_NAME/g" nextcloud.conf
+sed -i "s/<<CONTAINER_LOCAL_IP>>/$CONTAINER_LOCAL_IP/g" nextcloud.conf
+sed -i "s/<<CONTAINER_PORT>>/$CONTAINER_PORT/g" nextcloud.conf
 lxc file push nextcloud.conf nginx/etc/nginx/conf.d/
 echo "Restarting nginx..."
 lxc restart nginx
