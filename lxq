@@ -8,8 +8,8 @@ update() {
 }
 
 create_container() {
-
-echo"$2"
+echo "$1"
+echo "$2"
 
 exit
 
