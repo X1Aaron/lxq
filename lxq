@@ -8,30 +8,47 @@ update() {
 }
 
 create_container() {
-  local CONTAINER_LOCAL_IP="" # this needs to be a local variable otherwise it'll end up with all the ips for some reason
+
+echo
+echo "Creating Container $1..."
+lxc launch ubuntu:18.04 $1
+echo
+echo "Getting IP Address..."
+sleep 5s
+CONTAINER_LOCAL_IP=$(lxc list "$1" -c 4 | awk '!/IPV4/{ if ( $2 != "" ) print $2}')
+echo
+echo "IP Address is $CONTAINER_LOCAL_IP"
+echo
+echo "Updating Container..."
+sleep 3s
+lxc exec $1 -- apt-get update
+lxc exec $1 -- apt-get upgrade -y
+echo
+
+#  local CONTAINER_LOCAL_IP="" # this needs to be a local variable otherwise it'll end up with all the ips for some reason
+#  
+#  if [[ -n $1 ]] # check if the script has a parameter
+#  then
+#    local CONTAINER_NAME=$1 # set the container-name to the first parameter
+#    lxc launch images:ubuntu/18.04 $CONTAINER_NAME > /dev/null 2>&1 # launch the container with said name
+#  else
+#    local CONTAINER_NAME=$(lxc launch images:ubuntu/18.04 | awk '/name/ {print $4}') # this is kinda cool, you can run the command to make the container inside the command to set the variable
+#  fi
   
-  if [[ -n $1 ]] # check if the script has a parameter
-  then
-    local CONTAINER_NAME=$1 # set the container-name to the first parameter
-    lxc launch images:ubuntu/18.04 $CONTAINER_NAME > /dev/null 2>&1 # launch the container with said name
-  else
-    local CONTAINER_NAME=$(lxc launch images:ubuntu/18.04 | awk '/name/ {print $4}') # this is kinda cool, you can run the command to make the container inside the command to set the variable
-  fi
-  
-  echo "Container name:" $CONTAINER_NAME
+#  echo "Container name:" $CONTAINER_NAME
  
-  until [[ -n "$CONTAINER_LOCAL_IP" ]] # loop until the container has an ip address
-  do
+#  until [[ -n "$CONTAINER_LOCAL_IP" ]] # loop until the container has an ip address
+#  do
     #echo $CONTAINER_NAME #was using this for debugging
-    sleep .1
-    local CONTAINER_LOCAL_IP=$(lxc list $CONTAINER_NAME -c 4 --format csv | awk '{print $1}')
-  done
+#    sleep .1
+#    local CONTAINER_LOCAL_IP=$(lxc list $CONTAINER_NAME -c 4 --format csv | awk '{print $1}')
+#  done
   
-  echo "IP Address:" $CONTAINER_LOCAL_IP
-  echo "Updating" $CONTAINER_NAME
-  lxc exec $CONTAINER_NAME -- apt-get update > /dev/null 2>&1
-  lxc exec $CONTAINER_NAME -- apt-get upgrade -y > /dev/null 2>&1
-  echo $CONTAINER_NAME "Finished"
+#  echo "IP Address:" $CONTAINER_LOCAL_IP
+#  echo "Updating" $CONTAINER_NAME
+#  lxc exec $CONTAINER_NAME -- apt-get update > /dev/null 2>&1
+#  lxc exec $CONTAINER_NAME -- apt-get upgrade -y > /dev/null 2>&1
+#  echo $CONTAINER_NAME "Finished"
 }
 
 nextcloud() {
