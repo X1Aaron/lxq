@@ -14,7 +14,7 @@ create_container() {
   if [[ -n $1 ]] # check if the script has a parameter
   then
     local CONTAINER_NAME=$1 # set the container-name to the first parameter
-    lxc launch images:ubuntu/18.04 $CONTAINER_NAME > /dev/null 2>&1 # launch the container with said name
+    lxc launch images:ubuntu/18.04 $CONTAINER_NAME # launch the container with said name
   else
     local CONTAINER_NAME=$(lxc launch images:ubuntu/18.04 | awk '/name/ {print $4}') # this is kinda cool, you can run the command to make the container inside the command to set the variable
   fi
@@ -30,8 +30,8 @@ create_container() {
   
   echo "IP Address:" $CONTAINER_LOCAL_IP
   echo "Updating" $CONTAINER_NAME
-  lxc exec $CONTAINER_NAME -- apt-get update > /dev/null 2>&1
-  lxc exec $CONTAINER_NAME -- apt-get upgrade -y > /dev/null 2>&1
+  lxc exec $CONTAINER_NAME -- apt-get update
+  lxc exec $CONTAINER_NAME -- apt-get upgrade -y
   echo $CONTAINER_NAME "Finished"
 }
 
