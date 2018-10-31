@@ -57,7 +57,7 @@ server {
                 proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
                 proxy_set_header Host \$http_host;
                 proxy_set_header X-NginX-Proxy true;
-                proxy_pass http://$CONTAINER_LOCAL_IP:$CONTAINER_PORT;
+                proxy_pass http:\/\/\$CONTAINER_LOCAL_IP:$CONTAINER_PORT;
                 proxy_redirect off;
         }
 }
