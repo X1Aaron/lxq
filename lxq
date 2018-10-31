@@ -88,7 +88,10 @@ init() { #TODO comment this code, and figure out a way to only do this if it's r
   cat /opt/lxq/preseed | lxd init --preseed
   echo LXD Setup Complete!
   echo
+  nginx
+  }
   
+  nginx() {
   create_container nginx
   sleep 5
 echo "Installing certbot..."
