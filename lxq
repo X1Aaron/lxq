@@ -35,7 +35,44 @@ create_container() {
 }
 
 nextcloud() {
-  /opt/lxq/apps/nextcloud/nextcloud-install.sh #TODO move contents of script into this function
+#/opt/lxq/apps/nextcloud/nextcloud-install.sh #TODO move contents of script into this function
+CONTAINER_NAME=nextcloud
+CONTAINER_PORT=80
+echo "Enter Domain Name:"
+read DOMAIN_NAME
+create_container $CONTAINER_NAME
+echo "Installing Nextcloud..."
+lxc exec $CONTAINER_NAME -- snap install nextcloud
+echo
+cat >nextcloud.conf <<EOF
+
+server {
+        client_max_body_size 40M;
+        listen 80;
+        server_name $DOMAIN_NAME;
+        location / {
+                proxy_set_header X-Real-IP \$remote_addr;
+                proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+                proxy_set_header Host \$http_host;
+                proxy_set_header X-NginX-Proxy true;
+                proxy_pass http://$CONTAINER_LOCAL_IP:$CONTAINER_PORT;
+                proxy_redirect off;
+        }
+}
+
+EOF
+
+echo "Pushing .conf file to container..."
+lxc file push nextcloud.conf nginx/etc/nginx/conf.d/
+echo "Restarting nginx..."
+lxc restart nginx
+echo
+echo "Generating Certificates..."
+lxc exec nginx -- certbot --nginx -n --email webmaster@$DOMAIN_NAME --agree-tos --domains $DOMAIN_NAME --redirect
+echo
+echo "Waiting 15 Seconds..."
+sleep 15s
+echo Done!
 }
 
 rocketchat() {
