@@ -55,6 +55,7 @@ until [[ -n "$CONTAINER_LOCAL_IP" ]] # loop until the container has an ip addres
   
 echo "Installing Nextcloud..."
 lxc exec $CONTAINER_NAME -- apt-get install snapd -y
+lxc exec $CONTAINER_NAME -- export PATH=$PATH:/snap/bin
 lxc exec $CONTAINER_NAME -- snap install nextcloud
 echo
 echo "Pushing .conf file to container..."
