@@ -30,8 +30,8 @@ create_container() {
   
   echo "IP Address:" $CONTAINER_LOCAL_IP
   echo "Updating" $CONTAINER_NAME
-  lxc exec $CONTAINER_NAME -- apt-get update
-  lxc exec $CONTAINER_NAME -- apt-get upgrade -y
+  lxc exec $CONTAINER_NAME -- apt-get update > /dev/null 2>&1
+  lxc exec $CONTAINER_NAME -- apt-get upgrade -y > /dev/null 2>&1
   echo $CONTAINER_NAME "Finished"
 }
 
