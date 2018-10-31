@@ -39,6 +39,7 @@ nextcloud() {
 #/opt/lxq/apps/nextcloud/nextcloud-install.sh #TODO move contents of script into this function
 CONTAINER_NAME=nextcloud
 CONTAINER_PORT=80
+local CONTAINER_LOCAL_IP=$(lxc list $CONTAINER_NAME -c 4 --format csv | awk '{print $1}')
 echo "Enter Domain Name:"
 read DOMAIN_NAME
 create_container $CONTAINER_NAME
