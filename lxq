@@ -90,11 +90,15 @@ init() { #TODO comment this code, and figure out a way to only do this if it's r
   echo
   
   create_container nginx
-echo "Adding certbot PPA"
-  lxc exec nginx -- add-apt-repository ppa:certbot/certbot
-  lxc exec nginx --apt-get update
-  echo "Installing Packages..."
-  lxc exec nginx -- apt-get install nginx software-properties-common python-certbot-nginx -y
+echo "Installing certbot..."
+lxc exec nginx -- apt-get update
+lxc exec nginx -- apt-get install software-properties-common
+lxc exec nginx -- add-apt-repository ppa:certbot/certbot
+lxc exec nginx -- apt-get update
+lxc exec nginx -- apt-get install python-certbot-nginx 
+
+  echo "Installing NGINX..."
+  lxc exec nginx -- apt-get install nginx  -y
   echo
 
     until [[ -n "$CONTAINER_LOCAL_IP" ]] # loop until the container has an ip address
