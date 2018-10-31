@@ -9,9 +9,7 @@ update() {
 
 create_container() {
 
-test=$1
-
-echo "...$test..."
+echo "$1"
 exit
 echo
 echo "Creating Container $1..."
