@@ -90,6 +90,7 @@ init() { #TODO comment this code, and figure out a way to only do this if it's r
   echo
   
   create_container nginx
+  sleep 5
 echo "Installing certbot..."
 lxc exec nginx -- apt-get update
 lxc exec nginx -- apt-get install software-properties-common
