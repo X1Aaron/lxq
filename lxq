@@ -8,10 +8,6 @@ update() {
 }
 
 create_container() {
-echo "$1"
-echo "$2"
-
-exit
 
 echo
 echo "Creating Container $1..."
