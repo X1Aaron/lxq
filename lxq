@@ -52,6 +52,7 @@ sed -i "s/<<DOMAIN_NAME>>/$DOMAIN_NAME/g" nextcloud.conf
 sed -i "s/<<CONTAINER_LOCAL_IP>>/$CONTAINER_LOCAL_IP/g" nextcloud.conf
 sed -i "s/<<CONTAINER_PORT>>/$CONTAINER_PORT/g" nextcloud.conf
 lxc file push nextcloud.conf nginx/etc/nginx/conf.d/
+rm nextcloud.conf
 echo "Restarting nginx..."
 lxc restart nginx
 echo
