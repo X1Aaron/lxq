@@ -138,6 +138,7 @@ echo "Here are your current PREROUTING Rules"
 iptables -t nat -L PREROUTING
 echo "Setup Complete!"
 echo
+}
 
 init() { #TODO comment this code, and figure out a way to only do this if it's running for the first time. Maybe test for a hidden file?
   if [ -f /opt/lxq/.lxq-init ];
