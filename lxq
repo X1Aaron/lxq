@@ -138,6 +138,7 @@ nginx() {
   iptables -t nat -L PREROUTING
   echo "Setup Complete!"
   echo
+  fi
 }
 
 menu() {
