@@ -63,7 +63,7 @@ rocketchat() {
 }
 
 init() { #TODO comment this code, and figure out a way to only do this if it's running for the first time. Maybe test for a hidden file?
-  if [ -e .lxq-init]
+  if [ -f .lxq-init];
     then echo "LXQ Already Setup!"
     else
   update
