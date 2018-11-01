@@ -37,6 +37,7 @@ nextcloud() {
   lxc exec $CONTAINER_NAME -- apt-get install snapd -y
   lxc exec $CONTAINER_NAME -- export PATH=$PATH:/snap/bin
   lxc exec $CONTAINER_NAME -- snap install nextcloud
+  exit
   echo
   echo "Pushing .conf file to container..."
   cp /opt/lxq/nginx.temp $CONTAINER_NAME.conf
