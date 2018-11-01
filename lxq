@@ -110,7 +110,7 @@ CONTAINER_PORT=1194
 create_container $CONTAINER_NAME
 
 echo "Installing OpenVPN..."
-lxc exec $CONTAINER_NAME -- wget https://raw.githubusercontent.com/Angristan/openvpn-install/master/openvpn-install.sh && chmod +x openvpn-install.sh && ./openvpn-install.sh
+lxc exec $CONTAINER_NAME -- curl -O https://raw.githubusercontent.com/Angristan/openvpn-install/master/openvpn-install.sh && chmod +x openvpn-install.sh && ./openvpn-install.sh
 echo
 
 echo "Getting your public IP address..."
