@@ -50,6 +50,7 @@ nextcloud() {
   echo "Restarting nginx..."
   echo
   lxc restart nginx
+  sleep 1
   echo
   echo "Generating Certificates..."
   echo
