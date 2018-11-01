@@ -98,6 +98,12 @@ init() { #TODO comment this code, and figure out a way to only do this if it's r
   }
     
 nginx() {
+  if [ -d /var/snap/lxd/common/lxd/containers/nginx ];
+    then 
+    echo
+    echo "NGINX Container Already Exists!"
+    echo
+    else
   create_container nginx
   sleep 5
   echo "Installing certbot..."
