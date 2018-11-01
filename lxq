@@ -107,11 +107,11 @@ nginx() {
   create_container nginx
   sleep 5
   echo "Installing certbot..."
-  lxc exec nginx -- apt-get update
-  lxc exec nginx -- apt-get install software-properties-common
-  lxc exec nginx -- add-apt-repository ppa:certbot/certbot
-  lxc exec nginx -- apt-get update
-  lxc exec nginx -- apt-get install python-certbot-nginx 
+  lxc exec nginx -- apt-get update -y
+  lxc exec nginx -- apt-get install software-properties-common -y
+  lxc exec nginx -- add-apt-repository ppa:certbot/certbot -y
+  lxc exec nginx -- apt-get update -y
+  lxc exec nginx -- apt-get install python-certbot-nginx -y 
 
   echo "Installing NGINX..."
   lxc exec nginx -- apt-get install nginx  -y
