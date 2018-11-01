@@ -20,7 +20,7 @@ LXQ is automation project for LXD
 * Creates and updates a container
 * Installs the app inside the contianer
 * Generates a .conf file, pushs it to the nginx container and reloads nginx *(if needed)*
-* Automatically opens any need firewall ports for your app *(if needed)*
+* Automatically forwards any needed ports to your app *(if needed)*
 
 
 
