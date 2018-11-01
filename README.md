@@ -2,6 +2,8 @@
 
 LXQ is automation project for LXD
 
+`lxq update`
+
 `lxq init`
 
 * Enables UFW
