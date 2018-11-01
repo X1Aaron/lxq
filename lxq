@@ -11,7 +11,7 @@ create_container() {
 
   local CONTAINER_NAME=$1 # set the container-name to the first parameter
   
-lxc launch ubuntu:18.04 $CONTAINER_NAME
+  lxc launch ubuntu:18.04 $CONTAINER_NAME
 
  
   echo "Updating" $CONTAINER_NAME
@@ -21,15 +21,15 @@ lxc launch ubuntu:18.04 $CONTAINER_NAME
 }
 
 nextcloud() {
-#/opt/lxq/apps/nextcloud/nextcloud-install.sh #TODO move contents of script into this function
-CONTAINER_NAME=nextcloud
-CONTAINER_PORT=80
+  #/opt/lxq/apps/nextcloud/nextcloud-install.sh #TODO move contents of script into this function
+  CONTAINER_NAME=nextcloud
+  CONTAINER_PORT=80
 
-echo "Enter Domain Name:"
-read DOMAIN_NAME
-create_container $CONTAINER_NAME
+  echo "Enter Domain Name:"
+  read DOMAIN_NAME
+  create_container $CONTAINER_NAME
 
-until [[ -n "$CONTAINER_LOCAL_IP" ]] # loop until the container has an ip address
+  until [[ -n "$CONTAINER_LOCAL_IP" ]] # loop until the container has an ip address
   do
     #echo $CONTAINER_NAME #was using this for debugging
     sleep .1
@@ -38,10 +38,10 @@ until [[ -n "$CONTAINER_LOCAL_IP" ]] # loop until the container has an ip addres
   
     echo "IP Address:" $CONTAINER_LOCAL_IP
   
-echo "Installing Nextcloud..."
-lxc exec $CONTAINER_NAME -- apt-get install snapd -y
-lxc exec $CONTAINER_NAME -- export PATH=$PATH:/snap/bin
-lxc exec $CONTAINER_NAME -- snap install nextcloud
+  echo "Installing Nextcloud..."
+  lxc exec $CONTAINER_NAME -- apt-get install snapd -y
+  lxc exec $CONTAINER_NAME -- export PATH=$PATH:/snap/bin
+  lxc exec $CONTAINER_NAME -- snap install nextcloud
 echo
 echo "Pushing .conf file to container..."
 cp /opt/lxq/nginx.temp $CONTAINER_NAME.conf
@@ -90,16 +90,16 @@ init() { #TODO comment this code, and figure out a way to only do this if it's r
   echo
   nginx
   }
-  
-  nginx() {
+    
+nginx() {
   create_container nginx
   sleep 5
-echo "Installing certbot..."
-lxc exec nginx -- apt-get update
-lxc exec nginx -- apt-get install software-properties-common
-lxc exec nginx -- add-apt-repository ppa:certbot/certbot
-lxc exec nginx -- apt-get update
-lxc exec nginx -- apt-get install python-certbot-nginx 
+  echo "Installing certbot..."
+  lxc exec nginx -- apt-get update
+  lxc exec nginx -- apt-get install software-properties-common
+  lxc exec nginx -- add-apt-repository ppa:certbot/certbot
+  lxc exec nginx -- apt-get update
+  lxc exec nginx -- apt-get install python-certbot-nginx 
 
   echo "Installing NGINX..."
   lxc exec nginx -- apt-get install nginx  -y
