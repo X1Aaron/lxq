@@ -36,7 +36,7 @@ nextcloud() {
   echo "Installing Nextcloud..."
   lxc exec $CONTAINER_NAME -- apt-get install snapd -y
   lxc exec $CONTAINER_NAME -- export PATH=$PATH:/snap/bin
-  sleep 5
+  sleep 1
   lxc exec $CONTAINER_NAME -- snap install nextcloud
   exit
   echo
