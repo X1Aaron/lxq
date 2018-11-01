@@ -102,6 +102,43 @@ rocketchat() {
   echo
 }
 
+openvpn() {
+
+CONTAINER_NAME=openvpn
+CONTAINER_PORT=1194
+
+create_container $CONTAINER_NAME
+
+echo "Installing OpenVPN..."
+lxc exec $CONTAINER_NAME -- wget https://raw.githubusercontent.com/Angristan/openvpn-install/master/openvpn-install.sh
+lxc exec $CONTAINER_NAME -- chmod +x openvpn-install.sh
+lxc exec $CONTAINER_NAME -- sh -c "./openvpn-install.sh"
+echo
+
+echo "Getting your public IP address..."
+PUBLIC_IP=`curl ifconfig.me`
+echo
+echo "Your Public IP is $PUBLIC_IP"
+echo
+
+  until [[ -n "$CONTAINER_LOCAL_IP" ]] # loop until the container has an ip address
+  do
+    sleep .1
+    local CONTAINER_LOCAL_IP=$(lxc list $CONTAINER_NAME -c 4 --format csv | awk '{print $1}')
+  done
+  
+  echo "Container IP Address:" $CONTAINER_LOCAL_IP
+  
+echo "Updating iptables to Forward 1194/udp to $c Container"
+echo
+iptables -t nat -I PREROUTING -i eth0 -p UDP -d $PUBLIC_IP --dport $CONTAINER_PORT -j DNAT --to-destination $CONTAINER_LOCAL_IP:$CONTAINER_PORT
+netfilter-persistent save
+echo
+echo "Here are your current PREROUTING Rules"
+iptables -t nat -L PREROUTING
+echo "Setup Complete!"
+echo
+
 init() { #TODO comment this code, and figure out a way to only do this if it's running for the first time. Maybe test for a hidden file?
   if [ -f /opt/lxq/.lxq-init ];
     then 
