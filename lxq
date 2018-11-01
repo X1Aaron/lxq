@@ -49,8 +49,7 @@ nextcloud() {
   echo
   echo "Restarting nginx..."
   echo
-  lxc restart nginx
-  sleep 1
+    lxc exec nginx -- systemctl reload nginx
   echo
   echo "Generating Certificates..."
   echo
@@ -93,7 +92,7 @@ rocketchat() {
   echo
   echo "Restarting nginx..."
   echo
-  lxc restart nginx
+  lxc exec nginx -- systemctl reload nginx
   echo
   echo "Generating Certificates..."
   echo
