@@ -1,8 +1,8 @@
 config: {}
-cluster: null
 networks:
 - config:
     ipv4.address: 10.0.0.1/24
+    ipv4.nat: "true"
     ipv6.address: none
   description: ""
   managed: false
@@ -28,3 +28,4 @@ profiles:
       pool: default
       type: disk
   name: default
+cluster: null
