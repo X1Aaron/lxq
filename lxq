@@ -37,23 +37,25 @@ nextcloud() {
   lxc exec $CONTAINER_NAME -- apt-get install snapd -y
   lxc exec $CONTAINER_NAME -- export PATH=$PATH:/snap/bin
   lxc exec $CONTAINER_NAME -- snap install nextcloud
-echo
-echo "Pushing .conf file to container..."
-cp /opt/lxq/nginx.temp $CONTAINER_NAME.conf
-sed -i "s/<<DOMAIN_NAME>>/$DOMAIN_NAME/g" $CONTAINER_NAME.conf
-sed -i "s/<<CONTAINER_LOCAL_IP>>/$CONTAINER_LOCAL_IP/g" $CONTAINER_NAME.conf
-sed -i "s/<<CONTAINER_PORT>>/$CONTAINER_PORT/g" $CONTAINER_NAME.conf
-lxc file push $CONTAINER_NAME.conf nginx/etc/nginx/conf.d/
-rm $CONTAINER_NAME.conf
-echo "Restarting nginx..."
-lxc restart nginx
-echo
-echo "Generating Certificates..."
-echo
-lxc exec nginx -- certbot --nginx -n --email webmaster@$DOMAIN_NAME --agree-tos --domains $DOMAIN_NAME --redirect
-echo
-echo Done!
-echo
+  echo
+  echo "Pushing .conf file to container..."
+  cp /opt/lxq/nginx.temp $CONTAINER_NAME.conf
+  sed -i "s/<<DOMAIN_NAME>>/$DOMAIN_NAME/g" $CONTAINER_NAME.conf
+  sed -i "s/<<CONTAINER_LOCAL_IP>>/$CONTAINER_LOCAL_IP/g" $CONTAINER_NAME.conf
+  sed -i "s/<<CONTAINER_PORT>>/$CONTAINER_PORT/g" $CONTAINER_NAME.conf
+  lxc file push $CONTAINER_NAME.conf nginx/etc/nginx/conf.d/
+  rm $CONTAINER_NAME.conf
+  echo
+  echo "Restarting nginx..."
+  echo
+  lxc restart nginx
+  echo
+  echo "Generating Certificates..."
+  echo
+  lxc exec nginx -- certbot --nginx -n --email webmaster@$DOMAIN_NAME --agree-tos --domains $DOMAIN_NAME --redirect
+  echo
+  echo Done!
+  echo
 }
 
 rocketchat() {
@@ -61,6 +63,9 @@ rocketchat() {
 }
 
 init() { #TODO comment this code, and figure out a way to only do this if it's running for the first time. Maybe test for a hidden file?
+  if [ -e .lxq-init]
+    then echo "LXQ Already Setup!"
+    else
   update
   echo "Allowing SSH and Enabling Firewall..."
   ufw allow ssh
@@ -81,9 +86,13 @@ init() { #TODO comment this code, and figure out a way to only do this if it's r
   export PATH=$PATH:/snap/bin
   echo "Configuing LXD..."
   cat /opt/lxq/preseed | lxd init --preseed
+  cat 
+  echo
   echo LXD Setup Complete!
+  touch .lxq-init
   echo
   nginx
+  fi
   }
     
 nginx() {
@@ -128,7 +137,7 @@ menu() {
   echo "Welcome to LXQ"
   echo
   echo "Please select a command"
-  echo "1. Update"
+  echo "1. Update LXQ"
   echo "2. Create new container" #this may just point to lxd reference, if user doesn't want ubuntu18.04 container
   echo "3. Install Nextcloud"
   #etc
