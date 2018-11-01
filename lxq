@@ -110,6 +110,7 @@ CONTAINER_PORT=1194
 create_container $CONTAINER_NAME
 
 echo "Installing OpenVPN..."
+sleep 1
 lxc exec $CONTAINER_NAME -- curl -O https://raw.githubusercontent.com/Angristan/openvpn-install/master/openvpn-install.sh
 lxc exec $CONTAINER_NAME -- chmod +x openvpn-install.sh
 lxc exec $CONTAINER_NAME -- ./openvpn-install.sh
