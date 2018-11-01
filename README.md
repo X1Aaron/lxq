@@ -4,8 +4,8 @@ LXQ is automation project for LXD
 
 `lxq init`
 
-*Enables UFW
-*Updates the Host
+* Enables UFW
+* Updates the Host
 *
 
 ## Install
