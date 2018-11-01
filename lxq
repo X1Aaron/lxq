@@ -86,7 +86,6 @@ init() { #TODO comment this code, and figure out a way to only do this if it's r
   export PATH=$PATH:/snap/bin
   echo "Configuing LXD..."
   cat /opt/lxq/preseed | lxd init --preseed
-  cat 
   echo
   echo LXD Setup Complete!
   touch .lxq-init
