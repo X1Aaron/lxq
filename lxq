@@ -15,7 +15,7 @@ remove() {
 remove_$1
 }
 
-refresh_firewall () {
+refresh_firewall() {
 echo "Clearing All PREROUTING Rules..."
 for i in $( iptables -t nat --line-numbers -L | grep ^[0-9] | awk '{ print $1 }' | tac ); do iptables -t nat -D PREROUTING $i; done
 echo "Getting Public IP Address..."
