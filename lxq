@@ -11,10 +11,6 @@ install() {
 install_$1
 }
 
-remove() {
-remove_$1
-}
-
 refresh_firewall() {
 echo "Clearing All PREROUTING Rules..."
 for i in $( iptables -t nat --line-numbers -L | grep ^[0-9] | awk '{ print $1 }' | tac ); do iptables -t nat -D PREROUTING $i; done
@@ -177,11 +173,13 @@ echo "Setup Complete!"
 echo
 }
 
-remove_openvpn() {
-echo "Remove OpenVPN? [CTRL + C] to Cancel"
+remove() {
+echo "Remove $1? [CTRL + C] to Cancel"
 sleep 5s
-lxc delete openvpn --force
-
+lxc delete $1 --force
+lxc exec nginx -- rm /etc/nginx/conf.d/$1.conf 
+refresh_firewall
+echo "$1 removed"
 }
 
 init() { #TODO comment this code, and figure out a way to only do this if it's running for the first time. Maybe test for a hidden file?
