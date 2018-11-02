@@ -1,5 +1,8 @@
 #!/bin/bash
 
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
 update() {
   cd /opt/lxq/
   git fetch --all # don't we need the git url here?
@@ -176,7 +179,7 @@ echo
 remove() {
 wait_time=10 # seconds
 echo
-echo "Are you sure you remove $1? - This is irreversible!"
+echo -e "${RED}Are you sure you remove $1? - This is irreversible!"
 echo ""
 temp_cnt=${wait_time}
 while [[ ${temp_cnt} -gt 0 ]];
