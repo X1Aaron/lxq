@@ -37,7 +37,6 @@ iptables -t nat -I PREROUTING -i eth0 -p UDP -d $PUBLIC_IP --dport 1194 -j DNAT 
 echo "Updated Firewall Rules for OpenVPN"
 echo "Saving Firewall Rules..." 
 netfilter-persistent save
-
 }
 
 create_container() {
