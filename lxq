@@ -174,8 +174,21 @@ echo
 }
 
 remove() {
-echo "Remove $1? [CTRL + C] to Cancel"
-sleep 5s
+wait_time=10 # seconds
+
+echo "Are you sure you remove $1?"
+echo "This is irreversible!"
+echo ""
+temp_cnt=${wait_time}
+while [[ ${temp_cnt} -gt 0 ]];
+do
+    printf "\rYou have %2d second(s) remaining to hit Ctrl+C to cancel that operation!" ${temp_cnt}
+    sleep 1
+    ((temp_cnt--))
+done
+echo ""
+#echo "Remove $1? [CTRL + C] to Cancel"
+#sleep 5s
 lxc delete $1 --force
 lxc exec nginx -- rm /etc/nginx/conf.d/$1.conf 
 refresh_firewall
