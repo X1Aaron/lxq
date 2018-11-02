@@ -11,10 +11,6 @@ install() {
 install_$1
 }
 
-install_test() {
-echo "IT WORKS!"
-}
-
 create_container() {
   local CONTAINER_NAME=$1 # set the container-name to the first parameter
   lxc launch ubuntu:18.04 $CONTAINER_NAME
@@ -24,7 +20,7 @@ create_container() {
   echo "Container $CONTAINER_NAME Setup Complete"
 }
 
-nextcloud() {
+install_nextcloud() {
   
   CONTAINER_NAME=nextcloud
   CONTAINER_PORT=80
@@ -67,7 +63,7 @@ nextcloud() {
   echo
 }
 
-rocketchat() {
+install_rocketchat() {
  
   CONTAINER_NAME=rocketchat
   CONTAINER_PORT=3000
@@ -110,7 +106,7 @@ rocketchat() {
   echo
 }
 
-openvpn() {
+install_openvpn() {
 
 CONTAINER_NAME=openvpn
 CONTAINER_PORT=1194
@@ -181,11 +177,11 @@ init() { #TODO comment this code, and figure out a way to only do this if it's r
   echo LXD Setup Complete!
   touch .lxq-init
   echo
-  nginx
+  install_nginx
   fi
   }
     
-nginx() {
+install_nginx() {
   if [ -d /var/snap/lxd/common/lxd/containers/nginx ];
     then 
     echo
