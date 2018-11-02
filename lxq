@@ -179,12 +179,12 @@ echo
 remove() {
 wait_time=10 # seconds
 echo
-echo -e "${RED}Are you sure you remove $1? - This is irreversible!"
+echo -e "${RED}Are you sure you remove $1? - This is irreversible!${NC}"
 echo ""
 temp_cnt=${wait_time}
 while [[ ${temp_cnt} -gt 0 ]];
 do
-    printf "\rYou have %2d second(s) remaining to hit Ctrl+C to cancel!"${NC} ${temp_cnt}
+    printf "\rYou have %2d second(s) remaining to hit Ctrl+C to cancel!" ${temp_cnt}
     sleep 1
     ((temp_cnt--))
 done
