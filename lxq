@@ -22,7 +22,7 @@ echo "Backing Up All Containers..."
 for i in $(ls /var/snap/lxd/common/lxd/containers/); do lxc export $i $i.tar.xz ; done
 echo "Done!"
 else
-echo Backing Up Container...
+echo "Backing Up Container..."
 lxc export $1 $1.tar.xz
 echo "Done!"
 fi
