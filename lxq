@@ -175,9 +175,8 @@ echo
 
 remove() {
 wait_time=10 # seconds
-
-echo "Are you sure you remove $1?"
-echo "This is irreversible!"
+echo
+echo "Are you sure you remove $1? - This is irreversible!"
 echo ""
 temp_cnt=${wait_time}
 while [[ ${temp_cnt} -gt 0 ]];
