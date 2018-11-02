@@ -15,6 +15,30 @@ remove() {
 remove_$1
 }
 
+refresh_firewall () {
+echo "Clearing All PREROUTING Rules..."
+for i in $( iptables -t nat --line-numbers -L | grep ^[0-9] | awk '{ print $1 }' | tac ); do iptables -t nat -D PREROUTING $i; done
+echo "Getting Public IP Address..."
+PUBLIC_IP=`curl ifconfig.me`
+echo "Your Public IP is $PUBLIC_IP"
+  if [ -d /var/snap/lxd/common/lxd/containers/nginx ];
+  then 
+  Echo "Found nginx!"
+NGINX_IP=$(lxc list nginx -c 4 --format csv | awk '{print $1}')
+iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 80 -j DNAT --to-destination $NGINX_IP:80
+iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 443 -j DNAT --to-destination $NGINX_IP:443
+echo "Updated Firewall Rules for nginx"
+fi
+ if [ -d /var/snap/lxd/common/lxd/containers/openvpn ];
+  then 
+  Echo "Found openvpn!"
+OPENVPN_IP=$(lxc list openvpn -c 4 --format csv | awk '{print $1}')
+iptables -t nat -I PREROUTING -i eth0 -p UDP -d $PUBLIC_IP --dport 1194 -j DNAT --to-destination $OPENVPN_IP:1194
+echo "Updated Firewall Rules for OpenVPN"
+echo "Saving Firewall Rules..." 
+netfilter-persistent save
+}
+
 create_container() {
   local CONTAINER_NAME=$1 # set the container-name to the first parameter
   lxc launch ubuntu:18.04 $CONTAINER_NAME
