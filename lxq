@@ -30,10 +30,12 @@ echo "Updated Firewall Rules for nginx"
 fi
 if [ -d /var/snap/lxd/common/lxd/containers/openvpn ];
   then 
-  Echo "Found openvpn!"
+  echo "Found openvpn!"
 OPENVPN_IP=$(lxc list openvpn -c 4 --format csv | awk '{print $1}')
 iptables -t nat -I PREROUTING -i eth0 -p UDP -d $PUBLIC_IP --dport 1194 -j DNAT --to-destination $OPENVPN_IP:1194
 echo "Updated Firewall Rules for OpenVPN"
+else
+echo "OpenVPN not found"
 fi
 echo "Saving Firewall Rules..." 
 netfilter-persistent save
