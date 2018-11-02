@@ -23,7 +23,7 @@ PUBLIC_IP=`curl ifconfig.me`
 echo "Your Public IP is $PUBLIC_IP"
 if [ -d /var/snap/lxd/common/lxd/containers/nginx ];
 then 
-Echo "Found nginx!"
+echo "Found nginx!"
 fi
 #NGINX_IP=$(lxc list nginx -c 4 --format csv | awk '{print $1}')
 #iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 80 -j DNAT --to-destination $NGINX_IP:80
