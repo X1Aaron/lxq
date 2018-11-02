@@ -11,6 +11,10 @@ install() {
 install_$1
 }
 
+remove() {
+remove_$1
+}
+
 create_container() {
   local CONTAINER_NAME=$1 # set the container-name to the first parameter
   lxc launch ubuntu:18.04 $CONTAINER_NAME
@@ -144,6 +148,13 @@ echo "Here are your current PREROUTING Rules"
 iptables -t nat -L PREROUTING
 echo "Setup Complete!"
 echo
+}
+
+remove_openvpn() {
+echo "Remove OpenVPN? [CTRL + C] to Cancel"
+sleep 5s
+lxc delete openvpn --force
+
 }
 
 init() { #TODO comment this code, and figure out a way to only do this if it's running for the first time. Maybe test for a hidden file?
