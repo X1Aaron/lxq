@@ -15,14 +15,18 @@ LXQ is automation project for LXD
 * Setup and Configures a nginx container to serve as a reverse proxy
 * Forwards ports 80/443 from the host to the nginx container
 
-`lxd <appname>`
+`lxd install <appname>`
 
 * Creates and updates a container
 * Installs the app inside the contianer
 * Generates a .conf file, pushs it to the nginx container and reloads nginx *(if needed)*
 * Automatically forwards any needed ports to your app *(if needed)*
 
+`lxd remove <appname>`
 
+* Removes Container
+* Deletes .conf from the nginx container
+* Updates Firewall Rules
 
 ## Install
 
