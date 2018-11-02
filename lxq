@@ -16,7 +16,7 @@ install_$1
 
 backup() {
 
-if [ $1 = all ]
+if [ -z $1 ]
 then
 echo "Backing Up All Containers..."
 for i in $(ls /var/snap/lxd/common/lxd/containers/); do lxc export $i $i.tar.xz ; done
