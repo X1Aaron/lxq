@@ -15,7 +15,14 @@ install_$1
 }
 
 backup() {
+
+if [ $1 = all ]
+then
+echo "Backing Up All Containers..."
 for i in $(ls /var/snap/lxd/common/lxd/containers/); do lxc export $i $i.tar.xz ; done
+else
+lxc export $1 $1.tar.xz
+fi
 }
 
 refresh_firewall() {
