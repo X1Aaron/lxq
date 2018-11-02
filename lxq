@@ -239,25 +239,8 @@ install_nginx() {
   lxc exec nginx -- apt-get install nginx  -y
   echo
 
-    until [[ -n "$CONTAINER_LOCAL_IP" ]] # loop until the container has an ip address
-   do
-    sleep .1
-    local CONTAINER_LOCAL_IP=$(lxc list $CONTAINER_NAME -c 4 --format csv | awk '{print $1}')
-   done
+  refresh_firewall
 
-  echo "Getting your public IPv4 address..."
-  PUBLIC_IP=`curl -4 ifconfig.co`
-  echo
-  echo "Your Public IP is" $PUBLIC_IP
-  echo
-  echo "Updating iptables to forward 80/443 to nginx Container"
-  echo
-  iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 80 -j DNAT --to-destination $CONTAINER_LOCAL_IP:80
-  iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 443 -j DNAT --to-destination $CONTAINER_LOCAL_IP:443
-  netfilter-persistent save
-  echo
-  echo "Here are your current PREROUTING Rules"
-  iptables -t nat -L PREROUTING
   echo "Setup Complete!"
   echo
   fi
