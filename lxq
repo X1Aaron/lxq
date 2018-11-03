@@ -18,7 +18,6 @@ backup() {
 
 if [ -z $1 ]
 then
-echo "Backing Up All Containers..."
 for i in $(ls /var/snap/lxd/common/lxd/containers/); 
 do
 date=`date +"%Y%m%d-%H%M%S"`
