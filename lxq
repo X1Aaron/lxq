@@ -23,7 +23,7 @@ for i in $(ls /var/snap/lxd/common/lxd/containers/);
 do
 date=`date +"%Y%m%d_%H%M%S"`
 echo "Backing up $i at $date"
-lxc export $i $i_$date.tar.xz ; 
+lxc export $i $i-$date.tar.xz ; 
 done
 echo "Done!"
 else
