@@ -27,6 +27,7 @@ lxc export $i $date-$i.tar.xz ;
 done
 echo "Done!"
 else
+date=`date +"%Y%m%d-%H%M%S"`
 echo "Backing up $1..."
 lxc export $1 $date-$1.tar.xz
 echo "Done!"
