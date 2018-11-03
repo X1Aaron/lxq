@@ -28,6 +28,12 @@ LXQ is automation project for LXD
 * Deletes .conf from the nginx container
 * Updates Firewall Rules
 
+`lxd backup <appname>`
+
+* Creates a backup of the app
+* Run without a appname, it backups all containers.
+
+
 ## Install
 
 One Line: `wget https://raw.githubusercontent.com/aaronstuder/lxq/master/setup.sh -O - | sudo bash`
