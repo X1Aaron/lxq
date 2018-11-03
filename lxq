@@ -202,11 +202,10 @@ do
     sleep 1
     ((temp_cnt--))
 done
-echo ""
-#echo "Remove $1? [CTRL + C] to Cancel"
-#sleep 5s
+echo
 lxc delete $1 --force
-lxc exec nginx -- rm /etc/nginx/conf.d/$1.conf 
+lxc exec nginx -- rm /etc/nginx/conf.d/$1.conf
+lxc exec nginx -- systemctl reload nginx
 refresh_firewall
 echo "$1 removed"
 }
