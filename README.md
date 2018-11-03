@@ -26,6 +26,7 @@ LXQ is automation project for LXD
 
 * Removes Container
 * Deletes .conf from the nginx container
+* Reloads Nginx
 * Updates Firewall Rules
 
 `lxd backup <appname>`
