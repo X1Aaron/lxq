@@ -19,7 +19,11 @@ backup() {
 if [ -z $1 ]
 then
 echo "Backing Up All Containers..."
-for i in $(ls /var/snap/lxd/common/lxd/containers/); do lxc export $i $i.tar.xz ; done
+for i in $(ls /var/snap/lxd/common/lxd/containers/); 
+do
+date=`date +"%Y%m%d_%H%M%S"`
+lxc export $i $i_$date.tar.xz ; 
+done
 echo "Done!"
 else
 echo "Backing Up Container..."
