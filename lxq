@@ -3,6 +3,9 @@
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
+PUBLIC_IP=`curl ifconfig.me` > /dev/null 2>&1
+echo "Public IP: $PUBLIC_IP"
+
 update() {
   cd /opt/lxq/
   git fetch --all # don't we need the git url here?
