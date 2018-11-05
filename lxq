@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source /etc/lxq
+
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
@@ -262,7 +264,7 @@ echo "$1 removed"
 }
 
 init() { #TODO comment this code, and figure out a way to only do this if it's running for the first time. Maybe test for a hidden file?
-  if [ -f /opt/lxq/.lxq-init ];
+  if [ -f /etc/lxq.cfg ];
     then 
     echo
     echo "LXQ Already Setup!"
@@ -289,8 +291,9 @@ init() { #TODO comment this code, and figure out a way to only do this if it's r
   echo "Configuing LXD..."
   cat /opt/lxq/preseed | lxd init --preseed
   echo
+  mkdir /etc/lxq/
+  cp /opt/lxq/lxq.cfg /etc/lxq.cfg
   echo LXD Setup Complete!
-  touch .lxq-init
   echo
   install_nginx
   fi
