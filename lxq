@@ -87,8 +87,13 @@ install_nextcloud() {
   CONTAINER_NAME=nextcloud
   CONTAINER_PORT=80
 
+if [ -z "$LXQ_WILDCARD" ]
+  then
   echo "Enter Domain Name:"
   read DOMAIN_NAME
+  else
+  echo "Wildcard Certificate Installed!"
+  
   create_container $CONTAINER_NAME
 
   until [[ -n "$CONTAINER_LOCAL_IP" ]] # loop until the container has an ip address
@@ -126,6 +131,7 @@ install_nextcloud() {
   echo
   else
   echo "Wildcard Certificate Installed!"
+  fi
   fi
   echo
   echo Done!
