@@ -8,6 +8,8 @@ LXQ is automation project for LXD
 * All containers are Ubuntu 18.04
 * Processor, RAM, and Hard drive requirements are based on what/how many apps you install and usage of those apps.
 
+# Commands
+
 `lxq update`
 
 * Updates LXQ
