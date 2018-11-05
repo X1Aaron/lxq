@@ -16,7 +16,7 @@ LXQ is automation project for LXD
 
 `lxq init`
 
-* Enables UFW
+* Enables UFW (SSH Only)
 * Updates the Host
 * Removes LXD Packages and Installs LXD via Snap
 * Setup and Configures LXD
