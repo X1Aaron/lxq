@@ -118,6 +118,7 @@ install_nextcloud() {
   echo
   else
   echo "Wildcard Certificate Installed!"
+  fi
   echo
   echo Done!
   echo
