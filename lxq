@@ -280,28 +280,4 @@ install_nginx() {
   fi
 }
 
-menu() {
-  echo
-  echo "Welcome to LXQ"
-  echo
-  echo "Please select a command"
-  echo "1. Update LXQ"
-  echo "2. Create new container" #this may just point to lxd reference, if user doesn't want ubuntu18.04 container
-  echo "3. Install Nextcloud"
-  #etc
-  echo -n "Enter a number:"
-  read USER_INPUT
-  
-  case "$USER_INPUT" in
-  1) update
-    ;;
-  2) create_container
-    ;;
-  3) nextcloud
-    ;;
-  *) echo "Invalid input"
-    ;;
-  esac
-}
-
 $@
