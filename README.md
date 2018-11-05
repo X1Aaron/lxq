@@ -56,3 +56,4 @@ or
 
 * Nextcloud
 * Rocket.Chat
+* BookStack
