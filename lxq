@@ -110,8 +110,14 @@ install_nextcloud() {
     lxc exec nginx -- systemctl reload nginx
   echo
   echo "Generating Certificates..."
-  echo
+  if [ -z "$LXQ_WILDCARD" ]
+  then
   lxc exec nginx -- certbot --nginx -n --email webmaster@$DOMAIN_NAME --agree-tos --domains $DOMAIN_NAME --redirect
+  echo
+  echo Done!
+  echo
+  else
+  echo "Wildcard Certificate Installed!"
   echo
   echo Done!
   echo
