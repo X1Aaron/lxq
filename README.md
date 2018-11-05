@@ -45,12 +45,13 @@ LXQ is an automation platform for LXD
 
 ## Install
 
-One Line: `wget https://raw.githubusercontent.com/aaronstuder/lxq/master/setup.sh -O - | sudo bash`
+First, get the script and make it executable :
 
-or
-1. `git clone https://github.com/aaronstuder/lxq.git /opt/lxq`
-2. `chmod +x /opt/lxq/setup.sh`
-3. `/opt/lxq/setup.sh`
+curl -O wget https://raw.githubusercontent.com/aaronstuder/lxq/master/setup.sh
+chmod +x setup.sh
+Then run it :
+
+./setup.sh
 
 ## Available Apps
 
