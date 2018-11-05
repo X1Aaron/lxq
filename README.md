@@ -2,6 +2,12 @@
 
 LXQ is automation project for LXD
 
+#System Requirements
+
+* LXQ is tested on Ubuntu 18.04 and is designed to be used on a fresh Ubuntu 18.04 VM.
+* All containers are Ubuntu 18.04
+* Processor, RAM, and Hard drive requirements are based on what apps you install.
+
 `lxq update`
 
 * Updates LXQ
