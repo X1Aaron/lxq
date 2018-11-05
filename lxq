@@ -136,6 +136,7 @@ install_bookstack() {
   lxc exec $CONTAINER_NAME -- wget https://raw.githubusercontent.com/BookStackApp/devops/master/scripts/installation-ubuntu-18.04.sh
   lxc exec $CONTAINER_NAME -- chmod a+x installation-ubuntu-18.04.sh
   lxc exec $CONTAINER_NAME -- ./installation-ubuntu-18.04.sh
+  lxc exec $CONTAINER_NAME -- sed -i "s/#\sAPP_URL\=http:\/\/bookstack.dev/APP_URL=http:\/\/$DOMAIN_NAME/g" /var/www/bookstack/.env
   echo
   echo "Pushing .conf file to container..."
   cp /opt/lxq/nginx.temp $CONTAINER_NAME.conf
