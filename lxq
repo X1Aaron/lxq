@@ -51,8 +51,6 @@ fi
 refresh_firewall() {
 echo "Clearing All PREROUTING Rules..."
 for i in $( iptables -t nat --line-numbers -L | grep ^[0-9] | awk '{ print $1 }' | tac ); do iptables -t nat -D PREROUTING $i; done
-echo "Getting Public IP Address..."
-PUBLIC_IP=`curl -s ifconfig.me`
 echo "Your Public IP is $PUBLIC_IP"
 if [ -d /var/snap/lxd/common/lxd/containers/nginx ]; then echo "Found nginx!"
 NGINX_IP=$(lxc list nginx -c 4 --format csv | awk '{print $1}')
