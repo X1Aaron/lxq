@@ -24,6 +24,11 @@ install() {
 install_$1
 }
 
+conf() {
+cat /etc/lxq/lxq.cfg
+}
+
+
 backup() {
 
 if [ -z $1 ]
