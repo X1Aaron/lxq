@@ -5,8 +5,13 @@ source /etc/lxq/lxq.cfg
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-#PUBLIC_IP=`curl -s ifconfig.me`
-#echo "Public IP: $PUBLIC_IP"
+if [ -z "$PUBLIC_IP" ]
+then
+PUBLIC_IP=`curl -s ifconfig.me`
+echo "Public IP: $PUBLIC_IP"
+echo "Saving to /etc/lxq/lxq.cfg"
+sed -i "s/PUBLIC_IP=/PUBLIC_IP=$PUBLIC_IP/g" /etc/lxq/lxq.cfg
+fi
 
 update() {
   cd /opt/lxq/
