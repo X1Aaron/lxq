@@ -115,7 +115,7 @@ install_nextcloud() {
   echo
 }
 
-install_nextcloud() {
+install_bookstack() {
   
   CONTAINER_NAME=bookstack
   CONTAINER_PORT=80
@@ -135,7 +135,7 @@ install_nextcloud() {
   echo "Installing bookstack..."
   lxc exec $CONTAINER_NAME -- wget https://raw.githubusercontent.com/BookStackApp/devops/master/scripts/installation-ubuntu-18.04.sh
   lxc exec $CONTAINER_NAME -- chmod a+x installation-ubuntu-18.04.sh
-  lxc exec $CONTAINER_NAME -- sudo ./installation-ubuntu-18.04.sh
+  lxc exec $CONTAINER_NAME -- ./installation-ubuntu-18.04.sh
   echo
   echo "Pushing .conf file to container..."
   cp /opt/lxq/nginx.temp $CONTAINER_NAME.conf
