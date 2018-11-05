@@ -259,7 +259,9 @@ echo
 }
 
 remove() {
-wait_time=10 # seconds
+if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
+then
+wait_time=5 # seconds
 echo
 echo -e "${RED}Are you sure you remove $1? - This is irreversible!${NC}"
 echo ""
@@ -276,6 +278,9 @@ lxc exec nginx -- rm /etc/nginx/conf.d/$1.conf
 lxc exec nginx -- systemctl reload nginx
 refresh_firewall
 echo "$1 removed"
+else
+echo "$1 not found"
+fi
 }
 
 init() { #TODO comment this code, and figure out a way to only do this if it's running for the first time. Maybe test for a hidden file?
