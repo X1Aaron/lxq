@@ -1,6 +1,6 @@
 # LXQ
 
-LXQ is automation project for LXD
+LXQ is automation platform for LXD
 
 # System Requirements
 
