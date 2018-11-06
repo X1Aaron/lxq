@@ -51,7 +51,9 @@ wildcard() {
 
 if [ -z $1 ]
 then
+echo
 echo "Missing DNS Provider"
+echo
 exit
 fi
 
