@@ -35,26 +35,24 @@ if [ -z $1 ]
 then
 for i in $(ls /var/snap/lxd/common/lxd/containers/); 
 do
-date=`date +"%Y%m%d-%H%M%S"`
 echo "Backing up $i..."
-lxc export $i $date-$i.tar.xz ; 
+lxc export $i $i.tar.xz ; 
 done
 else
-date=`date +"%Y%m%d-%H%M%S"`
 echo "Backing up $1..."
-lxc export $1 $date-$1.tar.xz
+lxc export $1 $1.tar.xz
 fi
 
 #rclone copy 20181106-160946-nginx.tar.xz wasabi:aaronstuder
 
-if [ -f /usr/bin/rclone ];
-    then 
-    echo
-    echo "Running Offsite Backup"
-    echo
-    else
-    echo "rclone not installed"
-   fi
+#if [ -f /usr/bin/rclone ];
+#    then 
+#    echo
+#    echo "Running Offsite Backup"
+#    echo
+#    else
+#    echo "rclone not installed"
+#   fi
 }
 
 wildcard() {
