@@ -102,12 +102,9 @@ wildcard() {
   read cf_key
   echo
   echo "Creating cloudflare.ini..." 
-  
-  cat > cloudflare.ini <<EOF
-  # Cloudflare API credentials used by Certbot
-  dns_cloudflare_email = $cf_email
-  dns_cloudflare_api_key = $cf_key
-  EOF
+  echo '# Cloudflare API credentials used by Certbot' >> cloudflare.ini
+  echo 'dns_cloudflare_email = $cf_email' >> cloudflare.ini
+  echo 'dns_cloudflare_api_key = $cf_key' >> cloudflare.ini
 
   lxc exec nginx -- mkdir /root/.secrets/
   lxc exec nginx -- mkdir /root/.secrets/certbot/
