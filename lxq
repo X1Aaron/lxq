@@ -31,13 +31,20 @@ date=`date +"%Y%m%d-%H%M%S"`
 echo "Backing up $i..."
 lxc export $i $date-$i.tar.xz ; 
 done
-echo "Done!"
 else
 date=`date +"%Y%m%d-%H%M%S"`
 echo "Backing up $1..."
 lxc export $1 $date-$1.tar.xz
-echo "Done!"
 fi
+
+if [ -f /usr/bin/rclone ];
+    then 
+    echo
+    echo "Running Offsite Backup"
+    echo
+    else
+    echo "rclone not installed"
+   fi
 }
 
 wildcard() {
