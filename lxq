@@ -57,6 +57,10 @@ fi
 
 wildcard() {
 
+if [ -z "$WILDCARD_DOMAIN" ]
+then
+
+
 if [ -z $1 ]
 then
 echo
@@ -94,9 +98,13 @@ then
 echo "$1 setup complete!"
 else
 echo "FAILED: cloudflare.ini not created"
+exit
 fi
 fi
 fi
+else
+echo "Wildcard Already Installed"
+if
 
 if [ -z "$LE_EMAIL" ]
 then
