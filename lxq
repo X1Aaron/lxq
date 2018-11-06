@@ -319,17 +319,17 @@ echo
 remove() {
 if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
 then
-wait_time=5 # seconds
-echo
-echo -e "${RED}Are you sure you remove $1? - This is irreversible!${NC}"
-echo ""
-temp_cnt=${wait_time}
-while [[ ${temp_cnt} -gt 0 ]];
-do
-    printf "\rYou have %2d second(s) remaining to hit Ctrl+C to cancel!" ${temp_cnt}
-    sleep 1
-    ((temp_cnt--))
-done
+#wait_time=5 # seconds
+#echo
+#echo -e "${RED}Are you sure you remove $1? - This is irreversible!${NC}"
+#echo ""
+#temp_cnt=${wait_time}
+#while [[ ${temp_cnt} -gt 0 ]];
+#do
+#    printf "\rYou have %2d second(s) remaining to hit Ctrl+C to cancel!" ${temp_cnt}
+#    sleep 1
+#    ((temp_cnt--))
+#done
 echo
 lxc delete $1 --force
 lxc exec nginx -- rm /etc/nginx/conf.d/$1.conf
