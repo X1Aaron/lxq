@@ -47,6 +47,10 @@ LXQ is an automation platform for LXD
 * edit - opens the conf file to edit it
 * run without an option shows you the LXQ configuation
 
+`lxq wildcard <dns>`
+* Setups Wildcard Cert
+* Only supports Cloudflare for now.
+*Want another DNS provider? Open a Issue.*
 
 
 ## Install
