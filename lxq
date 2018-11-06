@@ -85,6 +85,8 @@ read cf_email
 echo
 echo "What is your Cloudflare API Key?"
 read cf_key
+echo "Installing Cloudflare DNS Plugin"
+lxc exec nginx -- apt-get install python3-certbot-dns-cloudflare -y
 echo
 echo "Creating cloudflare.ini..." 
 cat > cloudflare.ini <<EOF
