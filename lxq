@@ -102,9 +102,7 @@ exit
 fi
 fi
 fi
-else
-echo "Wildcard Already Installed"
-if
+
 
 if [ -z "$LE_EMAIL" ]
 then
@@ -126,6 +124,10 @@ A="*."
 WC_DOMAIN="$A$WILDCARD_DOMAIN"
 echo "Installing Wildcard Certificate for $WILDCARD ($WC_DOMAIN)..."
 #lxc exec nginx -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials /root/.secrets/certbot/cloudflare.ini -d $WILDCARD  -d $WC_DOMAIN --agree-tos --noninteractive --manual-public-ip-logging-ok --email $LE_EMAIL
+
+else
+echo "Wildcard Already Installed"
+if
 
 }
 
