@@ -66,6 +66,7 @@ fi
 if [ -n "$WILDCARD_DOMAIN" ]
 then
 echo "Wildcard Already Setup"
+exit
 
 if [ cloudflare = "$1" ]
 then
