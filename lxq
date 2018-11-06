@@ -184,7 +184,7 @@ install_nextcloud() {
   CONTAINER_NAME=nextcloud
   CONTAINER_PORT=80
 
-if [ -z "$WILDCARD" ]
+if [ -z "$WILDCARD_DOMAIN" ]
   then
   echo "Enter Domain Name:"
   read DOMAIN_NAME
@@ -206,7 +206,7 @@ if [ -z "$WILDCARD" ]
   sleep 1
   lxc exec $CONTAINER_NAME -- snap install nextcloud
   echo
-  if [ -z "$WILDCARD" ]
+  if [ -z "$WILDCARD_DOMAIN" ]
   then
   echo "Pushing temporary .conf file to container..."
   cp /opt/lxq/nginx.temp $CONTAINER_NAME.conf
@@ -225,7 +225,7 @@ if [ -z "$WILDCARD" ]
     lxc exec nginx -- systemctl reload nginx
   echo
   echo "Generating Certificates..."
-  if [ -z "$WILDCARD" ]
+  if [ -z "$WILDCARD_DOMAIN" ]
   then
   if [ -z "$LE_EMAIL" ]
   then
