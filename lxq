@@ -65,7 +65,7 @@ echo
 exit
 fi
 
-if [ cloudflare = "$1" ]\
+if [ cloudflare = "$1" ]
 then
 
 if [ -n "$WILDCARD_DOMAIN" ]
@@ -126,7 +126,6 @@ WC_DOMAIN="$A$WILDCARD_DOMAIN"
 echo "Installing Wildcard Certificate for $WILDCARD ($WC_DOMAIN)..."
 #lxc exec nginx -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials /root/.secrets/certbot/cloudflare.ini -d $WILDCARD  -d $WC_DOMAIN --agree-tos --noninteractive --manual-public-ip-logging-ok --email $LE_EMAIL
 
-fi
 
 }
 
