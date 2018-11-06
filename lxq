@@ -49,6 +49,10 @@ fi
 
 wildcard() {
 
+if [ -z $1 ]
+then
+echo "Missing DNS Provider"
+fi
 
 echo
 echo "What is your Cloudflare Email Address?"
