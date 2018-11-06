@@ -59,7 +59,7 @@ wildcard() {
 
 if [ -n "$WILDCARD_DOMAIN" ]
 then
-
+echo "Wildcard Already Setup"
 
 if [ -z $1 ]
 then
