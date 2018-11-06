@@ -5,17 +5,9 @@ source /etc/lxq/lxq.cfg
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-#if [ -z "$PUBLIC_IP" ]
-#then
-#PUBLIC_IP=`curl -s ifconfig.me`
-#echo "Public IP: $PUBLIC_IP"
-#echo "Saving to /etc/lxq/lxq.cfg"
-#sed -i "s/PUBLIC_IP=/PUBLIC_IP=$PUBLIC_IP/g" /etc/lxq/lxq.cfg
-#fi
-
 update() {
   cd /opt/lxq/
-  git fetch --all # don't we need the git url here?
+  git fetch --all
   git reset --hard origin/master
   chmod a+x lxq
   chmod a+x fix-update.sh
@@ -110,7 +102,14 @@ echo "Installing Wildcard Certificate for $LXQ_WILDCARD ($WC_DOMAIN)..."
 refresh_firewall() {
 echo "Clearing All PREROUTING Rules..."
 for i in $( iptables -t nat --line-numbers -L | grep ^[0-9] | awk '{ print $1 }' | tac ); do iptables -t nat -D PREROUTING $i; done
-echo "Your Public IP is $PUBLIC_IP"
+if [ -z "$PUBLIC_IP" ]
+then
+PUBLIC_IP=`curl -s ifconfig.me`
+echo "Public IP: $PUBLIC_IP"
+echo "Saving to /etc/lxq/lxq.cfg"
+sed -i "s/PUBLIC_IP=/PUBLIC_IP=$PUBLIC_IP/g" /etc/lxq/lxq.cfg
+fi
+
 if [ -d /var/snap/lxd/common/lxd/containers/nginx ]; then echo "Found nginx!"
 NGINX_IP=$(lxc list nginx -c 4 --format csv | awk '{print $1}')
 iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 80 -j DNAT --to-destination $NGINX_IP:80
