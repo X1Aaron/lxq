@@ -18,7 +18,15 @@ install_$1
 }
 
 conf() {
+if [ -z $1 ]
+then
 cat /etc/lxq/lxq.cfg
+fi
+
+if [ edit = "$1" ]
+then
+nano /etc/lxq/lxq.cfg
+fi
 }
 
 backup() {
