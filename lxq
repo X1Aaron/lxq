@@ -69,6 +69,8 @@ if [ cloudflare = "$1" ]
 then
 if [ -f cloudflare.ini ];
 then
+echo "cloudflare.ini found"
+else
 echo
 echo "What is your Cloudflare Email Address?"
 read cf_email
@@ -91,6 +93,7 @@ echo "Setting Permissions"
 lxc exec nginx -- chmod 0700 ~/.secrets/certbot/
 lxc exec nginx -- chmod 0400 ~/.secrets/certbot/cloudflare.ini
 echo $1 setup complete!
+fi
 fi
 
 if [ -z "$LXQ_LE_EMAIL" ]
