@@ -69,7 +69,8 @@ if [ cloudflare = "$1" ]
 then
 if [ -f /var/snap/lxd/common/mntns/var/snap/lxd/common/lxd/storage-pools/default/containers/nginx/rootfs/root/cloudflare.ini ];
 then
-echo "cloudflare.ini found"
+echo "cloudflare.ini found - exiting"
+exit
 else
 echo
 echo "What is your Cloudflare Email Address?"
