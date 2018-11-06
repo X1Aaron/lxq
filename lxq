@@ -107,6 +107,7 @@ wildcard() {
   dns_cloudflare_email = $cf_email
   dns_cloudflare_api_key = $cf_key
   EOF
+
   lxc exec nginx -- mkdir /root/.secrets/
   lxc exec nginx -- mkdir /root/.secrets/certbot/
   lxc file push cloudflare.ini nginx/root/.secrets/certbot/
