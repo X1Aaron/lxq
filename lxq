@@ -86,13 +86,8 @@ echo "PUBLIC_IP=$PUBLIC_IP" >> cloudflare.ini
 dns_cloudflare_email = $cf_email
 dns_cloudflare_api_key = $cf_key
 EOF
-lxc exec nginx -- mkdir /root/.secrets/
-lxc exec nginx -- mkdir /root/.secrets/certbot/
 echo "Pushing cloudflare.ini to nginx container"
-lxc file push cloudflare.ini nginx/root/.secrets/certbot/
-echo "Setting Permissions"
-lxc exec nginx -- chmod 0700 ~/.secrets/certbot/
-lxc exec nginx -- chmod 0400 ~/.secrets/certbot/cloudflare.ini
+lxc file push cloudflare.ini nginx/root/
 echo $1 setup complete!
 fi
 fi
