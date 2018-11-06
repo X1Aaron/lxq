@@ -52,6 +52,7 @@ wildcard() {
 if [ -z $1 ]
 then
 echo "Missing DNS Provider"
+exit
 fi
 
 if [ cloudflare = "$1" ]
