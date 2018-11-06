@@ -54,7 +54,7 @@ then
 echo "Missing DNS Provider"
 fi
 
-if [ $1 = cloudflare ]
+if [ cloudflare = $1 ]
 then
 echo
 echo "What is your Cloudflare Email Address?"
