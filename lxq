@@ -67,6 +67,7 @@ if [ -n "$WILDCARD_DOMAIN" ]
 then
 echo "Wildcard Already Setup"
 exit
+else
 
 if [ -z $1 ]
 then
