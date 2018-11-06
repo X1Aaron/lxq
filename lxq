@@ -45,6 +45,8 @@ echo "Backing up $1..."
 lxc export $1 $date-$1.tar.xz
 fi
 
+#rclone copy 20181106-160946-nginx.tar.xz wasabi:aaronstuder
+
 if [ -f /usr/bin/rclone ];
     then 
     echo
@@ -67,6 +69,8 @@ fi
 
 if [ cloudflare = "$1" ]
 then
+if [ -f cloudflare.ini ];
+then
 echo
 echo "What is your Cloudflare Email Address?"
 read cf_email
@@ -76,6 +80,7 @@ read cf_key
 echo
 echo "Creating cloudflare.ini..." 
 cat > cloudflare.ini <<EOF
+echo "PUBLIC_IP=$PUBLIC_IP" >> cloudflare.ini
 # Cloudflare API credentials used by Certbot
 dns_cloudflare_email = $cf_email
 dns_cloudflare_api_key = $cf_key
