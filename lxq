@@ -27,6 +27,12 @@ if [ edit = "$1" ]
 then
 nano /etc/lxq/lxq.cfg
 fi
+
+if [ purge = "$1" ]
+then
+rm /etc/lxq/lxq.cfg
+fi
+
 }
 
 backup() {
