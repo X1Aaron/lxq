@@ -106,18 +106,18 @@ read LE_EMAIL
 echo "LE_EMAIL=$LE_EMAIL" >> /etc/lxq/lxq.cfg
 fi
 
-if [ -z "$LXQ_WILDCARD" ]
+if [ -z "$WILDCARD_DOMAIN" ]
 then
 echo
 echo "What is your domain name?"
-read LXQ_WILDCARD
-sed -i "s/LXQ_WILDCARD=/LXQ_WILDCARD=$LXQ_WILDCARD/g" /etc/lxq/lxq.cfg
+read WILDCARD_DOMAIN
+echo "WILDCARD_DOMAIN=$WILDCARD_DOMAIN" >> /etc/lxq/lxq.cfg
 fi
 
 A="*."
-WC_DOMAIN="$A$LXQ_WILDCARD"
-echo "Installing Wildcard Certificate for $LXQ_WILDCARD ($WC_DOMAIN)..."
-#lxc exec nginx -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials /root/.secrets/certbot/cloudflare.ini -d $LXQ_WILDCARD  -d $WC_DOMAIN --agree-tos --noninteractive --manual-public-ip-logging-ok --email $LXQ_LE_EMAIL
+WC_DOMAIN="$A$WILDCARD_DOMAIN"
+echo "Installing Wildcard Certificate for $WILDCARD ($WC_DOMAIN)..."
+#lxc exec nginx -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials /root/.secrets/certbot/cloudflare.ini -d $WILDCARD  -d $WC_DOMAIN --agree-tos --noninteractive --manual-public-ip-logging-ok --email $LE_EMAIL
 
 }
 
