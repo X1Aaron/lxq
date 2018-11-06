@@ -98,12 +98,12 @@ fi
 fi
 fi
 
-if [ -z "$LXQ_LE_EMAIL" ]
+if [ -z "$LE_EMAIL" ]
 then
 echo
 echo "What is your email address? [Used for Let’s Encrypt]"
-read LXQ_LE_EMAIL
-sed -i "s/LXQ_LE_EMAIL=/LXQ_LE_EMAIL=$LXQ_LE_EMAIL/g" /etc/lxq/lxq.cfg
+read LE_EMAIL
+echo "LE_EMAIL=$LE_EMAIL" >> /etc/lxq/lxq.cfg
 fi
 
 if [ -z "$LXQ_WILDCARD" ]
@@ -206,7 +206,15 @@ if [ -z "$LXQ_WILDCARD" ]
   echo "Generating Certificates..."
   if [ -z "$LXQ_WILDCARD" ]
   then
-  lxc exec nginx -- certbot --nginx -n --email webmaster@$DOMAIN_NAME --agree-tos --domains $DOMAIN_NAME --redirect
+  if [ -z "$LE_EMAIL" ]
+  then
+  echo
+  echo "What is your email address? [Used for Let’s Encrypt]"
+  read LE_EMAIL
+  echo "LE_EMAIL=$LE_EMAIL" >> /etc/lxq/lxq.cfg
+  fi
+
+  lxc exec nginx -- certbot --nginx -n --email $LE_EMAIL --agree-tos --domains $DOMAIN_NAME --redirect
   echo
   echo Done!
   echo
