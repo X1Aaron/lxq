@@ -57,13 +57,13 @@ read LXQ_LE_EMAIL
 sed -i "s/LXQ_LE_EMAIL=/LXQ_LE_EMAIL=$LXQ_LE_EMAIL/g" /etc/lxq/lxq.cfg
 fi
 
-#if [ -z "$LXQ_WILDCARD" ]
-#then
-#echo
-#echo "What is your domain name?"
-#read LXQ_WILDCARD
-#sed -i "s/LXQ_WILDCARD=/LXQ_WILDCARD=$LXQ_WILDCARD/g" /etc/lxq/lxq.cfg
-#fi
+if [ -z "$LXQ_WILDCARD" ]
+then
+echo
+echo "What is your domain name?"
+read LXQ_WILDCARD
+sed -i "s/LXQ_WILDCARD=/LXQ_WILDCARD=$LXQ_WILDCARD/g" /etc/lxq/lxq.cfg
+fi
 
 #A=*.
 #WC_DOMAIN="$A$LXQ_WILDCARD
