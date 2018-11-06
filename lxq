@@ -123,7 +123,6 @@ PUBLIC_IP=`curl -s ifconfig.me`
 echo "Public IP: $PUBLIC_IP"
 echo "Saving to /etc/lxq/lxq.cfg"
 echo "PUBLIC_IP=$PUBLIC_IP" >> /etc/lxq/lxq.cfg
-echo "world" >> file
 fi
 
 if [ -d /var/snap/lxd/common/lxd/containers/nginx ]; then echo "Found nginx!"
