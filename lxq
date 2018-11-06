@@ -54,6 +54,8 @@ then
 echo "Missing DNS Provider"
 fi
 
+if [ $1 = cloudflare ]
+then
 echo
 echo "What is your Cloudflare Email Address?"
 read cf_email
@@ -73,6 +75,7 @@ lxc file push cloudflare.ini nginx/root/.secrets/certbot/
 lxc exec nginx -- chmod 0700 ~/.secrets/certbot/
 lxc exec nginx -- chmod 0400 ~/.secrets/certbot/cloudflare.ini
 echo $dns setup complete!
+fi
 
 if [ -z "$LXQ_LE_EMAIL" ]
 then
