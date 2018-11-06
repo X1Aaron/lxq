@@ -5,14 +5,6 @@ source /etc/lxq/lxq.cfg
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-update() {
-  cd /opt/lxq/
-  git fetch --all # don't we need the git url here?
-  git reset --hard origin/master
-  chmod a+x lxq
-  chmod a+x fix-update.sh
-}
-
 #if [ -z "$PUBLIC_IP" ]
 #then
 #PUBLIC_IP=`curl -s ifconfig.me`
@@ -21,6 +13,12 @@ update() {
 #sed -i "s/PUBLIC_IP=/PUBLIC_IP=$PUBLIC_IP/g" /etc/lxq/lxq.cfg
 #fi
 
+update() {
+  cd /opt/lxq/
+  git fetch --all # don't we need the git url here?
+  git reset --hard origin/master
+  chmod a+x lxq
+}
 
 install() {
 install_$1
@@ -33,45 +31,46 @@ cat /etc/lxq/lxq.cfg
 
 backup() {
 
-  if [ -z $1 ]
-  then
-  for i in $(ls /var/snap/lxd/common/lxd/containers/); 
-  do
-  date=`date +"%Y%m%d-%H%M%S"`
-  echo "Backing up $i..."
-  lxc export $i $date-$i.tar.xz ; 
-  done
-  echo "Done!"
-  else
-  date=`date +"%Y%m%d-%H%M%S"`
-  echo "Backing up $1..."
-  lxc export $1 $date-$1.tar.xz
-  echo "Done!"
-  fi
+if [ -z $1 ]
+then
+for i in $(ls /var/snap/lxd/common/lxd/containers/); 
+do
+date=`date +"%Y%m%d-%H%M%S"`
+echo "Backing up $i..."
+lxc export $i $date-$i.tar.xz ; 
+done
+echo "Done!"
+else
+date=`date +"%Y%m%d-%H%M%S"`
+echo "Backing up $1..."
+lxc export $1 $date-$1.tar.xz
+echo "Done!"
+fi
 }
 
 refresh_firewall() {
-  echo "Clearing All PREROUTING Rules..."
-  for i in $( iptables -t nat --line-numbers -L | grep ^[0-9] | awk '{ print $1 }' | tac ); do iptables -t nat -D PREROUTING $i; done
-  echo "Your Public IP is $PUBLIC_IP"
-  if [ -d /var/snap/lxd/common/lxd/containers/nginx ]; then echo "Found nginx!"
-  NGINX_IP=$(lxc list nginx -c 4 --format csv | awk '{print $1}')
-  iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 80 -j DNAT --to-destination $NGINX_IP:80
-  iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 443 -j DNAT --to-destination $NGINX_IP:443
-  echo "Updated Firewall Rules for nginx"
-  fi
-  if [ -d /var/snap/lxd/common/lxd/containers/openvpn ];
+echo "Clearing All PREROUTING Rules..."
+for i in $( iptables -t nat --line-numbers -L | grep ^[0-9] | awk '{ print $1 }' | tac ); do iptables -t nat -D PREROUTING $i; done
+echo "Your Public IP is $PUBLIC_IP"
+if [ -d /var/snap/lxd/common/lxd/containers/nginx ]; then echo "Found nginx!"
+NGINX_IP=$(lxc list nginx -c 4 --format csv | awk '{print $1}')
+iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 80 -j DNAT --to-destination $NGINX_IP:80
+iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 443 -j DNAT --to-destination $NGINX_IP:443
+echo "Updated Firewall Rules for nginx"
+
+fi
+if [ -d /var/snap/lxd/common/lxd/containers/openvpn ];
   then 
   echo "Found openvpn!"
-  OPENVPN_IP=$(lxc list openvpn -c 4 --format csv | awk '{print $1}')
-  iptables -t nat -I PREROUTING -i eth0 -p UDP -d $PUBLIC_IP --dport 1194 -j DNAT --to-destination $OPENVPN_IP:1194
-  echo "Updated Firewall Rules for OpenVPN"
-  else
-  echo "OpenVPN not found"
-  fi
-  echo "Saving Firewall Rules..." 
-  netfilter-persistent save
-  iptables -t nat -L PREROUTING
+OPENVPN_IP=$(lxc list openvpn -c 4 --format csv | awk '{print $1}')
+iptables -t nat -I PREROUTING -i eth0 -p UDP -d $PUBLIC_IP --dport 1194 -j DNAT --to-destination $OPENVPN_IP:1194
+echo "Updated Firewall Rules for OpenVPN"
+else
+echo "OpenVPN not found"
+fi
+echo "Saving Firewall Rules..." 
+netfilter-persistent save
+iptables -t nat -L PREROUTING
 }
 
 create_container() {
@@ -81,59 +80,6 @@ create_container() {
   lxc exec $CONTAINER_NAME -- apt-get update > /dev/null 2>&1
   lxc exec $CONTAINER_NAME -- apt-get upgrade -y > /dev/null 2>&1
   echo "Container $CONTAINER_NAME Setup Complete"
-}
-
-
-
-wildcard() {
-
-  if [ -z "$1" ]
-  then
-  echo "Missing DNS Provider"
-  fi
-
-  if [ $1 = cloudflare ]
-  then
-  echo
-  echo "What is your Cloudflare Email Address?"
-  read cf_email
-  echo
-  echo "What is your Cloudflare API Key?"
-  read cf_key
-  echo
-  echo "Creating cloudflare.ini..." 
-  echo '# Cloudflare API credentials used by Certbot' >> cloudflare.ini
-  echo 'dns_cloudflare_email = $cf_email' >> cloudflare.ini
-  echo 'dns_cloudflare_api_key = $cf_key' >> cloudflare.ini
-
-  lxc exec nginx -- mkdir /root/.secrets/
-  lxc exec nginx -- mkdir /root/.secrets/certbot/
-  lxc file push cloudflare.ini nginx/root/.secrets/certbot/
-  lxc exec nginx -- chmod 0700 ~/.secrets/certbot/
-  lxc exec nginx -- chmod 0400 ~/.secrets/certbot/cloudflare.ini
-  echo $1 setup complete!
-  fi
-
-  if [ -z "$LXQ_LE_EMAIL" ]
-  then
-  echo
-  echo "What is your email address? [Used for Let’s Encrypt]"
-  read LXQ_LE_EMAIL
-  sed -i "s/LXQ_LE_EMAIL=/LXQ_LE_EMAIL=$LXQ_LE_EMAIL/g" /etc/lxq/lxq.cfg
-  fi
-
-  if [ -z "$LXQ_WILDCARD" ]
-  then
-  echo
-  echo "What is your domain name?"
-  read LXQ_WILDCARD
-  sed -i "s/LXQ_WILDCARD=/LXQ_WILDCARD=$LXQ_WILDCARD/g" /etc/lxq/lxq.cfg
-  fi
-
-  A=*.
-  WC_DOMAIN="$A$LXQ_WILDCARD
-  echo "Installing Wildcard Certificate for $LXQ_WILDCARD..."
-  lxc exec nginx -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials /root/.secrets/certbot/cloudflare.ini -d $LXQ_WILDCARD  -d $WC_DOMAIN --agree-tos --noninteractive --manual-public-ip-logging-ok --email $LXQ_LE_EMAIL
 }
 
 install_nextcloud() {
@@ -147,7 +93,7 @@ if [ -z "$LXQ_WILDCARD" ]
   read DOMAIN_NAME
   else
   echo "Wildcard Certificate Installed!"
-
+  
   create_container $CONTAINER_NAME
 
   until [[ -n "$CONTAINER_LOCAL_IP" ]] # loop until the container has an ip address
@@ -177,7 +123,7 @@ if [ -z "$LXQ_WILDCARD" ]
     lxc exec nginx -- systemctl reload nginx
   echo
   echo "Generating Certificates..."
-    if [ -z "$LXQ_WILDCARD" ]
+  if [ -z "$LXQ_WILDCARD" ]
   then
   lxc exec nginx -- certbot --nginx -n --email webmaster@$DOMAIN_NAME --agree-tos --domains $DOMAIN_NAME --redirect
   echo
@@ -185,8 +131,8 @@ if [ -z "$LXQ_WILDCARD" ]
   echo
   else
   echo "Wildcard Certificate Installed!"
-    fi
-fi
+  fi
+  fi
   echo
   echo Done!
   echo
@@ -321,17 +267,17 @@ echo
 remove() {
 if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
 then
-#wait_time=5 # seconds
-#echo
-#echo -e "${RED}Are you sure you remove $1? - This is irreversible!${NC}"
-#echo ""
-#temp_cnt=${wait_time}
-#while [[ ${temp_cnt} -gt 0 ]];
-#do
-#    printf "\rYou have %2d second(s) remaining to hit Ctrl+C to cancel!" ${temp_cnt}
-#    sleep 1
-#    ((temp_cnt--))
-#done
+wait_time=5 # seconds
+echo
+echo -e "${RED}Are you sure you remove $1? - This is irreversible!${NC}"
+echo ""
+temp_cnt=${wait_time}
+while [[ ${temp_cnt} -gt 0 ]];
+do
+    printf "\rYou have %2d second(s) remaining to hit Ctrl+C to cancel!" ${temp_cnt}
+    sleep 1
+    ((temp_cnt--))
+done
 echo
 lxc delete $1 --force
 lxc exec nginx -- rm /etc/nginx/conf.d/$1.conf
