@@ -49,6 +49,27 @@ fi
 
 wildcard() {
 
+
+echo
+echo "What is your Cloudflare Email Address?"
+read cf_email
+echo
+echo "What is your Cloudflare API Key?"
+read cf_key
+echo
+echo "Creating cloudflare.ini..." 
+cat > cloudflare.ini <<EOF
+# Cloudflare API credentials used by Certbot
+dns_cloudflare_email = $cf_email
+dns_cloudflare_api_key = $cf_key
+EOF
+lxc exec nginx -- mkdir /root/.secrets/
+lxc exec nginx -- mkdir /root/.secrets/certbot/
+lxc file push cloudflare.ini nginx/root/.secrets/certbot/
+lxc exec nginx -- chmod 0700 ~/.secrets/certbot/
+lxc exec nginx -- chmod 0400 ~/.secrets/certbot/cloudflare.ini
+echo $dns setup complete!
+
 if [ -z "$LXQ_LE_EMAIL" ]
 then
 echo
