@@ -217,6 +217,7 @@ if [ -z "$WILDCARD" ]
   rm $CONTAINER_NAME.conf
   else
   echo "Pushing wildcard .conf file to container..."
+  cp /opt/lxq/wildcard.temp $CONTAINER_NAME.conf
   fi
   echo
   echo "Restarting nginx..."
