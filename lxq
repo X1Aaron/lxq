@@ -124,7 +124,7 @@ fi
 A="*."
 WC_DOMAIN="$A$WILDCARD_DOMAIN"
 echo "Installing Wildcard Certificate for $WILDCARD_DOMAIN ($WC_DOMAIN)..."
-#lxc exec nginx -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials /root/cloudflare.ini -d $WILDCARD_DOMAIN  -d $WC_DOMAIN --agree-tos --noninteractive --manual-public-ip-logging-ok --email $LE_EMAIL
+lxc exec nginx -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials /root/cloudflare.ini -d $WILDCARD_DOMAIN  -d $WC_DOMAIN --agree-tos --noninteractive --manual-public-ip-logging-ok --email $LE_EMAIL
 
 
 }
