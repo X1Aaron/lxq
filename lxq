@@ -102,6 +102,8 @@ else
 echo "FAILED: cloudflare.ini not created"
 exit
 fi
+fi
+
 
 
 if [ -z "$LE_EMAIL" ]
@@ -125,7 +127,6 @@ WC_DOMAIN="$A$WILDCARD_DOMAIN"
 echo "Installing Wildcard Certificate for $WILDCARD_DOMAIN ($WC_DOMAIN)..."
 lxc exec nginx -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials /root/cloudflare.ini -d $WILDCARD_DOMAIN  -d $WC_DOMAIN --agree-tos --noninteractive --manual-public-ip-logging-ok --email $LE_EMAIL
 
-fi
 fi
 
 }
