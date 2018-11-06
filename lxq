@@ -189,7 +189,6 @@ if [ -z "$LXQ_WILDCARD" ]
   echo "Enter Domain Name:"
   read DOMAIN_NAME
   else
-  echo "Wildcard Certificate Installed!"
   
   create_container $CONTAINER_NAME
 
@@ -220,7 +219,7 @@ if [ -z "$LXQ_WILDCARD" ]
     lxc exec nginx -- systemctl reload nginx
   echo
   echo "Generating Certificates..."
-  if [ -z "$LXQ_WILDCARD" ]
+  if [ -z "$WILDCARD" ]
   then
   if [ -z "$LE_EMAIL" ]
   then
@@ -229,7 +228,6 @@ if [ -z "$LXQ_WILDCARD" ]
   read LE_EMAIL
   echo "LE_EMAIL=$LE_EMAIL" >> /etc/lxq/lxq.cfg
   fi
-
   lxc exec nginx -- certbot --nginx -n --email $LE_EMAIL --agree-tos --domains $DOMAIN_NAME --redirect
   echo
   echo Done!
