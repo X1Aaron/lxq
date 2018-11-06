@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /etc/lxq/lxq.cfg
+source /etc/lxq/lxq.cfg  > /dev/null 2>&1
 
 RED='\033[0;31m'
 NC='\033[0m' # No Color
