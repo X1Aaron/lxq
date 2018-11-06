@@ -90,7 +90,6 @@ lxc exec nginx -- apt-get install python3-certbot-dns-cloudflare -y
 echo
 echo "Creating cloudflare.ini..." 
 cat > cloudflare.ini <<EOF
-echo "PUBLIC_IP=$PUBLIC_IP" >> cloudflare.ini
 # Cloudflare API credentials used by Certbot
 dns_cloudflare_email = $cf_email
 dns_cloudflare_api_key = $cf_key
