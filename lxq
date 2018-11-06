@@ -102,6 +102,7 @@ wildcard() {
   read cf_key
   echo
   echo "Creating cloudflare.ini..." 
+  
   cat > cloudflare.ini <<EOF
   # Cloudflare API credentials used by Certbot
   dns_cloudflare_email = $cf_email
