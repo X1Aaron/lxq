@@ -59,18 +59,16 @@ wildcard() {
 
 if [ -z $1 ]
 then
-echo
 echo "Missing DNS Provider"
-echo
 exit
 fi
-
-if [ cloudflare = "$1" ]
-then
 
 if [ -n "$WILDCARD_DOMAIN" ]
 then
 echo "Wildcard Already Setup"
+
+if [ cloudflare = "$1" ]
+then
 
 if [ -f /var/snap/lxd/common/mntns/var/snap/lxd/common/lxd/storage-pools/default/containers/nginx/rootfs/root/cloudflare.ini ];
 then
