@@ -121,6 +121,7 @@ wildcard() {
   read LXQ_LE_EMAIL
   sed -i "s/LXQ_LE_EMAIL=/LXQ_LE_EMAIL=$LXQ_LE_EMAIL/g" /etc/lxq/lxq.cfg
   fi
+
   if [ -z "$LXQ_WILDCARD" ]
   then
   echo
@@ -128,10 +129,11 @@ wildcard() {
   read LXQ_WILDCARD
   sed -i "s/LXQ_WILDCARD=/LXQ_WILDCARD=$LXQ_WILDCARD/g" /etc/lxq/lxq.cfg
   fi
+
   A=*.
   WC_DOMAIN="$A$LXQ_WILDCARD
   echo "Installing Wildcard Certificate for $LXQ_WILDCARD..."
-  #lxc exec nginx -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials /root/.secrets/certbot/cloudflare.ini -d $LXQ_WILDCARD  -d $WC_DOMAIN --agree-tos --noninteractive --manual-public-ip-logging-ok --email $LXQ_LE_EMAIL
+  lxc exec nginx -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials /root/.secrets/certbot/cloudflare.ini -d $LXQ_WILDCARD  -d $WC_DOMAIN --agree-tos --noninteractive --manual-public-ip-logging-ok --email $LXQ_LE_EMAIL
 }
 
 install_nextcloud() {
@@ -139,13 +141,13 @@ install_nextcloud() {
   CONTAINER_NAME=nextcloud
   CONTAINER_PORT=80
 
- if [ -z "$LXQ_WILDCARD" ]
+if [ -z "$LXQ_WILDCARD" ]
   then
   echo "Enter Domain Name:"
   read DOMAIN_NAME
   else
   echo "Wildcard Certificate Installed!"
-  
+
   create_container $CONTAINER_NAME
 
   until [[ -n "$CONTAINER_LOCAL_IP" ]] # loop until the container has an ip address
@@ -175,7 +177,7 @@ install_nextcloud() {
     lxc exec nginx -- systemctl reload nginx
   echo
   echo "Generating Certificates..."
-  if [ -z "$LXQ_WILDCARD" ]
+    if [ -z "$LXQ_WILDCARD" ]
   then
   lxc exec nginx -- certbot --nginx -n --email webmaster@$DOMAIN_NAME --agree-tos --domains $DOMAIN_NAME --redirect
   echo
@@ -183,8 +185,8 @@ install_nextcloud() {
   echo
   else
   echo "Wildcard Certificate Installed!"
-  fi
-  fi
+    fi
+fi
   echo
   echo Done!
   echo
