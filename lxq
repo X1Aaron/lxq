@@ -87,7 +87,12 @@ dns_cloudflare_api_key = $cf_key
 EOF
 echo "Pushing cloudflare.ini to nginx container"
 lxc file push cloudflare.ini nginx/root/
-echo $1 setup complete!
+if [ -f /var/snap/lxd/common/mntns/var/snap/lxd/common/lxd/storage-pools/default/containers/nginx/rootfs/root/cloudflare.ini ];
+then
+echo "$1 setup complete!"
+else
+echo "FAILED: cloudflare.ini not created"
+fi
 fi
 fi
 
