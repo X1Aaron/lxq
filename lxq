@@ -179,12 +179,12 @@ iptables -t nat -L PREROUTING
 }
 
 create_container() {
-  local CONTAINER_NAME=$1 # set the container-name to the first parameter
-  lxc launch ubuntu:18.04 $CONTAINER_NAME
+  #local CONTAINER_NAME=$1 # set the container-name to the first parameter
+  lxc launch ubuntu:18.04 $1
   echo "Updating Container..."
-  lxc exec $CONTAINER_NAME -- apt-get update > /dev/null 2>&1
-  lxc exec $CONTAINER_NAME -- apt-get upgrade -y > /dev/null 2>&1
-  echo "Container $CONTAINER_NAME Setup Complete"
+  lxc exec $1 -- apt-get update > /dev/null 2>&1
+  lxc exec $1 -- apt-get upgrade -y > /dev/null 2>&1
+  echo "Container $1 Setup Complete"
 }
 
 install_nextcloud() {
