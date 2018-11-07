@@ -83,11 +83,11 @@ fi
 ########
 if [ "$1" = bookstack ]
 then
-create_container $1
+create_container $1 $2
 echo "Installing BookStack..."
-lxc exec $1 -- wget https://raw.githubusercontent.com/BookStackApp/devops/master/scripts/installation-ubuntu-18.04.sh
-lxc exec $1 -- chmod a+x installation-ubuntu-18.04.sh
-lxc exec $1 -- ./installation-ubuntu-18.04.sh
+lxc file push /opt/lxq/scripts/install-bookstack.sh $1/root/
+lxc exec $1 -- chmod a+x install-bookstack.sh
+lxc exec $1 -- ./install-bookstack.sh $2
 lxc exec $1 -- sed -i "s/#\sAPP_URL\=http:\/\/bookstack.dev/APP_URL=https:\/\/$DOMAIN_NAME/g" /var/www/bookstack/.env
 gen_conf $1 $2
 lets_encrypt $1 $2
