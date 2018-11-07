@@ -45,7 +45,7 @@ server {
     ssl_stapling_verify on;
 
     ## verify chain of trust of OCSP response using Root CA and Intermediate certs
-    ssl_trusted_certificate /etc/letsencrypt/live/lxd1.net/chain.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/<<DOMAIN_NAME>>/chain.pem;
 
     resolver 1.1.1.1;
 
