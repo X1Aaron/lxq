@@ -53,7 +53,7 @@ lxc exec $1 -- export PATH=$PATH:/snap/bin
 sleep 5
 lxc exec $1 -- snap install nextcloud
 gen_conf $1 $2
-Lets_Encrypt $1 $2
+lets_encrypt $1 $2
 echo $1 setup complete!
 fi
 ##########
@@ -66,7 +66,7 @@ lxc exec $1 -- export PATH=$PATH:/snap/bin
 sleep 1
 lxc exec $1 -- snap install rocketchat-server
 gen_conf $1 $2
-Lets_Encrypt $1 $2
+lets_encrypt $1 $2
 fi
 ##########
 if [ "$1" = openvpn ]
@@ -90,7 +90,7 @@ lxc exec $1 -- chmod a+x installation-ubuntu-18.04.sh
 lxc exec $1 -- ./installation-ubuntu-18.04.sh
 lxc exec $1 -- sed -i "s/#\sAPP_URL\=http:\/\/bookstack.dev/APP_URL=https:\/\/$DOMAIN_NAME/g" /var/www/bookstack/.env
 gen_conf $1 $2
-Lets_Encrypt $1 $2
+lets_encrypt $1 $2
 echo $1 setup complete!
 fi
 ############
@@ -134,7 +134,7 @@ if [ -z "$WILDCARD_DOMAIN" ]
   fi
 }
 
-Lets_Encrypt() {
+lets_encrypt() {
 echo "Generating Certificates..."
 DOMAIN_NAME=$2
   if [ -z "$WILDCARD_DOMAIN" ]
