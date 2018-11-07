@@ -42,14 +42,15 @@ fi
 
 gen_conf() {
 source /opt/lxq/conf/nextcloud.cfg
+DOMAIN_NAME=$2
 if [ -z "$WILDCARD_DOMAIN" ]
   then
   CONTAINER_LOCAL_IP=$(lxc list $1 -c 4 --format csv | awk '{print $1}')
   echo "IP Address:" $CONTAINER_LOCAL_IP
   echo "Pushing temporary .conf file to container..."
   cp /opt/lxq/nginx.temp $1.conf
-  echo "Enter Domain Name:"
-  read DOMAIN_NAME
+  #echo "Enter Domain Name:"
+  #read DOMAIN_NAME
   sed -i "s/<<DOMAIN_NAME>>/$DOMAIN_NAME/g" $1.conf
   sed -i "s/<<CONTAINER_LOCAL_IP>>/$CONTAINER_LOCAL_IP/g" $1.conf
   sed -i "s/<<CONTAINER_PORT>>/$CONTAINER_PORT/g" $1.conf
@@ -73,6 +74,7 @@ if [ -z "$WILDCARD_DOMAIN" ]
 
 Lets_Encrypt() {
 echo "Generating Certificates..."
+DOMAIN_NAME=$2
   if [ -z "$WILDCARD_DOMAIN" ]
   then
   if [ -z "$LE_EMAIL" ]
