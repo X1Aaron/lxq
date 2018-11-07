@@ -59,6 +59,7 @@ if [ -z "$WILDCARD_DOMAIN" ]
   lxc file push $CONTAINER_NAME.conf nginx/etc/nginx/conf.d/
   rm $CONTAINER_NAME.conf
   fi
+}
 
 install_nextcloud() {
   
