@@ -33,7 +33,7 @@ fi
 }
 
 gen_conf() {
-source /etc/lxq/ports.cfg
+source /opt/lxq/ports.cfg
 CONTAINER_PORT=$1_PORT
 echo "$CONTAINER_PORT"
 exit
