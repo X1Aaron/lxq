@@ -33,6 +33,8 @@ fi
 }
 
 gen_conf() {
+source /etc/lxq/ports.cfg
+CONTAINER_PORT=$($1_PORT)
 if [ -z "$WILDCARD_DOMAIN" ]
   then
   CONTAINER_LOCAL_IP=$(lxc list $1 -c 4 --format csv | awk '{print $1}')
