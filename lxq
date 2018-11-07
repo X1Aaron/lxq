@@ -36,7 +36,6 @@ then
 echo "$1 Already Exists"
 exit
 fi
-else
 ##########
 if [ "$1" = nginx ]
 then
