@@ -15,9 +15,12 @@ update() {
 }
 
 install() {
+DOMAIN_NAME=$2
 if [ "$1" = nextcloud ]
 then
-echo "Test"
+echo "Testing..."
+echo "Testing ($2)..."
+create_container $1
 else
 install_$1
 fi
