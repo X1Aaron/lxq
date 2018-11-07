@@ -15,6 +15,7 @@ update() {
 }
 
 install() {
+##########
 if [ "$1" = nextcloud ]
 then
 create_container $1
@@ -26,17 +27,19 @@ lxc exec $1 -- snap install nextcloud
 gen_conf $1 $2
 Lets_Encrypt $1 $2
 echo $1 setup complete!
+##########
 if [ "$1" = rocketchat ]
 then
 create_container $1
-echo "Installing Nextcloud..."
-lxc exec $1 -- apt-get install snapd -y
-lxc exec $1 -- export PATH=$PATH:/snap/bin
-sleep 5
-lxc exec $1 -- snap install nextcloud
+echo "Installing Rocket.Chat..."
+lxc exec $CONTAINER_NAME -- apt-get install snapd -y
+lxc exec $CONTAINER_NAME -- export PATH=$PATH:/snap/bin
+sleep 1
+lxc exec $CONTAINER_NAME -- snap install rocketchat-server
 gen_conf $1 $2
 Lets_Encrypt $1 $2
 echo $1 setup complete!
+##########
 if [ -z "$WILDCARD_DOMAIN" ]
 then
 echo $1 setup complete! [$1.$WILDCARD_DOMAIN]
@@ -44,49 +47,6 @@ else
 echo $1 setup complete! [$2]
 fi
 
-install_rocketchat() {
- 
-  CONTAINER_NAME=rocketchat
-  
-
-  echo "Enter Domain Name:"
-  read DOMAIN_NAME
-  create_container $CONTAINER_NAME
-
-  until [[ -n "$CONTAINER_LOCAL_IP" ]] # loop until the container has an ip address
-  do
-    sleep .1
-    local CONTAINER_LOCAL_IP=$(lxc list $CONTAINER_NAME -c 4 --format csv | awk '{print $1}')
-  done
-  
-  echo "IP Address:" $CONTAINER_LOCAL_IP
-  
-  echo "Installing RocketChat..."
-  lxc exec $CONTAINER_NAME -- apt-get install snapd -y
-  lxc exec $CONTAINER_NAME -- export PATH=$PATH:/snap/bin
-  sleep 1
-  lxc exec $CONTAINER_NAME -- snap install rocketchat-server
-  echo
-  echo "Pushing .conf file to container..."
-  cp /opt/lxq/nginx.temp $CONTAINER_NAME.conf
-  sed -i "s/<<DOMAIN_NAME>>/$DOMAIN_NAME/g" $CONTAINER_NAME.conf
-  sed -i "s/<<CONTAINER_LOCAL_IP>>/$CONTAINER_LOCAL_IP/g" $CONTAINER_NAME.conf
-  sed -i "s/<<CONTAINER_PORT>>/$CONTAINER_PORT/g" $CONTAINER_NAME.conf
-  lxc file push $CONTAINER_NAME.conf nginx/etc/nginx/conf.d/
-  rm $CONTAINER_NAME.conf
-  echo
-  echo "Restarting nginx..."
-  echo
-  lxc exec nginx -- systemctl reload nginx
-  echo
-  echo "Generating Certificates..."
-  echo
-  lxc exec nginx -- certbot --nginx -n --email webmaster@$DOMAIN_NAME --agree-tos --domains $DOMAIN_NAME --redirect
-  echo
-  echo Done!
-  echo
-}
-  
 else
 install_$1
 fi
