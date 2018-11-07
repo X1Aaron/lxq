@@ -22,6 +22,9 @@ echo "$1 Already Exists"
 exit
 fi
 ##########
+if [ -z $1 ]
+echo "Missing APPNAME"
+##########
 if [ "$1" = nginx ]
 then
 create_container $1
