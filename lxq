@@ -34,7 +34,7 @@ fi
 
 gen_conf() {
 source /etc/lxq/ports.cfg
-CONTAINER_PORT=$($1_PORT)
+CONTAINER_PORT=$1_PORT
 echo "$CONTAINER_PORT"
 exit
 if [ -z "$WILDCARD_DOMAIN" ]
