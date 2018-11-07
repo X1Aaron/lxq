@@ -18,8 +18,9 @@ install() {
 if [ "$1" = nextcloud ]
 then
 echo "Test"
-fi
+else
 install_$1
+fi
 }
 
 install_nextcloud() {
