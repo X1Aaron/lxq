@@ -97,7 +97,7 @@ echo "Installing BookStack..."
 lxc file push /opt/lxq/scripts/install-bookstack.sh $1/root/
 lxc exec $1 -- chmod a+x install-bookstack.sh
 lxc exec $1 -- ./install-bookstack.sh $2
-lxc exec $1 -- sed -i "s/#\sAPP_URL\=http:\/\/bookstack.dev/APP_URL=https:\/\/$DOMAIN_NAME/g" /var/www/bookstack/.env
+lxc exec $1 -- sed -i "s/#\sAPP_URL\=http:\/\/bookstack.dev/APP_URL=https:\/\/$2/g" /var/www/bookstack/.env
 gen_conf $1 $2
 lets_encrypt $1 $2
 echo $1 setup complete!
