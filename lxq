@@ -87,7 +87,6 @@ fi
 if [ cloudflare = "$1" ]
 then
 
-
 echo
 echo "What is your Cloudflare Email Address?"
 read cf_email
@@ -196,7 +195,9 @@ if [ -z "$WILDCARD_DOMAIN" ]
   read DOMAIN_NAME
   else
   
-  create_container $CONTAINER_NAME
+  create_container $1
+  
+  exit
 
   until [[ -n "$CONTAINER_LOCAL_IP" ]] # loop until the container has an ip address
   do
