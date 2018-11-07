@@ -93,7 +93,7 @@ fi
 ########
 if [ "$1" = bookstack ]
 then
-create_container $1 $2
+create_container $1
 echo "Installing BookStack..."
 lxc file push /opt/lxq/scripts/install-bookstack.sh $1/root/
 lxc exec $1 -- chmod a+x install-bookstack.sh
