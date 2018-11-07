@@ -33,10 +33,10 @@ if [ "$1" = rocketchat ]
 then
 create_container $1
 echo "Installing Rocket.Chat..."
-lxc exec $CONTAINER_NAME -- apt-get install snapd -y
-lxc exec $CONTAINER_NAME -- export PATH=$PATH:/snap/bin
+lxc exec $1 -- apt-get install snapd -y
+lxc exec $1 -- export PATH=$PATH:/snap/bin
 sleep 1
-lxc exec $CONTAINER_NAME -- snap install rocketchat-server
+lxc exec $1 -- snap install rocketchat-server
 gen_conf $1 $2
 Lets_Encrypt $1 $2
 fi
