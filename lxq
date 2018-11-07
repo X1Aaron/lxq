@@ -14,6 +14,34 @@ update() {
   chmod a+x fix-update.sh
 }
 
+install_nginx() {
+  if [ -d /var/snap/lxd/common/lxd/containers/nginx ];
+    then 
+    echo
+    echo "NGINX Container Already Exists!"
+    echo
+    else
+  create_container nginx
+  sleep 5
+  echo "Installing certbot..."
+  lxc exec nginx -- apt-get update -y
+  lxc exec nginx -- apt-get install software-properties-common -y
+  lxc exec nginx -- add-apt-repository ppa:certbot/certbot -y
+  lxc exec nginx -- apt-get update -y
+  lxc exec nginx -- apt-get install python-certbot-nginx -y 
+
+  echo "Installing NGINX..."
+  lxc exec nginx -- apt-get install nginx  -y
+  echo
+
+  refresh_firewall
+
+  echo "Setup Complete!"
+  echo
+  fi
+}
+
+
 install() {
 ##########
 if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
@@ -346,31 +374,4 @@ init() { #TODO comment this code, and figure out a way to only do this if it's r
   fi
   }
     
-install_nginx() {
-  if [ -d /var/snap/lxd/common/lxd/containers/nginx ];
-    then 
-    echo
-    echo "NGINX Container Already Exists!"
-    echo
-    else
-  create_container nginx
-  sleep 5
-  echo "Installing certbot..."
-  lxc exec nginx -- apt-get update -y
-  lxc exec nginx -- apt-get install software-properties-common -y
-  lxc exec nginx -- add-apt-repository ppa:certbot/certbot -y
-  lxc exec nginx -- apt-get update -y
-  lxc exec nginx -- apt-get install python-certbot-nginx -y 
-
-  echo "Installing NGINX..."
-  lxc exec nginx -- apt-get install nginx  -y
-  echo
-
-  refresh_firewall
-
-  echo "Setup Complete!"
-  echo
-  fi
-}
-
 $@
