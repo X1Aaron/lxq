@@ -227,6 +227,12 @@ fi
 
 if [ cloudflare = "$1" ]
 then
+dns_setup_cloudflare
+fi
+fi
+}
+
+dns_setup_cloudflare() {
 
 echo
 echo "What is your Cloudflare Email Address?"
@@ -254,9 +260,8 @@ else
 echo "FAILED: cloudflare.ini not created"
 exit
 fi
-fi
-fi
 }
+
 
 lets_encrypt_wildcard() {
 if [ -z "$LE_EMAIL" ]
