@@ -19,6 +19,7 @@ install() {
 if [ -z $1 ]
 then
 echo "Missing APPNAME"
+exit
 fi
 ##########
 if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
