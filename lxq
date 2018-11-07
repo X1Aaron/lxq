@@ -15,6 +15,10 @@ update() {
 }
 
 install() {
+if [ "$1" = nextcloud ]
+then
+echo "Test"
+fi
 install_$1
 }
 
