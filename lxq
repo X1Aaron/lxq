@@ -15,7 +15,6 @@ update() {
 }
 
 install() {
-DOMAIN_NAME=$2
 if [ "$1" = nextcloud ]
 then
 create_container $1
