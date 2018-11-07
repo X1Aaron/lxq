@@ -27,6 +27,7 @@ lxc exec $1 -- snap install nextcloud
 gen_conf $1 $2
 Lets_Encrypt $1 $2
 echo $1 setup complete!
+fi
 ##########
 if [ "$1" = rocketchat ]
 then
@@ -38,7 +39,7 @@ sleep 1
 lxc exec $CONTAINER_NAME -- snap install rocketchat-server
 gen_conf $1 $2
 Lets_Encrypt $1 $2
-echo $1 setup complete!
+fi
 ##########
 if [ -z "$WILDCARD_DOMAIN" ]
 then
