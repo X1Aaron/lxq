@@ -311,13 +311,10 @@ fi
 }
 
 init() { #TODO comment this code, and figure out a way to only do this if it's running for the first time. Maybe test for a hidden file?
-  if [ -f /etc/lxq.cfg ];
-    then 
-    echo
-    echo "LXQ Already Setup!"
-    echo
-    else
-  update
+  if [ -n "$LXQ_INIT" ]
+  then
+  echo "LXQ Already Setup"
+  else
   echo "Allowing SSH and Enabling Firewall..."
   ufw allow ssh
   ufw --force enable
@@ -337,9 +334,7 @@ init() { #TODO comment this code, and figure out a way to only do this if it's r
   export PATH=$PATH:/snap/bin
   echo "Configuing LXD..."
   cat /opt/lxq/preseed | lxd init --preseed
-  echo
-  mkdir /etc/lxq/
-  cp /opt/lxq/lxq.cfg /etc/lxq.cfg
+  echo "LXQ_INIT=TRUE" >> /etc/lxq/lxq.cfg
   echo LXD Setup Complete!
   echo
   install_nginx
