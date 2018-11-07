@@ -16,6 +16,11 @@ update() {
 
 install() {
 ##########
+if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
+then 
+echo "$1 Already Exists"
+exit
+fi
 if [ "$1" = nextcloud ]
 then
 create_container $1
