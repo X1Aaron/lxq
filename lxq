@@ -182,7 +182,7 @@ create_container() {
   #local CONTAINER_NAME=$1 # set the container-name to the first parameter
   lxc launch ubuntu:18.04 $1
   echo "Updating $1"
-  sleep 1
+  sleep 2
   lxc exec $1 -- apt-get update #> /dev/null 2>&1
   lxc exec $1 -- apt-get upgrade -y #> /dev/null 2>&1
   echo "Container $1 Setup Complete"
