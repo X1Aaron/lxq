@@ -21,6 +21,14 @@ install() {
 install_$1
 }
 
+reload() {
+lxc exec nginx -- systemctl reload nginx
+if [ nginx = "$1" ]
+then
+lxc exec nginx -- systemctl reload nginx
+fi
+}
+
 conf() {
 if [ -z $1 ]
 then
