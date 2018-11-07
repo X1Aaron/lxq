@@ -23,7 +23,9 @@ exit
 fi
 ##########
 if [ -z $1 ]
+then
 echo "Missing APPNAME"
+fi
 ##########
 if [ "$1" = nginx ]
 then
