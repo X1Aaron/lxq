@@ -18,7 +18,13 @@ install() {
 ##########
 if [ -z $1 ]
 then
-echo "Missing APPNAME"
+echo "ERROR: Missing APPNAME"
+exit
+fi
+##########
+if [ -z $2 ]
+then
+echo "ERROR: Missing DOMAIN NAME"
 exit
 fi
 ##########
