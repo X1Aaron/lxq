@@ -49,6 +49,49 @@ echo $1 setup complete! [$2]
 fi
 }
 
+
+
+install_openvpn() {
+
+CONTAINER_NAME=openvpn
+CONTAINER_PORT=1194
+
+create_container $CONTAINER_NAME
+
+echo "Installing OpenVPN..."
+curl -O https://raw.githubusercontent.com/Angristan/openvpn-install/master/openvpn-install.sh
+lxc file push openvpn-install.sh $CONTAINER_NAME/tmp/
+rm openvpn-install.sh
+lxc exec $CONTAINER_NAME -- chmod +x /tmp/openvpn-install.sh
+lxc exec $CONTAINER_NAME -- /tmp/openvpn-install.sh
+echo
+
+echo "Getting your public IP address..."
+PUBLIC_IP=`curl ifconfig.me`
+echo
+echo "Your Public IP is $PUBLIC_IP"
+echo
+
+  until [[ -n "$CONTAINER_LOCAL_IP" ]] # loop until the container has an ip address
+  do
+    sleep .1
+    local CONTAINER_LOCAL_IP=$(lxc list $CONTAINER_NAME -c 4 --format csv | awk '{print $1}')
+  done
+  
+  echo "Container IP Address:" $CONTAINER_LOCAL_IP
+  
+echo "Updating iptables to Forward 1194/udp to $c Container"
+echo
+iptables -t nat -I PREROUTING -i eth0 -p UDP -d $PUBLIC_IP --dport $CONTAINER_PORT -j DNAT --to-destination $CONTAINER_LOCAL_IP:$CONTAINER_PORT
+netfilter-persistent save
+echo
+echo "Here are your current PREROUTING Rules"
+iptables -t nat -L PREROUTING
+echo "Setup Complete!"
+echo
+}
+
+
 gen_conf() {
 source /opt/lxq/conf/nextcloud.cfg
 DOMAIN_NAME=$2
@@ -385,47 +428,6 @@ install_bookstack() {
   echo
 }
 
-
-
-install_openvpn() {
-
-CONTAINER_NAME=openvpn
-CONTAINER_PORT=1194
-
-create_container $CONTAINER_NAME
-
-echo "Installing OpenVPN..."
-curl -O https://raw.githubusercontent.com/Angristan/openvpn-install/master/openvpn-install.sh
-lxc file push openvpn-install.sh $CONTAINER_NAME/tmp/
-rm openvpn-install.sh
-lxc exec $CONTAINER_NAME -- chmod +x /tmp/openvpn-install.sh
-lxc exec $CONTAINER_NAME -- /tmp/openvpn-install.sh
-echo
-
-echo "Getting your public IP address..."
-PUBLIC_IP=`curl ifconfig.me`
-echo
-echo "Your Public IP is $PUBLIC_IP"
-echo
-
-  until [[ -n "$CONTAINER_LOCAL_IP" ]] # loop until the container has an ip address
-  do
-    sleep .1
-    local CONTAINER_LOCAL_IP=$(lxc list $CONTAINER_NAME -c 4 --format csv | awk '{print $1}')
-  done
-  
-  echo "Container IP Address:" $CONTAINER_LOCAL_IP
-  
-echo "Updating iptables to Forward 1194/udp to $c Container"
-echo
-iptables -t nat -I PREROUTING -i eth0 -p UDP -d $PUBLIC_IP --dport $CONTAINER_PORT -j DNAT --to-destination $CONTAINER_LOCAL_IP:$CONTAINER_PORT
-netfilter-persistent save
-echo
-echo "Here are your current PREROUTING Rules"
-iptables -t nat -L PREROUTING
-echo "Setup Complete!"
-echo
-}
 
 remove() {
 if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
