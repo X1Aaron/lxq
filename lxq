@@ -341,7 +341,7 @@ fi
 init() {
   if [ -n "$LXQ_INIT" ]
   then
-  echo "LXQ Already Setup"
+  echo "ERROR: LXQ Already Setup"
   else
   echo "Allowing SSH and Enabling Firewall..."
   ufw allow ssh
