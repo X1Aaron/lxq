@@ -332,7 +332,7 @@ echo "$1 not found"
 fi
 }
 
-init() { #TODO comment this code, and figure out a way to only do this if it's running for the first time. Maybe test for a hidden file?
+init() {
   if [ -n "$LXQ_INIT" ]
   then
   echo "LXQ Already Setup"
@@ -359,7 +359,7 @@ init() { #TODO comment this code, and figure out a way to only do this if it's r
   echo "LXQ_INIT=TRUE" >> /etc/lxq/lxq.cfg
   echo LXD Setup Complete!
   echo
-  install_nginx
+  lxq install nginx
   fi
   }
     
