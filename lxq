@@ -27,6 +27,14 @@ lxc exec $1 -- snap install nextcloud
 gen_conf $1 $2
 Lets_Encrypt $1 $2
 echo $1 setup complete!
+if [ -z "$WILDCARD_DOMAIN" ]
+then
+echo $1 setup complete! [$1.$WILDCARD_DOMAIN]
+else
+echo $1 setup complete! [$2]
+fi
+  
+  
 else
 install_$1
 fi
