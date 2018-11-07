@@ -26,7 +26,9 @@ lxc exec $1 -- apt-get install snapd -y
 lxc exec $1 -- export PATH=$PATH:/snap/bin
 sleep 5
 lxc exec $1 -- snap install nextcloud
-gen_conf $1
+gen_conf $1 $2
+Lets_Encrypt $1 $2
+echo $1 setup complete!
 else
 install_$1
 fi
@@ -61,6 +63,30 @@ if [ -z "$WILDCARD_DOMAIN" ]
   rm $1.conf
   lxc exec nginx -- systemctl reload nginx
   fi
+}
+
+Lets_Encrypt() {
+echo "Generating Certificates..."
+  if [ -z "$WILDCARD_DOMAIN" ]
+  then
+  if [ -z "$LE_EMAIL" ]
+  then
+  echo
+  echo "What is your email address? [Used for Let’s Encrypt]"
+  read LE_EMAIL
+  echo "LE_EMAIL=$LE_EMAIL" >> /etc/lxq/lxq.cfg
+  fi
+  lxc exec nginx -- certbot --nginx -n --email $LE_EMAIL --agree-tos --domains $DOMAIN_NAME --redirect
+  echo
+  echo Done!
+  echo
+  else
+  echo "Wildcard Certificate Installed!"
+  fi
+  fi
+  echo
+  echo Done!
+  echo
 }
 
 install_nextcloud() {
