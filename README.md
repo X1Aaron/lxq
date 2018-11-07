@@ -29,7 +29,7 @@ LXQ is an automation platform for LXD
 * Installs the app inside the contianer
 * Generates a .conf file, pushs it to the nginx container and reloads nginx *(if needed)*
 * Automatically forwards any needed ports to your app *(if needed)*
-* '<domain_name>' only needed if not using a wildcard domain
+* '<domain_name>' only needed if not using a wildcard cert
 
 `lxq remove <appname>`
 
