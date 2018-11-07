@@ -16,15 +16,15 @@ update() {
 
 install() {
 ##########
+if [ -z $1 ]
+then
+echo "Missing APPNAME"
+fi
+##########
 if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
 then 
 echo "$1 Already Exists"
 exit
-fi
-##########
-if [ -z $1 ]
-then
-echo "Missing APPNAME"
 fi
 ##########
 if [ "$1" = nginx ]
