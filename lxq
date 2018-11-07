@@ -83,7 +83,6 @@ echo "Generating Certificates..."
   else
   echo "Wildcard Certificate Installed!"
   fi
-  fi
   echo
   echo Done!
   echo
