@@ -52,7 +52,20 @@ lxc exec $1 -- chmod +x /tmp/openvpn-install.sh
 lxc exec $1 -- /tmp/openvpn-install.sh
 refresh_firewall
 fi
-##########
+########
+if [ "$1" = bookstack ]
+then
+create_container $1
+echo "Installing BookStack..."
+lxc exec $1 -- wget https://raw.githubusercontent.com/BookStackApp/devops/master/scripts/installation-ubuntu-18.04.sh
+lxc exec $1 -- chmod a+x installation-ubuntu-18.04.sh
+lxc exec $1 -- ./installation-ubuntu-18.04.sh
+lxc exec $1 -- sed -i "s/#\sAPP_URL\=http:\/\/bookstack.dev/APP_URL=https:\/\/$DOMAIN_NAME/g" /var/www/bookstack/.env
+gen_conf $1 $2
+Lets_Encrypt $1 $2
+echo $1 setup complete!
+fi
+############
 if [ -z "$WILDCARD_DOMAIN" ]
 then
 echo $1 setup complete! [$1.$WILDCARD_DOMAIN]
@@ -60,17 +73,6 @@ else
 echo $1 setup complete! [$2]
 fi
 }
-
-
-
-
-
-
-
-
-
-
-
 
 gen_conf() {
 source /opt/lxq/conf/nextcloud.cfg
@@ -294,52 +296,6 @@ create_container() {
   lxc exec $1 -- apt-get upgrade -y #> /dev/null 2>&1
   echo "Container $1 Setup Complete"
 }
-
-
-
-install_bookstack() {
-  
-  CONTAINER_NAME=bookstack
-  CONTAINER_PORT=80
-
-  echo "Enter Domain Name:"
-  read DOMAIN_NAME
-  create_container $CONTAINER_NAME
-
-  until [[ -n "$CONTAINER_LOCAL_IP" ]] # loop until the container has an ip address
-  do
-    sleep .1
-    local CONTAINER_LOCAL_IP=$(lxc list $CONTAINER_NAME -c 4 --format csv | awk '{print $1}')
-  done
-  
-  echo "IP Address:" $CONTAINER_LOCAL_IP
-  
-  echo "Installing bookstack..."
-  lxc exec $CONTAINER_NAME -- wget https://raw.githubusercontent.com/BookStackApp/devops/master/scripts/installation-ubuntu-18.04.sh
-  lxc exec $CONTAINER_NAME -- chmod a+x installation-ubuntu-18.04.sh
-  lxc exec $CONTAINER_NAME -- ./installation-ubuntu-18.04.sh
-  lxc exec $CONTAINER_NAME -- sed -i "s/#\sAPP_URL\=http:\/\/bookstack.dev/APP_URL=https:\/\/$DOMAIN_NAME/g" /var/www/bookstack/.env
-  echo
-  echo "Pushing .conf file to container..."
-  cp /opt/lxq/nginx.temp $CONTAINER_NAME.conf
-  sed -i "s/<<DOMAIN_NAME>>/$DOMAIN_NAME/g" $CONTAINER_NAME.conf
-  sed -i "s/<<CONTAINER_LOCAL_IP>>/$CONTAINER_LOCAL_IP/g" $CONTAINER_NAME.conf
-  sed -i "s/<<CONTAINER_PORT>>/$CONTAINER_PORT/g" $CONTAINER_NAME.conf
-  lxc file push $CONTAINER_NAME.conf nginx/etc/nginx/conf.d/
-  rm $CONTAINER_NAME.conf
-  echo
-  echo "Restarting nginx..."
-  echo
-    lxc exec nginx -- systemctl reload nginx
-  echo
-  echo "Generating Certificates..."
-  echo
-  lxc exec nginx -- certbot --nginx -n --email webmaster@$DOMAIN_NAME --agree-tos --domains $DOMAIN_NAME --redirect
-  echo
-  echo Done!
-  echo
-}
-
 
 remove() {
 if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
