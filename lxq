@@ -2,9 +2,6 @@
 
 source /etc/lxq/lxq.cfg  > /dev/null 2>&1
 
-RED='\033[0;31m'
-NC='\033[0m' # No Color
-
 exec() {
 lxc exec $1 -- bash
 }
@@ -392,18 +389,6 @@ echo
 remove() {
 if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
 then
-wait_time=5 # seconds
-echo
-echo -e "${RED}Are you sure you remove $1? - This is irreversible!${NC}"
-echo ""
-temp_cnt=${wait_time}
-while [[ ${temp_cnt} -gt 0 ]];
-do
-    printf "\rYou have %2d second(s) remaining to hit Ctrl+C to cancel!" ${temp_cnt}
-    sleep 1
-    ((temp_cnt--))
-done
-echo
 lxc delete $1 --force
 lxc exec nginx -- rm /etc/nginx/conf.d/$1.conf
 lxc exec nginx -- systemctl reload nginx
