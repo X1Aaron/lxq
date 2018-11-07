@@ -47,10 +47,6 @@ echo $1 setup complete! [$1.$WILDCARD_DOMAIN]
 else
 echo $1 setup complete! [$2]
 fi
-
-else
-install_$1
-fi
 }
 
 gen_conf() {
