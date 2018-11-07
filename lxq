@@ -41,6 +41,18 @@ gen_conf $1 $2
 Lets_Encrypt $1 $2
 fi
 ##########
+if [ "$1" = openvpn ]
+then
+create_container $1
+echo "Installing Rocket.Chat..."
+lxc exec $1 -- apt-get install snapd -y
+lxc exec $1 -- export PATH=$PATH:/snap/bin
+sleep 1
+lxc exec $1 -- snap install rocketchat-server
+gen_conf $1 $2
+Lets_Encrypt $1 $2
+fi
+##########
 if [ -z "$WILDCARD_DOMAIN" ]
 then
 echo $1 setup complete! [$1.$WILDCARD_DOMAIN]
