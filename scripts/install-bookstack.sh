@@ -2,7 +2,7 @@
 # This script will install a new BookStack instance on a fresh Ubuntu 18.04 server.
 # This script is experimental and does not ensure any security.
 
-DOMAIN=$2
+DOMAIN=$1
 
 CURRENT_IP=$(ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/')
 
