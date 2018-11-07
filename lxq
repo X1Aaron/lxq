@@ -50,7 +50,6 @@ lxc exec $1 -- add-apt-repository ppa:certbot/certbot -y
 lxc exec $1 -- apt-get update -y
 lxc exec $1 -- apt-get install python-certbot-nginx -y
 refresh_firewall
-echo $1 setup complete!
 fi
 ##########
 if [ "$1" = nextcloud ]
@@ -63,7 +62,6 @@ sleep 5
 lxc exec $1 -- snap install nextcloud
 gen_conf $1 $2
 lets_encrypt $1 $2
-echo $1 setup complete!
 fi
 ##########
 if [ "$1" = rocketchat ]
@@ -100,7 +98,6 @@ lxc exec $1 -- ./install-bookstack.sh $2
 lxc exec $1 -- sed -i "s/#\sAPP_URL\=http:\/\/bookstack.dev/APP_URL=https:\/\/$2/g" /var/www/bookstack/.env
 gen_conf $1 $2
 lets_encrypt $1 $2
-echo $1 setup complete!
 fi
 ############
 if [ -z "$WILDCARD_DOMAIN" ]
