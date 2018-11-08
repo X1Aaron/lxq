@@ -15,9 +15,6 @@ update() {
 }
 
 install() {
-
-#if [ -z $WILDCARD_DOMAIN ]
-#then
 ##########
 if [ -z $1 ]
 then
@@ -49,7 +46,6 @@ echo $1 setup complete! [$1.$WILDCARD_DOMAIN]
 else
 echo $1 setup complete! [$2]
 fi
-#fi
 }
 
 gen_conf() {
