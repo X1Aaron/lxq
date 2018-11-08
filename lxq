@@ -295,13 +295,14 @@ init() {
   export PATH=$PATH:/snap/bin
   echo "Configuing LXD..."
   cat /opt/lxq/preseed | lxd init --preseed
+  touch /etc/lxq/lxq.cfg
   echo "LXQ_INIT=TRUE" >> /etc/lxq/lxq.cfg
   PUBLIC_IP=`curl -s ifconfig.me`
   echo "Public IP: $PUBLIC_IP"
   echo "PUBLIC_IP=$PUBLIC_IP" >> /etc/lxq/lxq.cfg
   echo LXD Setup Complete!
   echo
-  lxq install nginx
+  lxq install nginx nginx
   fi
   }
     
