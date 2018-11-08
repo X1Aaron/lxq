@@ -12,5 +12,6 @@ source ~/.profile
 echo
 echo "#################"
 echo "Install Complete!"
+echo "Run: source ~/.profile to use LXQ now."
 echo "#################"
 echo
