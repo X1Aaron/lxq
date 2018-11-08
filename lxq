@@ -16,86 +16,32 @@ update() {
 
 install() {
 
-#if [ -z $WILDCARD_DOMAIN ]
-#then
+if [ -z $WILDCARD_DOMAIN ]
+then
 ##########
-#if [ -z $1 ]
-#then
-#echo "ERROR: Missing APPNAME"
-#exit
-#fi
+if [ -z $1 ]
+then
+echo "ERROR: Missing APPNAME"
+exit
+fi
 ##########
-#if [ -z $2 ]
-#then
-#echo "ERROR: Missing DOMAIN NAME"
-#exit
-#fi
+if [ -z $2 ]
+then
+echo "ERROR: Missing DOMAIN NAME"
+exit
+fi
 ##########
-#if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
-#then 
-#echo "ERROR: $1 Already Exists"
-#exit
-#fi
+if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
+then 
+echo "ERROR: $1 Already Exists"
+exit
+fi
 ##########
-#if [ "$1" = nginx ]
-#then
-#create_container $1
-#echo "Installing NGINX..."
-#lxc exec $1 -- apt-get install nginx  -y
-#echo "Installing certbot..."
-#sleep 5
-#lxc exec $1 -- apt-get update -y
-#lxc exec $1 -- apt-get install software-properties-common -y
-#lxc exec $1 -- add-apt-repository ppa:certbot/certbot -y
-#lxc exec $1 -- apt-get update -y
-#lxc exec $1 -- apt-get install python-certbot-nginx -y
-#refresh_firewall
-#fi
-##########
-#if [ "$1" = nextcloud ]
-#then
 create_container $1
 echo "Installing $1..."
-source /opt/lxq/scripts/$1.sh $1
+source /opt/lxq/scripts/$1.sh $1 $2
 gen_conf $1 $2
 lets_encrypt $1 $2
-#fi
-##########
-if [ "$1" = rocketchat ]
-then
-create_container $1
-echo "Installing Rocket.Chat..."
-lxc exec $1 -- apt-get install snapd -y
-lxc exec $1 -- export PATH=$PATH:/snap/bin
-sleep 1
-lxc exec $1 -- snap install rocketchat-server
-gen_conf $1 $2
-lets_encrypt $1 $2
-fi
-##########
-if [ "$1" = openvpn ]
-then
-create_container $1
-echo "Installing OpenVPN..."
-curl -O https://raw.githubusercontent.com/Angristan/openvpn-install/master/openvpn-install.sh
-lxc file push openvpn-install.sh $1/tmp/
-rm openvpn-install.sh
-lxc exec $1 -- chmod +x /tmp/openvpn-install.sh
-lxc exec $1 -- /tmp/openvpn-install.sh
-refresh_firewall
-fi
-########
-if [ "$1" = bookstack ]
-then
-create_container $1
-echo "Installing BookStack..."
-lxc file push /opt/lxq/scripts/install-bookstack.sh $1/root/
-lxc exec $1 -- chmod a+x install-bookstack.sh
-lxc exec $1 -- ./install-bookstack.sh $2
-lxc exec $1 -- sed -i "s/#\sAPP_URL\=http:\/\/bookstack.dev/APP_URL=https:\/\/$2/g" /var/www/bookstack/.env
-gen_conf $1 $2
-lets_encrypt $1 $2
-fi
 ############
 if [ -z "$WILDCARD_DOMAIN" ]
 then

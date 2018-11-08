@@ -1,0 +1,4 @@
+lxc exec $1 -- apt-get install snapd -y
+lxc exec $1 -- export PATH=$PATH:/snap/bin
+sleep 1
+lxc exec $1 -- snap install rocketchat-server
