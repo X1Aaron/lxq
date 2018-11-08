@@ -31,11 +31,11 @@ echo "ERROR: Missing DOMAIN NAME"
 exit
 fi
 ##########
-#if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
-#then 
-#echo "ERROR: $1 Already Exists"
-#exit
-#fi
+if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
+then 
+echo "ERROR: $1 Already Exists"
+exit
+fi
 ##########
 create_container $1
 echo "Installing $1..."
