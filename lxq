@@ -272,13 +272,13 @@ fi
 }
 
 init() {
-  RED=\e[31m
-  NC=\e[0m
+  RED="\e[31m"
+  NC="\e[0m"
   if [ -n "$LXQ_INIT" ]
   then
   echo "ERROR: LXQ Already Setup"
   else
-  echo "$RED Allowing SSH and Enabling Firewall...$NC"
+  echo -e "$RED Allowing SSH and Enabling Firewall...$NC"
   ufw allow ssh
   ufw --force enable
   echo "Updating System..."
