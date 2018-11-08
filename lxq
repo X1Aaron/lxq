@@ -272,9 +272,11 @@ fi
 }
 
 init() {
+
   RED="\e[31m"
   NC="\e[0m"
   echo_red="echo -e $RED"
+  
   if [ -n "$LXQ_INIT" ]
   then
   $echo_red"ERROR: LXQ Already Setup"$NC
