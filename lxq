@@ -44,9 +44,7 @@ exit
 fi
 create_container $1
 echo "Installing $1..."
-lxc file push /opt/lxq/apps/$1/$1.install $1/root/
-lxc exec $1 -- ./$1.install
-#source /opt/lxq/apps/$1/$1.install $1 $2
+source /opt/lxq/apps/$1/$1.install $1 $2
 nginx_setup $1 $2
 refresh_firewall
 echo $1 setup complete!
