@@ -15,37 +15,28 @@ update() {
 }
 
 install() {
-##########
 if [ -z $1 ]
 then
 echo "ERROR: Missing APPNAME"
 exit
 fi
-##########
 if [ -z $2 ]
 then
 echo "ERROR: Missing DOMAIN NAME"
 exit
 fi
-##########
 if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
 then 
 echo "ERROR: $1 Already Exists"
 exit
 fi
-##########
 create_container $1
 echo "Installing $1..."
 source /opt/lxq/scripts/$1.sh $1 $2
 gen_conf $1 $2
 lets_encrypt $1 $2
-############
-if [ -z "$WILDCARD_DOMAIN" ]
-then
-echo $1 setup complete! [$1.$WILDCARD_DOMAIN]
-else
-echo $1 setup complete! [$2]
-fi
+echo $1 setup complete!
+
 }
 
 gen_conf() {
@@ -237,10 +228,8 @@ echo "Clearing All PREROUTING Rules..."
 for i in $( iptables -t nat --line-numbers -L | grep ^[0-9] | awk '{ print $1 }' | tac ); do iptables -t nat -D PREROUTING $i; done
 if [ -z "$PUBLIC_IP" ]
 then
-PUBLIC_IP=`curl -s ifconfig.me`
-echo "Public IP: $PUBLIC_IP"
-echo "Saving to /etc/lxq/lxq.cfg"
-echo "PUBLIC_IP=$PUBLIC_IP" >> /etc/lxq/lxq.cfg
+echo "ERROR: PUBLIC_IP missing from LXQ conf"
+exit
 fi
 
 if [ -d /var/snap/lxd/common/lxd/containers/nginx ]; then echo "Found nginx!"
@@ -312,6 +301,9 @@ init() {
   echo "Configuing LXD..."
   cat /opt/lxq/preseed | lxd init --preseed
   echo "LXQ_INIT=TRUE" >> /etc/lxq/lxq.cfg
+  PUBLIC_IP=`curl -s ifconfig.me`
+  echo "Public IP: $PUBLIC_IP"
+  echo "PUBLIC_IP=$PUBLIC_IP" >> /etc/lxq/lxq.cfg
   echo LXD Setup Complete!
   echo
   lxq install nginx
