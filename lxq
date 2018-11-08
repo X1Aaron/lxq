@@ -19,11 +19,11 @@ install() {
 #if [ -z $WILDCARD_DOMAIN ]
 #then
 ##########
-#if [ -z $1 ]
-#then
-#echo "ERROR: Missing APPNAME"
-#exit
-#fi
+if [ -z $1 ]
+then
+echo "ERROR: Missing APPNAME"
+exit
+fi
 ##########
 #if [ -z $2 ]
 #then
