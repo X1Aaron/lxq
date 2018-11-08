@@ -302,9 +302,9 @@ init() {
   touch /etc/lxq/lxq.cfg
   echo "LXQ_INIT=TRUE" >> /etc/lxq/lxq.cfg
   PUBLIC_IP=`curl -s ifconfig.me`
-  $echo_red"Public IP: $PUBLIC_IP"$NC
+  echo "Public IP: $PUBLIC_IP"
   echo "PUBLIC_IP=$PUBLIC_IP" >> /etc/lxq/lxq.cfg
-  $echo_red"LXQ init Complete!$NC
+  $echo_red"LXQ init Complete!"$NC
   lxq install nginx nginx
   fi
   }
