@@ -11,6 +11,7 @@ source /opt/lxq/apps/$1/$1.conf
 if [ -n $NGINX_SETUP ]
 then
 echo "Skipping NGINX setup..."
+unset NGINX_SETUP
 else
 gen_conf $1 $2
 lets_encrypt $1 $2
