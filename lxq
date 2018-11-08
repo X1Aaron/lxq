@@ -40,7 +40,7 @@ echo $1 setup complete!
 }
 
 gen_conf() {
-source /opt/lxq/conf/nextcloud.cfg
+source /opt/lxq/conf/$1.conf
 DOMAIN_NAME=$2
 if [ -z "$WILDCARD_DOMAIN" ]
   then
