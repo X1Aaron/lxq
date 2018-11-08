@@ -49,7 +49,7 @@ echo $1 setup complete! [$1.$WILDCARD_DOMAIN]
 else
 echo $1 setup complete! [$2]
 fi
-#fi
+fi
 }
 
 gen_conf() {
