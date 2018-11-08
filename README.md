@@ -65,6 +65,10 @@ Then run it :
 
 `./setup.sh`
 
+After the install is complete :
+
+source ~/.profile
+
 ## Available Apps
 
 * Nextcloud
