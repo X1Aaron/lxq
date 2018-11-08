@@ -299,7 +299,7 @@ init() {
   export PATH=$PATH:/snap/bin
   $echo_red"Configuing LXD..."$NC
   cat /opt/lxq/preseed | lxd init --preseed
-  touch /etc/lxq/lxq.cfg
+  mkdir /etc/lxq/
   echo "LXQ_INIT=TRUE" >> /etc/lxq/lxq.cfg
   PUBLIC_IP=`curl -s ifconfig.me`
   echo "Public IP: $PUBLIC_IP"
