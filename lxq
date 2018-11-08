@@ -303,7 +303,6 @@ init() {
   $echo_red"Public IP: $PUBLIC_IP"$NC
   echo "PUBLIC_IP=$PUBLIC_IP" >> /etc/lxq/lxq.cfg
   $echo_red"LXQ init Complete!$NC
-  echo
   lxq install nginx nginx
   fi
   }
