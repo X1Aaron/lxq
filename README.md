@@ -67,7 +67,7 @@ Then run it :
 
 After the install is complete :
 
-source ~/.profile
+`source ~/.profile`
 
 ## Available Apps
 
