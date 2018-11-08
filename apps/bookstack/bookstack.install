@@ -6,3 +6,6 @@ lxc exec $1 -- chmod a+x installation-ubuntu-18.04.sh
 
 # Run the script with admin permissions
 lxc exec $1 -- sudo ./installation-ubuntu-18.04.sh
+
+# Updates .env file with correct domain
+lxc exec $1 --  sed -i "s/#\sAPP_URL\=http:\/\/bookstack.dev/APP_URL=https:\/\/$2/g" /var/www/bookstack/.env
