@@ -277,7 +277,7 @@ init() {
   echo_red="echo -e $RED"
   if [ -n "$LXQ_INIT" ]
   then
-  echo_red"ERROR: LXQ Already Setup"
+  echo_red"ERROR: LXQ Already Setup"$NC
   else
   $echo_red"Allowing SSH and Enabling Firewall..."$NC
   ufw allow ssh
