@@ -1,5 +1,5 @@
-sudo apt-get update
-sudo apt-get install -y curl openssh-server ca-certificates
-sudo apt-get install -y postfix
-curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | sudo bash
-sudo EXTERNAL_URL="$2" apt-get install gitlab-ee
+lxc exec $1 -- apt-get update
+lxc exec $1 -- apt-get install -y curl openssh-server ca-certificates
+lxc exec $1 -- apt-get install -y postfix
+lxc exec $1 -- curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | sudo bash
+lxc exec $1 -- EXTERNAL_URL="$2" apt-get install gitlab-ee
