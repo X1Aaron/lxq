@@ -47,6 +47,7 @@ echo "Installing $1..."
 source /opt/lxq/apps/$1/$1.install $1 $2
 nginx_setup $1 $2
 refresh_firewall
+lxc exec nginx -- systemctl reload nginx
 echo $1 setup complete!
 
 }
