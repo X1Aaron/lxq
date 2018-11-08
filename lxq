@@ -105,9 +105,15 @@ fi
 }
 
 conf() {
-if [ -z $1 ] then cat /etc/lxq/lxq.cfg fi
-if [ edit = "$1" ] then nano /etc/lxq/lxq.cfg fi
-if [ purge = "$1" ] then rm /etc/lxq/lxq.cfg fi
+if [ -z $1 ] 
+then cat /etc/lxq/lxq.cfg 
+fi
+if [ edit = "$1" ] 
+then nano /etc/lxq/lxq.cfg 
+fi
+if [ purge = "$1" ] 
+then rm /etc/lxq/lxq.cfg 
+fi
 }
 
 backup() {
