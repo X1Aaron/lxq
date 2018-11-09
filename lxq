@@ -162,13 +162,13 @@ wildcard() {
 
 if [ -n "$WILDCARD_DOMAIN" ]
 then
-echo "Wildcard Already Setup"
+echo "ERROR: Wildcard Already Setup"
 exit
 else
 
 if [ -z $1 ]
 then
-echo "Missing DNS Provider"
+echo "ERROR: Missing DNS Provider"
 exit
 fi
 
@@ -204,7 +204,7 @@ then
 echo "$1 setup complete!"
 lets_encrypt_wildcard
 else
-echo "FAILED: cloudflare.ini not created"
+echo "ERROR: cloudflare.ini not created"
 exit
 fi
 }
@@ -274,6 +274,7 @@ fi
 echo "Saving Firewall Rules..." 
 netfilter-persistent save
 iptables -t nat -L PREROUTING
+echo "SUCCESS: Firewall Rules Updated"
 }
 
 create_container() {
@@ -283,7 +284,7 @@ create_container() {
   sleep 10
   lxc exec $1 -- apt-get update #> /dev/null 2>&1
   lxc exec $1 -- apt-get upgrade -y #> /dev/null 2>&1
-  echo "Container $1 Setup Complete"
+  echo "SUCCESS: Container $1 Setup Complete"
 }
 
 remove() {
@@ -294,9 +295,9 @@ lxc delete $1 --force
 lxc exec nginx -- rm /etc/nginx/conf.d/$1.conf
 lxc exec nginx -- systemctl reload nginx
 refresh_firewall
-echo "$1 removed"
+echo "SUCCESS: $1 removed"
 else
-echo "$1 not found"
+echo "ERROR: $1 not found"
 fi
 }
 
@@ -333,7 +334,7 @@ init() {
   PUBLIC_IP=`curl -s ifconfig.me`
   echo "Public IP: $PUBLIC_IP"
   echo "PUBLIC_IP=$PUBLIC_IP" >> /etc/lxq/lxq.cfg
-  $echo_red"LXQ init Complete!"$NC
+  $echo_red"SUCCESS: LXQ init Complete!"$NC
   lxq install nginx nginx
   fi
   }
