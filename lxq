@@ -310,7 +310,6 @@ init() {
   else
   $echo_red"Allowing Ports and Enabling Firewall..."$NC
   ufw allow ssh
-  ufw allow from 10.0.0.0/24 to any port 19999
   ufw --force enable
   $echo_red"Updating System..."$NC
   apt-get update
