@@ -1,3 +1,4 @@
 apt-get install cockpit -y
 mkdir /etc/systemd/system/cockpit.socket.d/
-cp listen.conf
+cp /opt/lxq/apps/cockpit/listen.conf /etc/systemd/system/cockpit.socket.d/
+
