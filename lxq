@@ -95,15 +95,9 @@ DOMAIN_NAME=$2
   echo "LE_EMAIL=$LE_EMAIL" >> /etc/lxq/lxq.cfg
   fi
   lxc exec nginx -- certbot --nginx -n --email $LE_EMAIL --agree-tos --domains $DOMAIN_NAME --redirect
-  echo
-  echo Done!
-  echo
   else
   echo "Wildcard Certificate Installed!"
   fi
-  echo
-  echo Done!
-  echo
 }
 
 
