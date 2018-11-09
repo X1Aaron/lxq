@@ -71,6 +71,8 @@ After the install is complete :
 
 ## Available Apps
 
-* Nextcloud
-* Rocket.Chat
 * BookStack
+* Nextcloud
+* Pi-hole
+* Rocket.Chat
+
