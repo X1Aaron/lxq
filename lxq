@@ -50,12 +50,21 @@ create_container $1
 fi
 echo "Installing $1..."
 source /opt/lxq/apps/$1/$1.install $1 $2
+
 if [ $SETUP_NGINX = "NO" ]; then
 echo "Skipped NGINX setup"
 else
 nginx_setup $1 $2
+lxc exec nginx -- systemctl reload nginx
 fi
+
+if [ $REFRESH_FIREWALL = "NO" ]; then
+echo "Skipped Refreshing Firewall"
+else
 refresh_firewall
+fi
+
+
 lxc exec nginx -- systemctl reload nginx
 echo $1 setup complete!
 
