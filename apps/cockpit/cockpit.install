@@ -1,1 +1,2 @@
-apt-get install cockpit
+apt-get install cockpit -y
+sed -i <> /etc/systemd/system/cockpit.socket.d/listen.conf
