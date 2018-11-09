@@ -42,10 +42,19 @@ then
 echo "ERROR: Missing DOMAIN NAME"
 exit
 fi
+source /opt/lxq/apps/$1/$1.conf
+if [ $CREATE_CONTAINER = "NO" ]; then
+echo "Skipped Creating Container"
+else
 create_container $1
+fi
 echo "Installing $1..."
 source /opt/lxq/apps/$1/$1.install $1 $2
+if [ $SETUP_NGINX = "NO" ]; then
+echo "Skipped NGINX setup"
+else
 nginx_setup $1 $2
+fi
 refresh_firewall
 lxc exec nginx -- systemctl reload nginx
 echo $1 setup complete!
