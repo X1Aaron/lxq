@@ -3,7 +3,7 @@
 # colors
 RED="\e[31m"
 NC="\e[0m"
-echo_red="echo -e $RED"
+ECHO_RED="echo -e $RED"
 
 source /etc/lxq/lxq.cfg  > /dev/null 2>&1
 
@@ -314,32 +314,32 @@ fi
 init() {
   if [ -n "$LXQ_INIT" ]
   then
-  $echo_red"ERROR: LXQ Already Setup"$NC
+  $ECHO_RED"ERROR: LXQ Already Setup"$NC
   else
-  $echo_red"Allowing Ports and Enabling Firewall..."$NC
+  $ECHO_RED"Allowing Ports and Enabling Firewall..."$NC
   ufw allow ssh
   ufw --force enable
-  $echo_red"Updating System..."$NC
+  $ECHO_RED"Updating System..."$NC
   apt-get update
   apt-get upgrade -y
-  $echo_red"Installing Packages..."$NC
+  $ECHO_RED"Installing Packages..."$NC
   echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
   echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
   apt-get install zfsutils-linux iptables-persistent snapd -y
-  $echo_red"Removing LXD Packages..."$NC
+  $ECHO_RED"Removing LXD Packages..."$NC
   apt-get remove --purge lxd lxd-client liblxc1 lxcfs -y
   apt-get autoremove -y
-  $echo_red"Installing LXD via Snap..."$NC
+  $ECHO_RED"Installing LXD via Snap..."$NC
   snap install lxd
   export PATH=$PATH:/snap/bin
-  $echo_red"Configuing LXD..."$NC
+  $ECHO_RED"Configuing LXD..."$NC
   cat /opt/lxq/preseed | lxd init --preseed
   mkdir /etc/lxq/
   echo "LXQ_INIT=TRUE" >> /etc/lxq/lxq.cfg
   PUBLIC_IP=`curl -s ifconfig.me`
   echo "Public IP: $PUBLIC_IP"
   echo "PUBLIC_IP=$PUBLIC_IP" >> /etc/lxq/lxq.cfg
-  $echo_red"SUCCESS: LXQ init Complete!"$NC
+  $ECHO_RED"SUCCESS: LXQ init Complete!"$NC
   lxq install nginx nginx
   fi
   }
