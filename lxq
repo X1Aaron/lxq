@@ -287,6 +287,7 @@ $ECHO_GREEN"SUCCESS: All Firewall Rules Updated"$NC
 echo
 iptables -t nat -L PREROUTING
 unset CONTAINER_IP
+echo
 }
 
 create_container() {
