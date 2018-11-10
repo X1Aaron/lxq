@@ -40,46 +40,51 @@ update() {
 }
 
 install() {
+
 if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
 then 
 $ECHO_RED"ERROR: $1 Already Exists"$NC
 exit
 fi
+
 if [ -z $1 ]
 then
 $ECHO_RED"ERROR: Missing APPNAME"$NC
 exit
 fi
+
 if [ -z $2 ]
 then
 $ECHO_RED"ERROR: Missing DOMAIN NAME"$NC
 exit
 fi
+
 source /opt/lxq/apps/$1/$1.conf
+
 if [ $CREATE_CONTAINER = "NO" ]
 then
 $ECHO_YELLOW"Skipped Creating Container"$NC
 else
 create_container $1
 fi
+
 $ECHO_YELLOW"Installing $1..."$NC
-#else
 source /opt/lxq/apps/$1/$1.install $1 $2
 
-if [ $SETUP_NGINX = "NO" ]; then
+if [ $SETUP_NGINX = "NO" ]
+then
 $ECHO_YELLOW"Skipped NGINX setup"$NC
 else
 nginx_setup $1 $2
 lxc exec nginx -- systemctl reload nginx
 fi
 
-if [ $REFRESH_FIREWALL = "NO" ]; then
+if [ $REFRESH_FIREWALL = "NO" ]
+then
 $ECHO_YELLOW"Skipped Refreshing Firewall"$NC
 else
 refresh_firewall
 fi
-
-
 lxc exec nginx -- systemctl reload nginx
 $ECHO_YELLOW"$1 setup complete!"$NC
 
