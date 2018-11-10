@@ -273,10 +273,8 @@ do
 echo
 $ECHO_GREEN"Found $i!"$NC
 CONTAINER_IP=$(lxc list $i -c 4 --format csv | awk '{print $1}')
-echo
 echo "$IP"
-source /opt/lxq/apps/$i/$i.rules
-echo
+source /opt/lxq/apps/$i/$i.rules > /dev/null 2>&1
 $ECHO_GREEN"Updated Firewall Rules for $i"$NC
 done
 
