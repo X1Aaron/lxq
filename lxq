@@ -271,8 +271,8 @@ for i in $( iptables -t nat --line-numbers -L | grep ^[0-9] | awk '{ print $1 }'
 for i in $(ls /var/snap/lxd/common/lxd/containers/); 
 do
 $ECHO_GREEN"Found $i!"$NC
-"$i"_IP=$(lxc list $i -c 4 --format csv | awk '{print $1}')
-echo "$i_IP"
+IP=$(lxc list $i -c 4 --format csv | awk '{print $1}')
+echo "$IP"
 $ECHO_GREEN"Updated Firewall Rules for $i"$NC
 done
 
