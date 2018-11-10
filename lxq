@@ -12,6 +12,12 @@ exec() {
   lxc exec $1 -- bash
 }
 
+test_colors() {
+  $ECHO_RED"This is Red"$NC
+  $ECHO_YELLOW"This is Yellow"$NC
+  $ECHO_GREEN"This is Green"$NC
+}
+
 nginx_setup() {
 source /opt/lxq/apps/$1/$1.conf
 if [ -z $NGINX_SETUP ]
