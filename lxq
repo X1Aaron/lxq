@@ -1,9 +1,10 @@
 #!/bin/bash
 
 # colors
-RED="\e[31m"
-NC="\e[0m"
-ECHO_RED="echo -e $RED"
+ECHO_RED="echo -e \e[31m" # used for errors
+ECHO_YELLOW="echo -e \e[33m" # used for warnings
+ECHO_GREEN="echo -e \e[32m" #used for successes
+NC="\e[0m" # clears color
 
 source /etc/lxq/lxq.cfg  > /dev/null 2>&1
 
@@ -45,7 +46,7 @@ exit
 fi
 source /opt/lxq/apps/$1/$1.conf
 if [ $CREATE_CONTAINER = "NO" ]; then
-echo "Skipped Creating Container"
+$ECHO_YELLOW"Skipped Creating Container"$NC
 else
 create_container $1
 fi
