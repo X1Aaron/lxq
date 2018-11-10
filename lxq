@@ -266,14 +266,17 @@ exit
 fi
 
 $ECHO_YELLOW"Clearing All PREROUTING Rules..."$NC
-for i in $( iptables -t nat --line-numbers -L | grep ^[0-9] | awk '{ print $1 }' | tac ); do iptables -t nat -D PREROUTING $i; done
-
+for i in $( iptables -t nat --line-numbers -L | grep ^[0-9] | awk '{ print $1 }' | tac )
+do
+iptables -t nat -D PREROUTING $i  > /dev/null 2>&1
+done
+$ECHO_YELLOW"PUBLIC IP: $PUBLIC_IP"$NC
 for i in $(ls /var/snap/lxd/common/lxd/containers/); 
 do
 CONTAINER_IP=$(lxc list $i -c 4 --format csv | awk '{print $1}')
-echo "$CONTAINER_IP"
+echo ""
 source /opt/lxq/apps/$i/$i.rules > /dev/null 2>&1
-$ECHO_GREEN"Updated Firewall Rules for $i"$NC
+$ECHO_GREEN"Updated Firewall Rules for $i ($CONTAINER_IP)"$NC
 done
 echo
 $ECHO_GREEN"SUCCESS: All Firewall Rules Updated"$NC
