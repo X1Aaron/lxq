@@ -277,7 +277,7 @@ for i in $(ls /var/snap/lxd/common/lxd/containers/);
 do
 CONTAINER_IP=$(lxc list $i -c 4 --format csv | awk '{print $1}')
 source /opt/lxq/apps/$i/$i.rules > /dev/null 2>&1
-$ECHO_GREEN"Updated Firewall Rules for $i$NC($CONTAINER_IP)"
+$ECHO_GREEN"Updated Firewall Rules for $i $NC($CONTAINER_IP)"
 done
 echo
 $ECHO_YELLOW"Saving Firewall Rules..."$NC
