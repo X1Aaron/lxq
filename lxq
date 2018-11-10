@@ -209,13 +209,13 @@ fi
 }
 
 dns_setup_cloudflare() {
-echo "What is your Cloudflare Email Address?"
+$ECHO_YELLOW"What is your Cloudflare Email Address?"$NC
 read cf_email
-echo "What is your Cloudflare API Key?"
+$ECHO_YELLOW"What is your Cloudflare API Key?"$NC
 read cf_key
-echo "Installing Cloudflare DNS Plugin"
+$ECHO_YELLOW"Installing Cloudflare DNS Plugin"$NC
 lxc exec nginx -- apt-get install python3-certbot-dns-cloudflare -y
-echo "Creating cloudflare.ini..." 
+$ECHO_YELLOW"Creating cloudflare.ini..." $NC
 cat > cloudflare.ini <<EOF
 # Cloudflare API credentials used by Certbot
 dns_cloudflare_email = $cf_email
@@ -226,7 +226,7 @@ lxc file push cloudflare.ini nginx/root/
 rm cloudflare.ini
 if [ -f /var/snap/lxd/common/mntns/var/snap/lxd/common/lxd/storage-pools/default/containers/nginx/rootfs/root/cloudflare.ini ];
 then
-$ECHO_GREEN"Cloudflare DNS setup complete!"$NC
+$ECHO_GREEN"SUCCESS:Cloudflare DNS setup complete!"$NC
 lets_encrypt_wildcard
 else
 $ECHO_RED"ERROR: cloudflare.ini not created"$NC
