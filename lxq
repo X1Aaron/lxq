@@ -61,25 +61,26 @@ $ECHO_YELLOW"Skipped Creating Container"$NC
 else
 create_container $1
 fi
-echo "Installing $1..."
+$ECHO_YELLOW"Installing $1..."$NC
+else
 source /opt/lxq/apps/$1/$1.install $1 $2
 
 if [ $SETUP_NGINX = "NO" ]; then
-echo "Skipped NGINX setup"
+$ECHO_YELLOW"Skipped NGINX setup"$NC
 else
 nginx_setup $1 $2
 lxc exec nginx -- systemctl reload nginx
 fi
 
 if [ $REFRESH_FIREWALL = "NO" ]; then
-echo "Skipped Refreshing Firewall"
+$ECHO_YELLOW"Skipped Refreshing Firewall"$NC
 else
 refresh_firewall
 fi
 
 
 lxc exec nginx -- systemctl reload nginx
-echo $1 setup complete!
+$ECHO_YELLOW"$1 setup complete!"$NC
 
 }
 
@@ -184,13 +185,13 @@ wildcard() {
 
 if [ -n "$WILDCARD_DOMAIN" ]
 then
-echo "ERROR: Wildcard Already Setup"
+$ECHO_RED"ERROR: Wildcard Already Setup"$NC
 exit
 else
 
 if [ -z $1 ]
 then
-echo "ERROR: Missing DNS Provider"
+$ECHO_RED"ERROR: Missing DNS Provider"$NC
 exit
 fi
 
@@ -202,31 +203,27 @@ fi
 }
 
 dns_setup_cloudflare() {
-
-echo
 echo "What is your Cloudflare Email Address?"
 read cf_email
-echo
 echo "What is your Cloudflare API Key?"
 read cf_key
 echo "Installing Cloudflare DNS Plugin"
 lxc exec nginx -- apt-get install python3-certbot-dns-cloudflare -y
-echo
 echo "Creating cloudflare.ini..." 
 cat > cloudflare.ini <<EOF
 # Cloudflare API credentials used by Certbot
 dns_cloudflare_email = $cf_email
 dns_cloudflare_api_key = $cf_key
 EOF
-echo "Pushing cloudflare.ini to nginx container"
+$ECHO_YELLOW"Pushing cloudflare.ini to nginx container"$NC
 lxc file push cloudflare.ini nginx/root/
 rm cloudflare.ini
 if [ -f /var/snap/lxd/common/mntns/var/snap/lxd/common/lxd/storage-pools/default/containers/nginx/rootfs/root/cloudflare.ini ];
 then
-echo "$1 setup complete!"
+$ECHO_GREEN"Cloudflare DNS setup complete!"$NC
 lets_encrypt_wildcard
 else
-echo "ERROR: cloudflare.ini not created"
+$ECHO_RED"ERROR: cloudflare.ini not created"$NC
 exit
 fi
 }
@@ -235,8 +232,7 @@ fi
 lets_encrypt_wildcard() {
 if [ -z "$LE_EMAIL" ]
 then
-echo
-echo "What is your email address? [Used for Let’s Encrypt]"
+$ECHO_YELLOW"What is your email address? [Used for Let’s Encrypt]"$NC
 read LE_EMAIL
 echo "LE_EMAIL=$LE_EMAIL" >> /etc/lxq/lxq.cfg
 fi
@@ -244,14 +240,14 @@ fi
 if [ -z "$WILDCARD_DOMAIN" ]
 then
 echo
-echo "What is your domain name?"
+$ECHO_YELLOW"What is your domain name?"$NC
 read WILDCARD_DOMAIN
 echo "WILDCARD_DOMAIN=$WILDCARD_DOMAIN" >> /etc/lxq/lxq.cfg
 fi
 
 A="*."
 WC_DOMAIN="$A$WILDCARD_DOMAIN"
-echo "Installing Wildcard Certificate for $WILDCARD_DOMAIN ($WC_DOMAIN)..."
+$ECHO_YELLOW"Installing Wildcard Certificate for $WILDCARD_DOMAIN ($WC_DOMAIN)..."$NC
 lxc exec nginx -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials /root/cloudflare.ini -d $WILDCARD_DOMAIN  -d $WC_DOMAIN --agree-tos --noninteractive --manual-public-ip-logging-ok --email $LE_EMAIL
 }
 
@@ -259,19 +255,21 @@ refresh_firewall() {
 
 if [ -z "$PUBLIC_IP" ]
 then
-echo "ERROR: PUBLIC_IP missing from LXQ conf"
+$ECHO_RED"ERROR: PUBLIC_IP missing from LXQ conf"$NC
 exit
 fi
 
-echo "Clearing All PREROUTING Rules..."
+$ECHO_YELLOW"Clearing All PREROUTING Rules..."$NC
 for i in $( iptables -t nat --line-numbers -L | grep ^[0-9] | awk '{ print $1 }' | tac ); do iptables -t nat -D PREROUTING $i; done
 
 
-if [ -d /var/snap/lxd/common/lxd/containers/nginx ]; then echo "Found nginx!"
+if [ -d /var/snap/lxd/common/lxd/containers/nginx ]
+then
+$ECHO_GREEN"Found nginx!"$NC
 NGINX_IP=$(lxc list nginx -c 4 --format csv | awk '{print $1}')
 iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 80 -j DNAT --to-destination $NGINX_IP:80
 iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 443 -j DNAT --to-destination $NGINX_IP:443
-echo "Updated Firewall Rules for nginx"
+$ECHO_GREEN"Updated Firewall Rules for nginx"$NC
 
 fi
 if [ -d /var/snap/lxd/common/lxd/containers/openvpn ];
