@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# colors
+RED="\e[31m"
+NC="\e[0m"
+echo_red="echo -e $RED"
+
 source /etc/lxq/lxq.cfg  > /dev/null 2>&1
 
 exec() {
@@ -18,13 +23,7 @@ unset NGINX_SETUP
 fi
 }
 
-update() {
-  cd /opt/lxq/
-  git fetch --all
-  git reset --hard origin/master
-  chmod a+x lxq
-  chmod a+x fix-update.sh
-}
+update() { cd /opt/lxq/ && git fetch --all && git reset --hard origin/master && chmod a+x lxq && chmod a+x fix-update.sh}
 
 install() {
 if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
@@ -311,11 +310,6 @@ fi
 }
 
 init() {
-
-  RED="\e[31m"
-  NC="\e[0m"
-  echo_red="echo -e $RED"
-  
   if [ -n "$LXQ_INIT" ]
   then
   $echo_red"ERROR: LXQ Already Setup"$NC
