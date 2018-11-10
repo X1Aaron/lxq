@@ -25,7 +25,7 @@ then
 gen_conf $1 $2
 lets_encrypt $1 $2
 else
-echo "Skipping NGINX setup..."
+$ECHO_YELLOW"Skipping NGINX setup..."$NC
 unset NGINX_SETUP
 fi
 }
@@ -91,35 +91,28 @@ $ECHO_YELLOW"$1 setup complete!"$NC
 }
 
 gen_conf() {
-source /opt/lxq/apps/$1/$1.conf
-DOMAIN_NAME=$2
-if [ -z "$WILDCARD_DOMAIN" ]
+  #source /opt/lxq/apps/$1/$1.conf
+  CONTAINER_IP=$(lxc list $1 -c 4 --format csv | awk '{print $1}')
+  $ECHO_YELLOW"IP Address:$NC $CONTAINER_IP"
+  $ECHO_YELLOW "Getting .conf File..."$NC
+  if [ -z "$WILDCARD_DOMAIN" ]
   then
-  CONTAINER_LOCAL_IP=$(lxc list $1 -c 4 --format csv | awk '{print $1}')
-  echo "IP Address:" $CONTAINER_LOCAL_IP
-  echo "Pushing temporary .conf file to container..."
   cp /opt/lxq/templates/nginx.temp $1.conf
-  cp /opt/lxq/apps/$1/nginx.conf $1.conf
-  sed -i "s/<<DOMAIN_NAME>>/$DOMAIN_NAME/g" $1.conf
-  sed -i "s/<<CONTAINER_LOCAL_IP>>/$CONTAINER_LOCAL_IP/g" $1.conf
-  sed -i "s/<<CONTAINER_PORT>>/$CONTAINER_PORT/g" $1.conf
-  lxc file push $1.conf nginx/etc/nginx/conf.d/
-  rm $1.conf
-  lxc exec nginx -- systemctl reload nginx
   else
-  echo "Pushing wildcard .conf file to container..."
-  CONTAINER_LOCAL_IP=$(lxc list $1 -c 4 --format csv | awk '{print $1}')
   cp /opt/lxq/templates/wildcard.temp $1.conf
-  cp /opt/lxq/apps/$1/nginx.conf $1.conf
-  SUB_DOMAIN="$1.$WILDCARD_DOMAIN"
-  sed -i "s/<<SUB_DOMAIN>>/$SUB_DOMAIN/g" $1.conf
-  sed -i "s/<<DOMAIN_NAME>>/$WILDCARD_DOMAIN/g" $1.conf
-  sed -i "s/<<IP>>/$CONTAINER_LOCAL_IP/g" $1.conf
-  sed -i "s/<<PORT>>/$CONTAINER_PORT/g" $1.conf
-  lxc file push $1.conf nginx/etc/nginx/conf.d/
-  rm $1.conf
-  lxc exec nginx -- systemctl reload nginx
   fi
+  cp /opt/lxq/apps/$1/nginx.conf $1.conf
+  $ECHO_YELLOW "Updating .conf File..."$NC
+  sed -i "s/<<DOMAIN>>/$2/g" $1.conf
+  sed -i "s/<<CONTAINER_IP>>/$CONTAINER_IP/g" $1.conf
+  sed -i "s/<<CONTAINER_PORT>>/$CONTAINER_PORT/g" $1.conf
+  sed -i "s/<<WILDCARD_DOMAIN>>/$WILDCARD_DOMAIN/g" $1.conf
+  $ECHO_YELLOW "Pushing .conf file to container..."$NC
+  lxc file push $1.conf nginx/etc/nginx/conf.d/
+  $ECHO_YELLOW "Removing .conf file..."$NC
+  rm $1.conf
+  $ECHO_YELLOW"Reloading NGINX..."$NC
+  lxc exec nginx -- systemctl reload nginx
 }
 
 lets_encrypt() {

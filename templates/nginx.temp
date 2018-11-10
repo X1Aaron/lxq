@@ -1,13 +1,13 @@
 server {
         client_max_body_size 40M;
         listen 80;
-        server_name <<DOMAIN_NAME>>;
+        server_name <<DOMAIN>>;
         location / {
                 proxy_set_header X-Real-IP $remote_addr;
                 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
                 proxy_set_header Host $http_host;
                 proxy_set_header X-NginX-Proxy true;
-                proxy_pass http://<<CONTAINER_LOCAL_IP>>:<<CONTAINER_PORT>>;
+                proxy_pass http://<<CONTAINER_IP>>:<<CONTAINER_PORT>>;
                 proxy_redirect off;
         }
 }
