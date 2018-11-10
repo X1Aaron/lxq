@@ -7,9 +7,7 @@ echo_red="echo -e $RED"
 
 source /etc/lxq/lxq.cfg  > /dev/null 2>&1
 
-exec() {
-lxc exec $1 -- bash
-}
+exec() { lxc exec $1 -- bash }
 
 nginx_setup() {
 source /opt/lxq/apps/$1/$1.conf
