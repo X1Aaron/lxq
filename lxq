@@ -270,8 +270,6 @@ for i in $( iptables -t nat --line-numbers -L | grep ^[0-9] | awk '{ print $1 }'
 
 for i in $(ls /var/snap/lxd/common/lxd/containers/); 
 do
-echo
-$ECHO_GREEN"Found $i!"$NC
 CONTAINER_IP=$(lxc list $i -c 4 --format csv | awk '{print $1}')
 echo "$IP"
 source /opt/lxq/apps/$i/$i.rules > /dev/null 2>&1
