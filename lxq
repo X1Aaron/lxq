@@ -35,12 +35,12 @@ exit
 fi
 if [ -z $1 ]
 then
-ECHO_RED"ERROR: Missing APPNAME"$NC
+$ECHO_RED"ERROR: Missing APPNAME"$NC
 exit
 fi
 if [ -z $2 ]
 then
-ECHO_RED"ERROR: Missing DOMAIN NAME"$NC
+$ECHO_RED"ERROR: Missing DOMAIN NAME"$NC
 exit
 fi
 source /opt/lxq/apps/$1/$1.conf
