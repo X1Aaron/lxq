@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # colors
-ECHO_RED="echo -e \e[31m" # used for errors
-ECHO_YELLOW="echo -e \e[33m" # used for warnings
-ECHO_GREEN="echo -e \e[32m" #used for successes
+ECHO_RED="echo -e \e[31m" #ERRORS
+ECHO_YELLOW="echo -e \e[33m" #INFORMATIONAL
+ECHO_GREEN="echo -e \e[32m" #SUCCESS
 NC="\e[0m" # clears color
 
 source /etc/lxq/lxq.cfg  > /dev/null 2>&1
@@ -321,7 +321,7 @@ fi
 init() {
   if [ -n "$LXQ_INIT" ]
   then
-  $ECHO_YELLOW"ERROR: LXQ Already Setup"$NC
+  $ECHO_RED"ERROR: LXQ Already Setup"$NC
   else
   $ECHO_YELLOW"Allowing Ports and Enabling Firewall..."$NC
   ufw allow ssh
