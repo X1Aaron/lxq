@@ -268,39 +268,46 @@ fi
 $ECHO_YELLOW"Clearing All PREROUTING Rules..."$NC
 for i in $( iptables -t nat --line-numbers -L | grep ^[0-9] | awk '{ print $1 }' | tac ); do iptables -t nat -D PREROUTING $i; done
 
+for i in $(ls /var/snap/lxd/common/lxd/containers/); 
+do
+$ECHO_GREEN"Found $i!"$NC
+$i_IP=$(lxc list $i -c 4 --format csv | awk '{print $1}')
+echo "$i_IP"
+$ECHO_GREEN"Updated Firewall Rules for $i"$NC
+done
 
-if [ -d /var/snap/lxd/common/lxd/containers/nginx ]
-then
-$ECHO_GREEN"Found nginx!"$NC
-NGINX_IP=$(lxc list nginx -c 4 --format csv | awk '{print $1}')
-iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 80 -j DNAT --to-destination $NGINX_IP:80
-iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 443 -j DNAT --to-destination $NGINX_IP:443
-$ECHO_GREEN"Updated Firewall Rules for nginx"$NC
+#if [ -d /var/snap/lxd/common/lxd/containers/nginx ]
+#then
+#$ECHO_GREEN"Found nginx!"$NC
+#NGINX_IP=$(lxc list nginx -c 4 --format csv | awk '{print $1}')
+#iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 80 -j DNAT --to-destination $NGINX_IP:80
+#iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 443 -j DNAT --to-destination $NGINX_IP:443
+#$ECHO_GREEN"Updated Firewall Rules for nginx"$NC
 
-fi
-if [ -d /var/snap/lxd/common/lxd/containers/openvpn ];
-  then 
-  echo "Found openvpn!"
-OPENVPN_IP=$(lxc list openvpn -c 4 --format csv | awk '{print $1}')
-iptables -t nat -I PREROUTING -i eth0 -p UDP -d $PUBLIC_IP --dport 1194 -j DNAT --to-destination $OPENVPN_IP:1194
-echo "Updated Firewall Rules for OpenVPN"
-else
-echo "OpenVPN not found"
-fi
-if [ -d /var/snap/lxd/common/lxd/containers/pihole ];
-  then 
-  echo "Found pihole!"
-PIHOLE_IP=$(lxc list pihole -c 4 --format csv | awk '{print $1}')
-iptables -t nat -I PREROUTING -i eth0 -p UDP -d $PUBLIC_IP --dport 53 -j DNAT --to-destination $PIHOLE_IP:53
-iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 53 -j DNAT --to-destination $PIHOLE_IP:53
-echo "Updated Firewall Rules for pihole"
-else
-echo "pihole not found"
-fi
+#fi
+#if [ -d /var/snap/lxd/common/lxd/containers/openvpn ];
+#  then 
+#  echo "Found openvpn!"
+#OPENVPN_IP=$(lxc list openvpn -c 4 --format csv | awk '{print $1}')
+#iptables -t nat -I PREROUTING -i eth0 -p UDP -d $PUBLIC_IP --dport 1194 -j DNAT --to-destination $OPENVPN_IP:1194
+#echo "Updated Firewall Rules for OpenVPN"
+#else
+#echo "OpenVPN not found"
+#fi
+#if [ -d /var/snap/lxd/common/lxd/containers/pihole ];
+#  then 
+#  echo "Found pihole!"
+#PIHOLE_IP=$(lxc list pihole -c 4 --format csv | awk '{print $1}')
+#iptables -t nat -I PREROUTING -i eth0 -p UDP -d $PUBLIC_IP --dport 53 -j DNAT --to-destination $PIHOLE_IP:53
+#iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 53 -j DNAT --to-destination $PIHOLE_IP:53
+#echo "Updated Firewall Rules for pihole"
+#else
+#echo "pihole not found"
+#fi
 echo "Saving Firewall Rules..." 
 netfilter-persistent save
 iptables -t nat -L PREROUTING
-echo "SUCCESS: Firewall Rules Updated"
+$ECHO_GREEN"SUCCESS: Firewall Rules Updated"$NC
 }
 
 create_container() {
