@@ -23,7 +23,13 @@ unset NGINX_SETUP
 fi
 }
 
-update() { cd /opt/lxq/ && git fetch --all && git reset --hard origin/master && chmod a+x lxq && chmod a+x fix-update.sh}
+update() {
+  cd /opt/lxq/
+  git fetch --all
+  git reset --hard origin/master
+  chmod a+x lxq
+  chmod a+x fix-update.sh
+}
 
 install() {
 if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
