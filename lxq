@@ -31,7 +31,8 @@ fi
 }
 
 update() {
-  cd /opt/lxq/ && git fetch --all && git reset --hard origin/master && chmod a+x lxq && chmod a+x fix-update.sh
+  cd /opt/lxq/ && git fetch --all && git reset --hard origin/master && chmod a+x lxq && chmod a+x fix-update.sh > /dev/null 2>&1
+  ECHO_GREEN"LXQ UPDATED"$NC
 }
 
 install() {
