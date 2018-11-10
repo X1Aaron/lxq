@@ -321,32 +321,32 @@ fi
 init() {
   if [ -n "$LXQ_INIT" ]
   then
-  $ECHO_RED"ERROR: LXQ Already Setup"$NC
+  $ECHO_YELLOW"ERROR: LXQ Already Setup"$NC
   else
-  $ECHO_RED"Allowing Ports and Enabling Firewall..."$NC
+  $ECHO_YELLOW"Allowing Ports and Enabling Firewall..."$NC
   ufw allow ssh
   ufw --force enable
-  $ECHO_RED"Updating System..."$NC
+  $ECHO_YELLOW"Updating System..."$NC
   apt-get update
   apt-get upgrade -y
-  $ECHO_RED"Installing Packages..."$NC
+  $ECHO_YELLOW"Installing Packages..."$NC
   echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
   echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
   apt-get install zfsutils-linux iptables-persistent snapd -y
-  $ECHO_RED"Removing LXD Packages..."$NC
+  $ECHO_YELLOW"Removing LXD Packages..."$NC
   apt-get remove --purge lxd lxd-client liblxc1 lxcfs -y
   apt-get autoremove -y
-  $ECHO_RED"Installing LXD via Snap..."$NC
+  $ECHO_YELLOW"Installing LXD via Snap..."$NC
   snap install lxd
   export PATH=$PATH:/snap/bin
-  $ECHO_RED"Configuing LXD..."$NC
+  $ECHO_YELLOW"Configuing LXD..."$NC
   cat /opt/lxq/preseed | lxd init --preseed
   mkdir /etc/lxq/
   echo "LXQ_INIT=TRUE" >> /etc/lxq/lxq.cfg
   PUBLIC_IP=`curl -s ifconfig.me`
   echo "Public IP: $PUBLIC_IP"
   echo "PUBLIC_IP=$PUBLIC_IP" >> /etc/lxq/lxq.cfg
-  $ECHO_RED"SUCCESS: LXQ init Complete!"$NC
+  $ECHO_YELLOW"SUCCESS: LXQ init Complete!"$NC
   lxq install nginx nginx
   fi
   }
