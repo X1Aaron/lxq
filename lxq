@@ -94,8 +94,8 @@ $ECHO_YELLOW"$1 setup complete!"$NC
 }
 
 gen_conf() {
-  #source /opt/lxq/apps/$1/$1.conf
   CONTAINER_IP=$(lxc list $1 -c 4 --format csv | awk '{print $1}')
+  source /opt/lxq/apps/$1/$1.conf
   $ECHO_YELLOW"IP Address:$NC $CONTAINER_IP"
   $ECHO_YELLOW "Getting .conf File..."$NC
   if [ -z "$WILDCARD_DOMAIN" ]
@@ -118,16 +118,20 @@ gen_conf() {
   lxc exec nginx -- systemctl reload nginx
 }
 
-lets_encrypt() {
-$ECHO_YELLOW"Generating Let's Encrypt Certificate..."$NC
-  if [ -z "$WILDCARD_DOMAIN" ]
-  then
-  if [ -z "$LE_EMAIL" ]
+lets_encrypt_preflight() {
+if [ -z "$LE_EMAIL" ]
   then
   $ECHO_CYAN"Enter email address (used for urgent renewal and security notices)"$NC
   read LE_EMAIL
   echo "LE_EMAIL=$LE_EMAIL" >> /etc/lxq/lxq.cfg
   fi
+}
+
+lets_encrypt() {
+  lets_encrypt_preflight
+  $ECHO_YELLOW"Generating Let's Encrypt Certificate..."$NC
+  if [ -z "$WILDCARD_DOMAIN" ]
+  then
   lxc exec nginx -- certbot --nginx -n --email $LE_EMAIL --agree-tos --domains $2 --redirect
   else
   $ECHO_GREEN"Wildcard Certificate Installed!"$NC
@@ -135,13 +139,7 @@ $ECHO_YELLOW"Generating Let's Encrypt Certificate..."$NC
 }
 
 lets_encrypt_wildcard() {
-if [ -z "$LE_EMAIL" ]
-then
-$ECHO_YELLOW"What is your email address? [Used for Let’s Encrypt]"$NC
-read LE_EMAIL
-echo "LE_EMAIL=$LE_EMAIL" >> /etc/lxq/lxq.cfg
-fi
-
+lets_encrypt_preflight
 if [ -z "$WILDCARD_DOMAIN" ]
 then
 echo
