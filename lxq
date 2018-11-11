@@ -1,11 +1,12 @@
 #!/bin/bash
 
-# colors
-ECHO_RED="echo -e \e[31m" #ERRORS
-ECHO_YELLOW="echo -e \e[33m" #INFORMATIONAL
-ECHO_GREEN="echo -e \e[32m" #SUCCESS
-ECHO_CYAN="echo -e \e[36m" #QUESTION
-NC="\e[0m" # clears color
+# start colors
+  ECHO_RED="echo -e \e[31m" #ERRORS
+  ECHO_YELLOW="echo -e \e[33m" #INFORMATIONAL
+  ECHO_GREEN="echo -e \e[32m" #SUCCESS
+  ECHO_CYAN="echo -e \e[36m" #QUESTION
+  NC="\e[0m" # clears color
+# end colors
 
 source /etc/lxq/lxq.cfg  > /dev/null 2>&1
 
@@ -188,7 +189,7 @@ if [ -n "$WILDCARD_DOMAIN" ]
 then
 $ECHO_RED"ERROR: Wildcard Already Setup"$NC
 exit
-else
+fi
 
 if [ -z $1 ]
 then
@@ -199,7 +200,6 @@ fi
 if [ cloudflare = "$1" ]
 then
 dns_setup_cloudflare
-fi
 fi
 }
 
@@ -248,7 +248,7 @@ fi
 
 A="*."
 WC_DOMAIN="$A$WILDCARD_DOMAIN"
-$ECHO_YELLOW"Installing Wildcard Certificate for $WILDCARD_DOMAIN ($WC_DOMAIN)..."$NC
+$ECHO_YELLOW"Installing Wildcard Certificate for$NC $WILDCARD_DOMAIN ($WC_DOMAIN)..."
 lxc exec nginx -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials /root/cloudflare.ini -d $WILDCARD_DOMAIN  -d $WC_DOMAIN --agree-tos --noninteractive --manual-public-ip-logging-ok --email $LE_EMAIL
 }
 
@@ -286,60 +286,59 @@ echo
 }
 
 create_container() {
-  #local CONTAINER_NAME=$1 # set the container-name to the first parameter
   lxc launch ubuntu:18.04 $1
   echo "Updating $1"
   sleep 10
-  lxc exec $1 -- apt-get update #> /dev/null 2>&1
-  lxc exec $1 -- apt-get upgrade -y #> /dev/null 2>&1
-  echo "SUCCESS: Container $1 Setup Complete"
+  lxc exec $1 -- apt-get update
+  lxc exec $1 -- apt-get upgrade -y
+  $ECHO_GREEN"SUCCESS: Container $1 Setup Complete"$NC
 }
 
 remove() {
-if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
-then
-apt-get remove $1 -y
-lxc delete $1 --force
-lxc exec nginx -- rm /etc/nginx/conf.d/$1.conf
-lxc exec nginx -- systemctl reload nginx
-refresh_firewall
-echo "SUCCESS: $1 removed"
-else
-echo "ERROR: $1 not found"
-fi
+  if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
+  then
+  apt-get remove $1 -y
+  lxc delete $1 --force
+  lxc exec nginx -- rm /etc/nginx/conf.d/$1.conf
+  lxc exec nginx -- systemctl reload nginx
+  refresh_firewall
+  $ECHO_GREEN"SUCCESS: $1 removed"$NC
+  else
+  $ECHO_RED"ERROR: $1 not found"$NC
+  fi
 }
 
 init() {
   if [ -n "$LXQ_INIT" ]
-  then
-  $ECHO_RED"ERROR: LXQ Already Setup"$NC
-  else
-  $ECHO_YELLOW"Allowing Ports and Enabling Firewall..."$NC
-  ufw allow ssh
-  ufw --force enable
-  $ECHO_YELLOW"Updating System..."$NC
-  apt-get update
-  apt-get upgrade -y
-  $ECHO_YELLOW"Installing Packages..."$NC
-  echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
-  echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
-  apt-get install zfsutils-linux iptables-persistent snapd -y
-  $ECHO_YELLOW"Removing LXD Packages..."$NC
-  apt-get remove --purge lxd lxd-client liblxc1 lxcfs -y
-  apt-get autoremove -y
-  $ECHO_YELLOW"Installing LXD via Snap..."$NC
-  snap install lxd
-  export PATH=$PATH:/snap/bin
-  $ECHO_YELLOW"Configuing LXD..."$NC
-  cat /opt/lxq/preseed | lxd init --preseed
-  mkdir /etc/lxq/
-  echo "LXQ_INIT=TRUE" >> /etc/lxq/lxq.cfg
-  PUBLIC_IP=`curl -s ifconfig.me`
-  echo "Public IP: $PUBLIC_IP"
-  echo "PUBLIC_IP=$PUBLIC_IP" >> /etc/lxq/lxq.cfg
-  $ECHO_YELLOW"SUCCESS: LXQ init Complete!"$NC
-  lxq install nginx nginx
+    then
+    $ECHO_RED"ERROR: LXQ Already Setup"$NC
+    else
+    $ECHO_YELLOW"Allowing Ports and Enabling Firewall..."$NC
+    ufw allow ssh
+    ufw --force enable
+    $ECHO_YELLOW"Updating System..."$NC
+    apt-get update
+    apt-get upgrade -y
+    $ECHO_YELLOW"Installing Packages..."$NC
+    echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
+    echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
+    apt-get install zfsutils-linux iptables-persistent snapd -y
+    $ECHO_YELLOW"Removing LXD Packages..."$NC
+    apt-get remove --purge lxd lxd-client liblxc1 lxcfs -y
+    apt-get autoremove -y
+    $ECHO_YELLOW"Installing LXD via Snap..."$NC
+    snap install lxd
+    export PATH=$PATH:/snap/bin
+    $ECHO_YELLOW"Configuing LXD..."$NC
+    cat /opt/lxq/preseed | lxd init --preseed
+    mkdir /etc/lxq/
+    echo "LXQ_INIT=TRUE" >> /etc/lxq/lxq.cfg
+    PUBLIC_IP=`curl -s ifconfig.me`
+    echo "Public IP: $PUBLIC_IP"
+    echo "PUBLIC_IP=$PUBLIC_IP" >> /etc/lxq/lxq.cfg
+    $ECHO_YELLOW"SUCCESS: LXQ init Complete!"$NC
+    lxq install nginx nginx
   fi
-  }
+}
     
 $@
