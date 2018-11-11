@@ -4,6 +4,7 @@
 ECHO_RED="echo -e \e[31m" #ERRORS
 ECHO_YELLOW="echo -e \e[33m" #INFORMATIONAL
 ECHO_GREEN="echo -e \e[32m" #SUCCESS
+ECHO_CYAN="echo -e \e[36m" #QUESTION
 NC="\e[0m" # clears color
 
 source /etc/lxq/lxq.cfg  > /dev/null 2>&1
@@ -16,6 +17,7 @@ test_colors() {
   $ECHO_RED"This is Red"$NC
   $ECHO_YELLOW"This is Yellow"$NC
   $ECHO_GREEN"This is Green"$NC
+  $ECHO_CYAN"This is Cyan"$NC
 }
 
 nginx_setup() {
