@@ -105,34 +105,32 @@ gen_conf() {
   cp /opt/lxq/templates/wildcard.temp $1.conf
   fi
   cp /opt/lxq/apps/$1/nginx.conf $1.conf
-  $ECHO_YELLOW "Updating .conf File..."$NC
+  $ECHO_YELLOW"Updating .conf File..."$NC
   sed -i "s/<<DOMAIN>>/$2/g" $1.conf
   sed -i "s/<<CONTAINER_IP>>/$CONTAINER_IP/g" $1.conf
   sed -i "s/<<CONTAINER_PORT>>/$CONTAINER_PORT/g" $1.conf
   sed -i "s/<<WILDCARD_DOMAIN>>/$WILDCARD_DOMAIN/g" $1.conf
-  $ECHO_YELLOW "Pushing .conf file to container..."$NC
+  $ECHO_YELLOW"Pushing .conf file to container..."$NC
   lxc file push $1.conf nginx/etc/nginx/conf.d/
-  $ECHO_YELLOW "Removing .conf file..."$NC
+  $ECHO_YELLOW"Removing .conf file..."$NC
   rm $1.conf
   $ECHO_YELLOW"Reloading NGINX..."$NC
   lxc exec nginx -- systemctl reload nginx
 }
 
 lets_encrypt() {
-echo "Generating Certificates..."
-DOMAIN_NAME=$2
+$ECHO_YELLOW"Generating Let's Encrypt Certificate..."$NC
   if [ -z "$WILDCARD_DOMAIN" ]
   then
   if [ -z "$LE_EMAIL" ]
   then
-  echo
-  echo "What is your email address? [Used for Let’s Encrypt]"
+  $ECHO_CYAN"Enter email address (used for urgent renewal and security notices)"$NC
   read LE_EMAIL
   echo "LE_EMAIL=$LE_EMAIL" >> /etc/lxq/lxq.cfg
   fi
-  lxc exec nginx -- certbot --nginx -n --email $LE_EMAIL --agree-tos --domains $DOMAIN_NAME --redirect
+  lxc exec nginx -- certbot --nginx -n --email $LE_EMAIL --agree-tos --domains $2 --redirect
   else
-  echo "Wildcard Certificate Installed!"
+  $ECHO_GREEN"Wildcard Certificate Installed!"$NC
   fi
 }
 
@@ -204,28 +202,26 @@ fi
 }
 
 dns_setup_cloudflare() {
-$ECHO_YELLOW"What is your Cloudflare Email Address?"$NC
-read cf_email
-$ECHO_YELLOW"What is your Cloudflare API Key?"$NC
-read cf_key
-$ECHO_YELLOW"Installing Cloudflare DNS Plugin"$NC
-lxc exec nginx -- apt-get install python3-certbot-dns-cloudflare -y
-$ECHO_YELLOW"Creating cloudflare.ini..." $NC
-cat > cloudflare.ini <<EOF
-# Cloudflare API credentials used by Certbot
-dns_cloudflare_email = $cf_email
-dns_cloudflare_api_key = $cf_key
+  $ECHO_YELLOW"What is your Cloudflare Email Address?"$NC
+  read cf_email
+  $ECHO_YELLOW"What is your Cloudflare API Key?"$NC
+  read cf_key
+  $ECHO_YELLOW"Installing Cloudflare DNS Plugin"$NC
+  lxc exec nginx -- apt-get install python3-certbot-dns-cloudflare -y
+  $ECHO_YELLOW"Creating cloudflare.ini..." $NC
+  cat > cloudflare.ini <<EOF
+  # Cloudflare API credentials used by Certbot
+  dns_cloudflare_email = $cf_email
+  dns_cloudflare_api_key = $cf_key
 EOF
-$ECHO_YELLOW"Pushing cloudflare.ini to nginx container"$NC
-lxc file push cloudflare.ini nginx/root/
-rm cloudflare.ini
+  rm cloudflare.ini
 if [ -f /var/snap/lxd/common/mntns/var/snap/lxd/common/lxd/storage-pools/default/containers/nginx/rootfs/root/cloudflare.ini ];
-then
-$ECHO_GREEN"SUCCESS:Cloudflare DNS setup complete!"$NC
-lets_encrypt_wildcard
-else
-$ECHO_RED"ERROR: cloudflare.ini not created"$NC
-exit
+  then
+  $ECHO_GREEN"SUCCESS:Cloudflare DNS setup complete!"$NC
+  lets_encrypt_wildcard
+  else
+  $ECHO_RED"ERROR: cloudflare.ini not created"$NC
+  exit
 fi
 }
 
