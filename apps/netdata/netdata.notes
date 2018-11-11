@@ -1,3 +1,0 @@
-1) Must change netdata conf (etc/netdata/netdata.conf) to bind to 10.0.0.1 (LXD Host IP)
-2) Setup conf
-3) LE setup
