@@ -76,3 +76,19 @@ After the install is complete :
 * Pi-hole
 * Rocket.Chat
 
+## Directory Structure
+
+`/etc/lxq/lxq.cfg` - Main LXQ conf
+
+`/opt/lxq/` LXQ Install Directory
+
+`/opt/apps/<appname>` One folder for each app
+
+`/opt/apps/<appname>/<appname>.conf` Conf file for that app
+
+`/opt/apps/<appname>/<appname>.install` installation procedure
+
+`/opt/apps/<appname>/<appname>.rules` Firewall Rules for app
+
+`/opt/apps/<appname>/files/` files needed for installation or configuration
+
