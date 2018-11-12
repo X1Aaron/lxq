@@ -226,6 +226,11 @@ fi
 }
 
 dns_setup_cloudflare() {
+  if [ -f /var/snap/lxd/common/mntns/var/snap/lxd/common/lxd/storage-pools/default/containers/nginx/rootfs/root/cloudflare.ini ];
+  then
+  $ECHO_RED"ERROR: cloudflare.ini already exists"$NC
+  exit
+  fi
   $ECHO_CYAN"What is your Cloudflare Email Address?"$NC
   read cf_email
   $ECHO_CYAN"What is your Cloudflare API Key?"$NC
@@ -239,7 +244,7 @@ dns_setup_cloudflare() {
   dns_cloudflare_api_key = $cf_key
 EOF
   lxc file push cloudflare.ini nginx/root/
-  rm cloudflare.ini
+  #rm cloudflare.ini
 if [ -f /var/snap/lxd/common/mntns/var/snap/lxd/common/lxd/storage-pools/default/containers/nginx/rootfs/root/cloudflare.ini ];
   then
   $ECHO_GREEN"SUCCESS:Cloudflare DNS setup complete!"$NC
