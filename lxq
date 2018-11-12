@@ -176,17 +176,21 @@ fi
 }
 
 backup() {
+  mkdir /backups
 
 if [ -z $1 ]
 then
 for i in $(ls /var/snap/lxd/common/lxd/containers/); 
 do
 echo "Backing up $i..."
-lxc export $i $i.tar.xz ; 
+lxc export $i $i.tar.xz
+mv $1.tar.xz /backups
+
 done
 else
 echo "Backing up $1..."
 lxc export $1 $1.tar.xz
+mv $1.tar.xz /backups
 fi
 
 #rclone copy 20181106-160946-nginx.tar.xz wasabi:aaronstuder
@@ -222,9 +226,9 @@ fi
 }
 
 dns_setup_cloudflare() {
-  $ECHO_YELLOW"What is your Cloudflare Email Address?"$NC
+  $ECHO_CYAN"What is your Cloudflare Email Address?"$NC
   read cf_email
-  $ECHO_YELLOW"What is your Cloudflare API Key?"$NC
+  $ECHO_CYAN"What is your Cloudflare API Key?"$NC
   read cf_key
   $ECHO_YELLOW"Installing Cloudflare DNS Plugin"$NC
   lxc exec nginx -- apt-get install python3-certbot-dns-cloudflare -y
