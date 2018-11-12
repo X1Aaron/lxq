@@ -10,6 +10,6 @@ lxc exec $1 -- sh -c 'echo "* hard nofile 100000" >> /etc/security/limits.conf'
 lxc exec $1 -- sh -c 'echo "* soft nofile 100000" >> /etc/security/limits.conf'
 lxc exec $1 -- sh -c 'echo "root hard nofile 100000" >> /etc/security/limits.conf'
 lxc exec $1 -- sh -c 'echo "root soft nofile 100000" >> /etc/security/limits.conf'
-lxc exec $1 -- pritunl set app.reverse_proxy true
-lxc exec $1 -- pritunl set app.server_ssl false
-lxc exec $1 -- pritunl set app.server_port 9700
+lxc exec $1 -- pritunl-zero set app.reverse_proxy true
+lxc exec $1 -- pritunl-zero set app.server_ssl false
+lxc exec $1 -- pritunl-zero set app.server_port 9700
