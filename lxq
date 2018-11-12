@@ -64,7 +64,7 @@ fi
 
 source /opt/lxq/apps/$1/$1.conf
 
-if [ $CREATE_CONTAINER = "NO" ]
+if [ "$CREATE_CONTAINER" = "NO" ]
 then
 $ECHO_YELLOW"Skipped Creating Container"$NC
 else
@@ -74,7 +74,7 @@ fi
 $ECHO_YELLOW"Installing $1..."$NC
 source /opt/lxq/apps/$1/$1.install $1 $2
 
-if [ $SETUP_NGINX = "NO" ]
+if [ "$SETUP_NGINX" = "NO" ]
 then
 $ECHO_YELLOW"Skipped NGINX setup"$NC
 else
@@ -82,7 +82,7 @@ nginx_setup $1 $2
 lxc exec nginx -- systemctl reload nginx
 fi
 
-if [ $REFRESH_FIREWALL = "NO" ]
+if [ "$REFRESH_FIREWALL" = "NO" ]
 then
 $ECHO_YELLOW"Skipped Refreshing Firewall"$NC
 else
