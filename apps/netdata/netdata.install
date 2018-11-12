@@ -1,2 +1,4 @@
 apt-get install netdata -y
+mv /etc/netdata/netdata.conf /etc/netdata/netdata.bak 
 cp /opt/lxq/apps/netdata/files/netdata.conf /etc/netdata/
+systemctl restart netdata
