@@ -72,7 +72,9 @@ After the install is complete :
 ## Available Apps
 
 * BookStack
+* Cockpit *(Installed on the Host, Proxied via the NGINX container)*
 * Nextcloud
+* Netdata *(Installed on the Host, Proxied via the NGINX container)*
 * Pi-hole
 * Rocket.Chat
 
