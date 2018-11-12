@@ -230,6 +230,7 @@ dns_setup_cloudflare() {
   then
   $ECHO_YELLOW"cloudflare.ini already exists"$NC
   lets_encrypt_wildcard
+  exit
   fi
   $ECHO_CYAN"What is your Cloudflare Email Address?"$NC
   read cf_email
