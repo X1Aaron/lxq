@@ -1,6 +1,8 @@
 apt-get install cockpit -y
 mkdir /etc/systemd/system/cockpit.socket.d/
 cp /opt/lxq/apps/cockpit/files/listen.conf /etc/systemd/system/cockpit.socket.d/
+mkdir /etc/cockpit/
+cp /opt/lxq/apps/cockpit/files/cockpit.conf /etc/cockpit/
 systemctl daemon-reload
 systemctl restart cockpit.socket
 ufw allow from 10.0.0.0/24  to any port 9090
