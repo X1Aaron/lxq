@@ -69,6 +69,8 @@ After the install is complete :
 
 `source ~/.profile`
 
+`wget https://raw.githubusercontent.com/aaronstuder/lxq/master/installer/setup.sh && chmod +x setup.sh && ./setup.sh && source ~/.profile`
+
 ## Available Apps
 
 * BookStack
