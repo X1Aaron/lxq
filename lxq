@@ -238,6 +238,7 @@ dns_setup_cloudflare() {
   dns_cloudflare_email = $cf_email
   dns_cloudflare_api_key = $cf_key
 EOF
+  lxc file push cloudflare.ini nginx/root/
   rm cloudflare.ini
 if [ -f /var/snap/lxd/common/mntns/var/snap/lxd/common/lxd/storage-pools/default/containers/nginx/rootfs/root/cloudflare.ini ];
   then
