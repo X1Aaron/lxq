@@ -1,5 +1,5 @@
-lxc file push /opt/lxq/apps/$1/mongodb-org-4.0.list $1/etc/apt/sources.list.d/
-lxc file push /opt/lxq/apps/$1/pritunl.list $1/etc/apt/sources.list.d/
+lxc file push /opt/lxq/apps/$1/files/mongodb-org-4.0.list $1/etc/apt/sources.list.d/
+lxc file push /opt/lxq/apps/$1/files/pritunl.list $1/etc/apt/sources.list.d/
 lxc exec $1 -- apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
 lxc exec $1 -- apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
 lxc exec $1 -- apt-get update
