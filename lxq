@@ -323,7 +323,7 @@ init() {
     $ECHO_YELLOW"Installing LXD via Snap..."$NC
     snap install lxd
     export PATH=$PATH:/snap/bin
-    $ECHO_YELLOW"Configuing LXD..."$NC
+    $ECHO_YELLOW"Configuring LXD..."$NC
     cat /opt/lxq/preseed | lxd init --preseed
     mkdir /etc/lxq/
     echo "LXQ_INIT=TRUE" >> /etc/lxq/lxq.cfg
@@ -331,7 +331,7 @@ init() {
     echo "Public IP: $PUBLIC_IP"
     echo "PUBLIC_IP=$PUBLIC_IP" >> /etc/lxq/lxq.cfg
     $ECHO_YELLOW"SUCCESS: LXQ init Complete!"$NC
-    lxq install nginx nginx
+    lxq install nginx null
   fi
 }
     
