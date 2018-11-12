@@ -330,7 +330,7 @@ init() {
     PUBLIC_IP=`curl -s ifconfig.me`
     echo "Public IP: $PUBLIC_IP"
     echo "PUBLIC_IP=$PUBLIC_IP" >> /etc/lxq/lxq.cfg
-    $ECHO_YELLOW"SUCCESS: LXQ init Complete!"$NC
+    $ECHO_GREEN"SUCCESS: LXQ init Complete!"$NC
     lxq install nginx null
   fi
 }
