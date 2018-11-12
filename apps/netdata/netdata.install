@@ -1,2 +1,5 @@
 apt-get install netdata -y
 cp /opt/lxq/apps/netdata/files/netdata.conf /etc/netdata/
+reload netdata
+add fireware rule
+save firewall rules
