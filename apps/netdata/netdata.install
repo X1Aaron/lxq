@@ -2,4 +2,3 @@ apt-get install netdata -y
 mv /etc/netdata/netdata.conf /etc/netdata/netdata.bak 
 cp /opt/lxq/apps/netdata/files/netdata.conf /etc/netdata/
 systemctl restart netdata
-ufw allow from 10.0.0.0/24  to any port 19999
