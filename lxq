@@ -134,7 +134,7 @@ lets_encrypt() {
   then
   lxc exec nginx -- certbot --nginx -n --email $LE_EMAIL --agree-tos --domains $2 --redirect
   else
-  $ECHO_GREEN"Wildcard Certificate Installed!"$NC
+  $ECHO_YELLOW" Skipped - Wildcard Certificate Installed"$NC
   fi
 }
 
@@ -143,7 +143,7 @@ lets_encrypt_preflight
 if [ -z "$WILDCARD_DOMAIN" ]
 then
 echo
-$ECHO_YELLOW"What is your domain name?"$NC
+$ECHO_CYAN"What is your domain name?"$NC
 read WILDCARD_DOMAIN
 echo "WILDCARD_DOMAIN=$WILDCARD_DOMAIN" >> /etc/lxq/lxq.cfg
 fi
