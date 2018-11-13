@@ -1,4 +1,4 @@
-lxc exec $1 -- add-apt-repository ppa:mumble/release
+lxc exec $1 -- add-apt-repository ppa:mumble/release -y
 lxc exec $1 -- apt-get update
 lxc exec $1 -- apt-get install mumble-server
 lxc exec $1 -- dpkg-reconfigure mumble-server
