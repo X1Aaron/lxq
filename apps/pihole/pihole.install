@@ -1,6 +1,3 @@
-lxc file push /opt/lxq/apps/$1/files/basic-install.sh $1/root/
-lxc exec $1 -- ./basic-install.sh
-
 curl -O https://install.pi-hole.net
 lxc file push basic-install.sh $1/tmp/
 rm basic-install.sh
