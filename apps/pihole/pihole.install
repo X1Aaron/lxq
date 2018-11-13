@@ -1,1 +1,2 @@
-lxc file push /opt/lxq/apps/$1/files/ $1/etc/apt/sources.list.d/
+lxc file push /opt/lxq/apps/$1/files/basic-install.sh $1/root/
+
