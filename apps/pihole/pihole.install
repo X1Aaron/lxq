@@ -1,4 +1,4 @@
-curl -O https://install.pi-hole.net
+curl -O https://raw.githubusercontent.com/pi-hole/pi-hole/master/automated%20install/basic-install.sh
 lxc file push basic-install.sh $1/tmp/
 rm basic-install.sh
 lxc exec $1 -- chmod +x /tmp/basic-install.sh.sh
