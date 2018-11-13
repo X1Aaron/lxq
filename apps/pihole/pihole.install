@@ -1,2 +1,2 @@
 lxc file push /opt/lxq/apps/$1/files/basic-install.sh $1/root/
-
+lxc exec $1 -- ./basic-install.sh
