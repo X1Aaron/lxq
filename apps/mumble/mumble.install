@@ -1,4 +1,4 @@
-sudo add-apt-repository ppa:mumble/release
-sudo apt-get update
-sudo apt-get install mumble-server
-sudo dpkg-reconfigure mumble-server
+lxc exec $1 -- add-apt-repository ppa:mumble/release
+lxc exec $1 -- apt-get update
+lxc exec $1 -- apt-get install mumble-server
+lxc exec $1 -- dpkg-reconfigure mumble-server
