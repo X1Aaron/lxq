@@ -1,3 +1,1 @@
-lxc exec $1 -- https://raw.githubusercontent.com/pi-hole/pi-hole/master/automated%20install/basic-install.sh
-lxc exec $1 -- chmod a+x basic-install.sh
-lxc exec $1 -- ./basic-install.sh
+lxc file push /opt/lxq/apps/$1/files/ $1/etc/apt/sources.list.d/
