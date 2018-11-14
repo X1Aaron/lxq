@@ -185,6 +185,7 @@ do
 echo "Copying $i to LXQ2..."
 lxc copy $i lxq2:$i
 done
+fi
 
 if [ -z $1 ]
 then
