@@ -185,7 +185,9 @@ do
 echo Stopping $i...
 lxc stop $i
 echo "Copying $i to LXQ2..."
-lxc copy $i lxq2:$i
+lxc copy $i lxq2:$i --refresh
+echo "Starting $i..."
+lxc start $i
 done
 fi
 
