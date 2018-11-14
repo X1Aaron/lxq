@@ -182,6 +182,8 @@ if [ "$1" = "copy" ]
 then
 for i in $(ls /var/snap/lxd/common/lxd/containers/); 
 do
+echo Stopping $i...
+lxc stop $i
 echo "Copying $i to LXQ2..."
 lxc copy $i lxq2:$i
 done
