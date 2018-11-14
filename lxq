@@ -190,7 +190,7 @@ echo "Starting $i..."
 lxc start $i
 done
 fi
-
+exit
 if [ -z $1 ]
 then
 for i in $(ls /var/snap/lxd/common/lxd/containers/); 
