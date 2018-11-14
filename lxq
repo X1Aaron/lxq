@@ -178,6 +178,14 @@ fi
 backup() {
   mkdir /backups
 
+if [ "$1" = "copy" ]
+then
+for i in $(ls /var/snap/lxd/common/lxd/containers/); 
+do
+echo "Copying $i to LXQ2..."
+lxc copy $i lxq2:$i
+done
+
 if [ -z $1 ]
 then
 for i in $(ls /var/snap/lxd/common/lxd/containers/); 
@@ -185,7 +193,6 @@ do
 echo "Backing up $i..."
 lxc export $i $i.tar.xz
 mv $1.tar.xz /backups
-
 done
 else
 echo "Backing up $1..."
