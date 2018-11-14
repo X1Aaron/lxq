@@ -188,8 +188,9 @@ echo "Copying $i to LXQ2..."
 lxc copy $i lxq2:$i --refresh
 echo "Starting $i..."
 lxc start $i
+refresh
 done
-fi
+else
 exit
 if [ -z $1 ]
 then
@@ -203,6 +204,7 @@ else
 echo "Backing up $1..."
 lxc export $1 $1.tar.xz
 mv $1.tar.xz /backups
+fi
 fi
 
 #rclone copy 20181106-160946-nginx.tar.xz wasabi:aaronstuder
