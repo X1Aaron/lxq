@@ -7,3 +7,6 @@ lxc exec $1 -- chmod +x /usr/local/bin/docker-compose
 lxc exec $1 -- cd /opt
 lxc exec $1 -- git clone https://github.com/mailcow/mailcow-dockerized
 lxc exec $1 -- cd mailcow-dockerized
+#edit .conf file here
+lxc exec $1 -- docker-compose pull
+lxc exec $1 -- docker-compose up -d
