@@ -317,7 +317,7 @@ create_container() {
 remove() {
   if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
   then
-  apt-get remove $1 -y
+  apt-get remove $1 -y > /dev/null 2>&1
   lxc delete $1 --force
   lxc exec nginx -- rm /etc/nginx/conf.d/$1.conf
   lxc exec nginx -- systemctl reload nginx
