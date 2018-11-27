@@ -101,10 +101,11 @@ gen_conf() {
   if [ -z "$WILDCARD_DOMAIN" ]
   then
   cp /opt/lxq/templates/nginx.temp $1.conf
+  cp cp /opt/lxq/apps/$1/files/wc_nginx.conf $1.conf > /dev/null 2>&1
   else
   cp /opt/lxq/templates/wildcard.temp $1.conf
+  cp /opt/lxq/apps/$1/files/nginx.conf $1.conf > /dev/null 2>&1
   fi
-  cp /opt/lxq/apps/$1/files/nginx.conf $1.conf
   $ECHO_YELLOW"Updating .conf File..."$NC
   sed -i "s/<<DOMAIN>>/$2/g" $1.conf
   sed -i "s/<<CONTAINER_IP>>/$CONTAINER_IP/g" $1.conf
