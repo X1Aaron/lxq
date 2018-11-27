@@ -1,7 +1,7 @@
 lxc exec $1 -- wget -qO - https://download.jitsi.org/jitsi-key.gpg.key | sudo apt-key add -
-lxc exec $1 -- sudo sh -c "echo 'deb https://download.jitsi.org stable/' > /etc/apt/sources.list.d/jitsi-stable.list"
-lxc exec $1 -- sudo apt-get -y update
-lxc exec $1 -- sudo apt-get -y install jitsi-meet
+lxc exec $1 -- sh -c "echo 'deb https://download.jitsi.org stable/' > /etc/apt/sources.list.d/jitsi-stable.list"
+lxc exec $1 -- apt-get -y update
+lxc exec $1 -- apt-get -y install jitsi-meet
 #edit /etc/jitsi/videobridge/sip-communicator.properties
 #org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=>>YOUR.LAN.IP.ADDRESS<<
 #org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=>>YOUR.PUBLIC.IP.ADDRESS<<
