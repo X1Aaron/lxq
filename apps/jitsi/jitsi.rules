@@ -1,2 +1,2 @@
 iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 5280 -j DNAT --to-destination $CONTAINER_IP:5280
-iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 10000:20000 -j DNAT --to-destination $CONTAINER_IP:10000:20000
+iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 10000:20000 -j DNAT --to-destination $CONTAINER_IP:10000-20000
