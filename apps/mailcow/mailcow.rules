@@ -1,0 +1,8 @@
+iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 25 -j DNAT --to-destination $CONTAINER_IP:25
+iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 465 -j DNAT --to-destination $CONTAINER_IP:465
+iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 587 -j DNAT --to-destination $CONTAINER_IP:587
+iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 143 -j DNAT --to-destination $CONTAINER_IP:143
+iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 993 -j DNAT --to-destination $CONTAINER_IP:993
+iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 110 -j DNAT --to-destination $CONTAINER_IP:110
+iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 995 -j DNAT --to-destination $CONTAINER_IP:995
+iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 4190 -j DNAT --to-destination $CONTAINER_IP:4190
