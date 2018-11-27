@@ -3,6 +3,5 @@ lxc exec $1 -- sh -c "echo 'deb https://download.jitsi.org stable/' > /etc/apt/s
 sleep 1
 lxc exec $1 -- apt-get -y update
 lxc exec $1 -- apt-get -y install jitsi-meet
-#edit /etc/jitsi/videobridge/sip-communicator.properties
-#org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=>>YOUR.LAN.IP.ADDRESS<<
-#org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=>>YOUR.PUBLIC.IP.ADDRESS<<
+lxc exec $1 -- echo "org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=$CONTAINER_IP" >> /etc/jitsi/videobridge/sip-communicator.properties
+lxc exec $1 -- echo "org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=$PUBLIC_IP" >> /etc/jitsi/videobridge/sip-communicator.properties
