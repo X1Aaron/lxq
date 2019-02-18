@@ -333,6 +333,10 @@ init() {
     then
     $ECHO_RED"ERROR: LXQ Already Setup"$NC
     else
+    echo "What domain name will you be using with LXQ?"
+    read DOMAIN_NAME
+    echo "Domain Name: $DOMAIN_NAME"
+    echo "DOMAIN_NAME=$DOMAIN_NAME" >> /etc/lxq/lxq.cfg
     $ECHO_YELLOW"Allowing Ports and Enabling Firewall..."$NC
     ufw allow ssh
     ufw --force enable
