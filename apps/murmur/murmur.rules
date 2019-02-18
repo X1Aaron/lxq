@@ -1,2 +1,0 @@
-iptables -t nat -I PREROUTING -i eth0 -p TCP -d $PUBLIC_IP --dport 64738 -j DNAT --to-destination $CONTAINER_IP:64738
-iptables -t nat -I PREROUTING -i eth0 -p UDP -d $PUBLIC_IP --dport 64738 -j DNAT --to-destination $CONTAINER_IP:64738
