@@ -44,11 +44,11 @@ update() {
 
 install() {
 
-if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
-then 
-$ECHO_RED"ERROR: $1 Already Exists"$NC
-exit
-fi
+#if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
+#then 
+#$ECHO_RED"ERROR: $1 Already Exists"$NC
+#exit
+#fi
 
 if [ -z $1 ]
 then
