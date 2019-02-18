@@ -1,4 +1,4 @@
-lxc exec $1 -- apt-get install linux-headers-$(uname -r)
+lxc exec $1 -- apt-get install linux-headers-$(uname -r) -y
 lxc restart $1
 sleep 3s
 lxc exec $1 -- curl -O https://raw.githubusercontent.com/LiveChief/wireguard-install/master/wireguard-install.sh 
