@@ -1,0 +1,2 @@
+lxc exec $1 -- curl -O https://raw.githubusercontent.com/LiveChief/wireguard-install/master/wireguard-install.sh 
+lxc exec $1 -- bash wireguard-install.sh

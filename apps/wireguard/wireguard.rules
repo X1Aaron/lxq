@@ -1,0 +1,1 @@
+iptables -t nat -I PREROUTING -i eth0 -p UDP -d $PUBLIC_IP --dport 51820 -j DNAT --to-destination $CONTAINER_IP:51820
