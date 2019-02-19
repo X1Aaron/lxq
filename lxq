@@ -78,7 +78,7 @@ EOF
 create_container() {
   lxc launch ubuntu:18.04 $1
   echo "Updating $1"
-  sleep 10
+  sleep 1s
   lxc exec $1 -- apt-get update
   lxc exec $1 -- apt-get upgrade -y
   $ECHO_GREEN"SUCCESS: Container $1 Setup Complete"$NC
