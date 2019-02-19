@@ -24,8 +24,8 @@ server {
 
 
     # certs sent to the client in SERVER HELLO are concatenated in ssl_certificate
-    ssl_certificate /etc/letsencrypt/live/<<WILDCARD_DOMAIN>>/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/<<WILDCARD_DOMAIN>>/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/<<DOMAIN_NAME>>/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/<<DOMAIN_NAME>>/privkey.pem;
     ssl_session_timeout 1d;
     ssl_session_cache shared:SSL:50m;
     ssl_session_tickets off;
