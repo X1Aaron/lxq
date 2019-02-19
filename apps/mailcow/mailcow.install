@@ -1,12 +1,16 @@
 
 lxc stop mailcow
+sleep 3s
 lxc config set $1 security.nesting true
 lxc config set $1 security.privileged true
 lxc config set $1 raw.lxc "lxc.apparmor.profile=unconfined"
 lxc config set $1 raw.lxc "lxc.cgroup.devices.allow = a"
 lxc config set $1 raw.lxc "lxc.mount.auto=proc:rw sys:rw"
 lxc config set $1 raw.lxc "lxc.cap.drop="
+sleep 3s
 lxc start mailcow
+
+sleep 3s
 
 lxc exec $1 -- apt update -y
 lxc exec $1 -- apt install apt-transport-https ca-certificates curl software-properties-common -y
