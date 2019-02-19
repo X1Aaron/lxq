@@ -55,7 +55,7 @@ EOF
     $ECHO_GREEN"SUCCESS: LXQ init Complete!"$NC
     echo ""
     $ECHO_YELLOW"Creating xginx Reverse Proxy..."$NC
-    CREATE_CONTAINER nginx
+    create_container nginx
     echo "Installing NGINX..."
     lxc exec nginx -- apt-get install nginx  -y
     echo "Installing certbot..."
