@@ -7,11 +7,16 @@ lxc config set $1 raw.lxc "lxc.cgroup.devices.allow = a"
 lxc config set $1 raw.lxc "lxc.mount.auto=proc:rw sys:rw"
 lxc config set $1 raw.lxc "lxc.cap.drop="
 lxc start mailcow
-sleep 5s
-lxc exec $1 -- curl -sSL https://get.docker.com/ | CHANNEL=stable sh
-sleep 5s
-lxc exec $1 -- systemctl enable docker.service
-lxc exec $1 -- systemctl start docker.service
+
+lxc exec $1 -- apt update -y
+lxc exec $1 -- apt install apt-transport-https ca-certificates curl software-properties-common -y
+lxc exec $1 -- touch /etc/apt/sources.list.d/docker.list
+lxc exec $1 -- deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable >> /etc/apt/sources.list.d/docker.list
+lxc exec $1 -- curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+lxc exec $1 -- apt update -y
+lxc exec $1 -- apt install docker-ce -y
+lxc exec $1 -- docker --version
+
 lxc exec $1 -- curl -L https://github.com/docker/compose/releases/download/$(curl -Ls https://www.servercow.de/docker-compose/latest.php)/docker-compose-$(uname -s)-$(uname -m) > /usr/local/bin/docker-compose
 lxc exec $1 -- chmod +x /usr/local/bin/docker-compose
 lxc exec $1 -- cd /opt
