@@ -13,7 +13,7 @@ lxc start mailcow
 sleep 3s
 
 lxc exec $1 -- apt update -y
-lxc exec $1 -- apt install apt-transport-https ca-certificates curl software-properties-common -y
+#lxc exec $1 -- apt install apt-transport-https ca-certificates curl software-properties-common -y
 lxc exec $1 -- touch /etc/apt/sources.list.d/docker.list
 lxc exec $1 -- deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable >> /etc/apt/sources.list.d/docker.list
 lxc exec $1 -- curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
