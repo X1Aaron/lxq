@@ -1,3 +1,4 @@
+
 lxc stop mailcow
 lxc config set $1 security.nesting true
 lxc config set $1 security.privileged true
@@ -6,7 +7,7 @@ lxc config set $1 raw.lxc "lxc.cgroup.devices.allow = a"
 lxc config set $1 raw.lxc "lxc.mount.auto=proc:rw sys:rw"
 lxc config set $1 raw.lxc "lxc.cap.drop="
 lxc start mailcow
-
+sleep 5s
 lxc exec $1 -- curl -sSL https://get.docker.com/ | CHANNEL=stable sh
 lxc exec $1 -- systemctl enable docker.service
 lxc exec $1 -- systemctl start docker.service
