@@ -237,7 +237,7 @@ gen_conf() {
   cp /opt/lxq/templates/wildcard.temp $1.conf
   cp /opt/lxq/apps/$1/files/wc_nginx.conf $1.conf > /dev/null 2>&1
   $ECHO_YELLOW"Updating .conf File..."$NC
-  sed -i "s/<<DOMAIN>>/$DOMAIN_NAME/g" $1.conf
+  sed -i "s/<<DOMAIN>>/$1.$DOMAIN_NAME/g" $1.conf
   sed -i "s/<<CONTAINER_IP>>/$CONTAINER_IP/g" $1.conf
   sed -i "s/<<CONTAINER_PORT>>/$CONTAINER_PORT/g" $1.conf
   sed -i "s/<<DOMAIN_NAME>>/$DOMAIN_NAME/g" $1.conf
