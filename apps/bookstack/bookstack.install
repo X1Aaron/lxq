@@ -5,7 +5,7 @@ lxc exec $1 -- wget https://raw.githubusercontent.com/BookStackApp/devops/master
 lxc exec $1 -- chmod a+x installation-ubuntu-18.04.sh
 
 # Run the script with admin permissions
-lxc exec $1 -- sudo ./installation-ubuntu-18.04.sh $DOMAIN_NAME
+lxc exec $1 -- sudo ./installation-ubuntu-18.04.sh $1.$DOMAIN_NAME
 
 # Updates .env file with correct domain
 lxc exec $1 --  sed -i "s,#APP_URL=https://example.com,https://$1.$DOMAIN_NAME,g" /var/www/bookstack/.env
