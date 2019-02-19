@@ -84,41 +84,6 @@ create_container() {
   $ECHO_GREEN"SUCCESS: Container $1 Setup Complete"$NC
 }
 
-#lets_encrypt_preflight() {
-#if [ -z "$LE_EMAIL" ]
-#  then
-#  $ECHO_CYAN"Enter email address (used for urgent renewal and security notices)"$NC
-#  read LE_EMAIL
-#  echo "LE_EMAIL=$LE_EMAIL" >> /etc/lxq/lxq.cfg
-#  fi
-#}
-
-#lets_encrypt() {
-#  lets_encrypt_preflight
-#  $ECHO_YELLOW"Generating Let's Encrypt Certificate..."$NC
-#  if [ -z "$WILDCARD_DOMAIN" ]
-#  then
-#  lxc exec nginx -- certbot --nginx -n --email $LE_EMAIL --agree-tos --domains $2 --redirect
-#  else
-#  $ECHO_YELLOW" Skipped - Wildcard Certificate Installed"$NC
-#  fi
-#}
-
-#lets_encrypt_wildcard() {
-#lets_encrypt_preflight
-#if [ -z "$WILDCARD_DOMAIN" ]
-#then
-#echo
-#$ECHO_CYAN"What is your domain name?"$NC
-#read WILDCARD_DOMAIN
-#echo "WILDCARD_DOMAIN=$WILDCARD_DOMAIN" >> /etc/lxq/lxq.cfg
-#fi
-
-#A="*."
-#WC_DOMAIN="$A$WILDCARD_DOMAIN"
-#$ECHO_YELLOW"Installing Wildcard Certificate for$NC $WILDCARD_DOMAIN ($WC_DOMAIN)..."
-#lxc exec nginx -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials /root/cloudflare.ini -d $WILDCARD_DOMAIN  -d $WC_DOMAIN --agree-tos --noninteractive --manual-public-ip-logging-ok --email $LE_EMAIL
-#}
 
 refresh_firewall() {
 $ECHO_YELLOW"Clearing All PREROUTING Rules..."$NC
@@ -147,24 +112,6 @@ echo
 }
 
 install() {
-
-#if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
-#then 
-#$ECHO_RED"ERROR: $1 Already Exists"$NC
-#exit
-#fi
-
-if [ -z $1 ]
-then
-$ECHO_RED"ERROR: Missing APPNAME"$NC
-exit
-fi
-
-#if [ -z $2 ]
-#then
-#$ECHO_RED"ERROR: Missing DOMAIN NAME"$NC
-#exit
-#fi
 
 source /opt/lxq/apps/$1/$1.conf
 
