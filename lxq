@@ -10,10 +10,6 @@
 
 source /etc/lxq/lxq.cfg  > /dev/null 2>&1
 
-exec() {
-  lxc exec $1 -- bash
-}
-
 test_colors() {
   $ECHO_RED"This is Red"$NC
   $ECHO_YELLOW"This is Yellow"$NC
@@ -21,25 +17,152 @@ test_colors() {
   $ECHO_CYAN"This is Cyan"$NC
 }
 
-nginx_setup() {
-source /opt/lxq/apps/$1/$1.conf
-if [ -z $NGINX_SETUP ]
-then
-gen_conf $1 $2
-lets_encrypt $1 $2
-else
-$ECHO_YELLOW"Skipping NGINX setup..."$NC
-unset NGINX_SETUP
-fi
+init() {
+  if [ -n "$LXQ_INIT" ]
+    then
+    $ECHO_RED"ERROR: LXQ Already Setup"$NC
+    else
+    mkdir /etc/lxq/
+    echo "LXQ_INIT=TRUE" >> /etc/lxq/lxq.cfg
+    PUBLIC_IP=`curl -s ifconfig.me`
+    echo "Public IP: $PUBLIC_IP"
+    echo "PUBLIC_IP=$PUBLIC_IP" >> /etc/lxq/lxq.cfg
+    echo "What domain name you will be using with LXQ?"
+    read DOMAIN_NAME
+    echo "Domain Name: $DOMAIN_NAME"
+    echo "DOMAIN_NAME=$DOMAIN_NAME" >> /etc/lxq/lxq.cfg
+    $ECHO_CYAN"Enter email address (used for Let's Encrypt urgent renewal and security notices)"$NC
+    read LE_EMAIL
+    echo "LE_EMAIL=$LE_EMAIL" >> /etc/lxq/lxq.cfg
+    $ECHO_CYAN"What is your Cloudflare Email Address?"$NC
+    read cf_email
+    $ECHO_CYAN"What is your Cloudflare API Key?"$NC
+    read cf_key
+    $ECHO_YELLOW"Creating cloudflare.ini..." $NC
+    cat > cloudflare.ini <<EOF
+    # Cloudflare API credentials used by Certbot
+    dns_cloudflare_email = $cf_email
+    dns_cloudflare_api_key = $cf_key
+EOF
+    $ECHO_YELLOW"Allowing Ports and Enabling Firewall..."$NC
+    ufw allow ssh
+    ufw --force enable
+    $ECHO_YELLOW"Updating System..."$NC
+    apt-get update
+    apt-get upgrade -y
+    $ECHO_YELLOW"Installing Packages..."$NC
+    echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
+    echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
+    apt-get install zfsutils-linux iptables-persistent snapd fail2ban -y
+    $ECHO_YELLOW"Removing LXD Packages..."$NC
+    apt-get remove --purge lxd lxd-client liblxc1 lxcfs -y
+    apt-get autoremove -y
+    $ECHO_YELLOW"Installing LXD via Snap..."$NC
+    snap install lxd
+    export PATH=$PATH:/snap/bin
+    #$ECHO_YELLOW"Configuring LXD..."$NC
+    #cat /opt/lxq/preseed | lxd init --preseed
+    lxd init
+    echo ""
+    $ECHO_GREEN"SUCCESS: LXQ init Complete!"$NC
+    echo ""
+    $ECHO_YELLOW"Creating xginx Reverse Proxy..."$NC
+    CREATE_CONTAINER nginx
+    echo "Installing NGINX..."
+    lxc exec nginx -- apt-get install nginx  -y
+    echo "Installing certbot..."
+    sleep 5
+    lxc exec nginx -- apt-get update -y
+    lxc exec nginx -- apt-get install software-properties-common -y
+    lxc exec nginx -- add-apt-repository ppa:certbot/certbot -y
+    lxc exec nginx -- apt-get update -y
+    lxc exec nginx -- apt-get install python-certbot-nginx -y
+    lxc exec nginx -- apt-get install python3-certbot-dns-cloudflare -y
+    lxc file push cloudflare.ini nginx/root/
+    rm cloudflare.ini
+    refresh_firewall    
+    $ECHO_YELLOW"Installing Wildcard Certificate for$NC $WILDCARD_DOMAIN ($WC_DOMAIN)..."
+    A="*."
+    WC_DOMAIN="$A$DOMAIN_NAME"
+    lxc exec nginx -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials /root/cloudflare.ini -d $DOMAIN_NAME  -d $WC_DOMAIN --agree-tos --noninteractive --manual-public-ip-logging-ok --email $LE_EMAIL
 }
 
-update() {
-  cd /opt/lxq/
-  git fetch --all
-  git reset --hard origin/master
-  chmod a+x lxq
-  chmod a+x fix-update.sh
-  $ECHO_GREEN"LXQ UPDATED"$NC
+create_container() {
+  lxc launch ubuntu:18.04 $1
+  echo "Updating $1"
+  sleep 10
+  lxc exec $1 -- apt-get update
+  lxc exec $1 -- apt-get upgrade -y
+  $ECHO_GREEN"SUCCESS: Container $1 Setup Complete"$NC
+}
+
+#lets_encrypt_preflight() {
+#if [ -z "$LE_EMAIL" ]
+#  then
+#  $ECHO_CYAN"Enter email address (used for urgent renewal and security notices)"$NC
+#  read LE_EMAIL
+#  echo "LE_EMAIL=$LE_EMAIL" >> /etc/lxq/lxq.cfg
+#  fi
+#}
+
+#lets_encrypt() {
+#  lets_encrypt_preflight
+#  $ECHO_YELLOW"Generating Let's Encrypt Certificate..."$NC
+#  if [ -z "$WILDCARD_DOMAIN" ]
+#  then
+#  lxc exec nginx -- certbot --nginx -n --email $LE_EMAIL --agree-tos --domains $2 --redirect
+#  else
+#  $ECHO_YELLOW" Skipped - Wildcard Certificate Installed"$NC
+#  fi
+#}
+
+#lets_encrypt_wildcard() {
+#lets_encrypt_preflight
+#if [ -z "$WILDCARD_DOMAIN" ]
+#then
+#echo
+#$ECHO_CYAN"What is your domain name?"$NC
+#read WILDCARD_DOMAIN
+#echo "WILDCARD_DOMAIN=$WILDCARD_DOMAIN" >> /etc/lxq/lxq.cfg
+#fi
+
+#A="*."
+#WC_DOMAIN="$A$WILDCARD_DOMAIN"
+#$ECHO_YELLOW"Installing Wildcard Certificate for$NC $WILDCARD_DOMAIN ($WC_DOMAIN)..."
+#lxc exec nginx -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials /root/cloudflare.ini -d $WILDCARD_DOMAIN  -d $WC_DOMAIN --agree-tos --noninteractive --manual-public-ip-logging-ok --email $LE_EMAIL
+#}
+
+refresh_firewall() {
+
+if [ -z "$PUBLIC_IP" ]
+then
+$ECHO_RED"ERROR: PUBLIC_IP missing from LXQ conf"$NC
+exit
+fi
+echo
+$ECHO_YELLOW"Clearing All PREROUTING Rules..."$NC
+echo
+for i in $( iptables -t nat --line-numbers -L | grep ^[0-9] | awk '{ print $1 }' | tac )
+do
+iptables -t nat -D PREROUTING $i  > /dev/null 2>&1
+done
+$ECHO_YELLOW"PUBLIC IP:$NC$PUBLIC_IP"
+echo
+for i in $(ls /var/snap/lxd/common/lxd/containers/); 
+do
+CONTAINER_IP=$(lxc list $i -c 4 --format csv | awk '{print $1}')
+source /opt/lxq/apps/$i/$i.rules > /dev/null 2>&1
+$ECHO_GREEN"Updated Firewall Rules for $i $NC($CONTAINER_IP)"
+done
+echo
+$ECHO_YELLOW"Saving Firewall Rules..."$NC
+netfilter-persistent save 
+echo
+$ECHO_GREEN"SUCCESS: All Firewall Rules Updated"$NC
+echo
+iptables -t nat -L PREROUTING
+unset CONTAINER_IP
+echo
 }
 
 install() {
@@ -56,11 +179,11 @@ $ECHO_RED"ERROR: Missing APPNAME"$NC
 exit
 fi
 
-if [ -z $2 ]
-then
-$ECHO_RED"ERROR: Missing DOMAIN NAME"$NC
-exit
-fi
+#if [ -z $2 ]
+#then
+#$ECHO_RED"ERROR: Missing DOMAIN NAME"$NC
+#exit
+#fi
 
 source /opt/lxq/apps/$1/$1.conf
 
@@ -72,13 +195,13 @@ create_container $1
 fi
 
 $ECHO_YELLOW"Installing $1..."$NC
-source /opt/lxq/apps/$1/$1.install $1 $2
+source /opt/lxq/apps/$1/$1.install $1 #$2
 
 if [ "$SETUP_NGINX" = "NO" ]
 then
 $ECHO_YELLOW"Skipped NGINX setup"$NC
 else
-nginx_setup $1 $2
+nginx_setup $1 #$2
 lxc exec nginx -- systemctl reload nginx
 fi
 
@@ -93,24 +216,43 @@ $ECHO_YELLOW"$1 setup complete!"$NC
 
 }
 
+nginx_setup() {
+source /opt/lxq/apps/$1/$1.conf
+if [ -z $NGINX_SETUP ]
+then
+gen_conf $1 #$2
+#lets_encrypt $1 $2
+else
+$ECHO_YELLOW"Skipping NGINX setup..."$NC
+unset NGINX_SETUP
+fi
+}
+
+update() {
+  cd /opt/lxq/
+  git fetch --all
+  git reset --hard origin/master
+  chmod a+x lxq
+  chmod a+x fix-update.sh
+  echo ""
+  $ECHO_GREEN"LXQ UPDATED"$NC
+  echo ""
+}
+
+
+
 gen_conf() {
   CONTAINER_IP=$(lxc list $1 -c 4 --format csv | awk '{print $1}')
   source /opt/lxq/apps/$1/$1.conf
   $ECHO_YELLOW"IP Address:$NC $CONTAINER_IP"
   $ECHO_YELLOW "Getting .conf File..."$NC
-  if [ -z "$WILDCARD_DOMAIN" ]
-  then
-  cp /opt/lxq/templates/nginx.temp $1.conf
-  cp /opt/lxq/apps/$1/files/nginx.conf $1.conf > /dev/null 2>&1
-  else
   cp /opt/lxq/templates/wildcard.temp $1.conf
   cp /opt/lxq/apps/$1/files/wc_nginx.conf $1.conf > /dev/null 2>&1
-  fi
   $ECHO_YELLOW"Updating .conf File..."$NC
-  sed -i "s/<<DOMAIN>>/$2/g" $1.conf
+  sed -i "s/<<DOMAIN>>/$DOMAIN_NAME/g" $1.conf
   sed -i "s/<<CONTAINER_IP>>/$CONTAINER_IP/g" $1.conf
   sed -i "s/<<CONTAINER_PORT>>/$CONTAINER_PORT/g" $1.conf
-  sed -i "s/<<WILDCARD_DOMAIN>>/$WILDCARD_DOMAIN/g" $1.conf
+  sed -i "s/<<DOMAIN_NAME>>/$DOMAIN_NAME/g" $1.conf
   $ECHO_YELLOW"Pushing .conf file to container..."$NC
   lxc file push $1.conf nginx/etc/nginx/conf.d/
   $ECHO_YELLOW"Removing .conf file..."$NC
@@ -119,42 +261,9 @@ gen_conf() {
   lxc exec nginx -- systemctl reload nginx
 }
 
-lets_encrypt_preflight() {
-if [ -z "$LE_EMAIL" ]
-  then
-  $ECHO_CYAN"Enter email address (used for urgent renewal and security notices)"$NC
-  read LE_EMAIL
-  echo "LE_EMAIL=$LE_EMAIL" >> /etc/lxq/lxq.cfg
-  fi
-}
 
-lets_encrypt() {
-  lets_encrypt_preflight
-  $ECHO_YELLOW"Generating Let's Encrypt Certificate..."$NC
-  if [ -z "$WILDCARD_DOMAIN" ]
-  then
-  lxc exec nginx -- certbot --nginx -n --email $LE_EMAIL --agree-tos --domains $2 --redirect
-  else
-  $ECHO_YELLOW" Skipped - Wildcard Certificate Installed"$NC
-  fi
-}
 
-lets_encrypt_wildcard() {
-lets_encrypt_preflight
-if [ -z "$WILDCARD_DOMAIN" ]
-then
-echo
-$ECHO_CYAN"What is your domain name?"$NC
-read WILDCARD_DOMAIN
-echo "WILDCARD_DOMAIN=$WILDCARD_DOMAIN" >> /etc/lxq/lxq.cfg
-fi
-
-A="*."
-WC_DOMAIN="$A$WILDCARD_DOMAIN"
-$ECHO_YELLOW"Installing Wildcard Certificate for$NC $WILDCARD_DOMAIN ($WC_DOMAIN)..."
-lxc exec nginx -- certbot certonly --dns-cloudflare --dns-cloudflare-credentials /root/cloudflare.ini -d $WILDCARD_DOMAIN  -d $WC_DOMAIN --agree-tos --noninteractive --manual-public-ip-logging-ok --email $LE_EMAIL
-}
-
+#shortcuts
 
 reload() {
 lxc exec nginx -- systemctl reload nginx
@@ -175,6 +284,12 @@ if [ purge = "$1" ]
 then rm /etc/lxq/lxq.cfg 
 fi
 }
+
+exec() {
+  lxc exec $1 -- bash
+}
+
+#shortcuts
 
 backup() {
   mkdir /backups
@@ -220,99 +335,30 @@ fi
 #   fi
 }
 
-wildcard() {
+#wildcard() {
 
-if [ -n "$WILDCARD_DOMAIN" ]
-then
-$ECHO_RED"ERROR: Wildcard Already Setup"$NC
-exit
-fi
+#if [ -n "$WILDCARD_DOMAIN" ]
+#then
+#$ECHO_RED"ERROR: Wildcard Already Setup"$NC
+#exit
+#fi
 
-if [ -z $1 ]
-then
-$ECHO_RED"ERROR: Missing DNS Provider"$NC
-exit
-fi
+#if [ -z $1 ]
+#then
+#$ECHO_RED"ERROR: Missing DNS Provider"$NC
+#exit
+#fi
 
-if [ cloudflare = "$1" ]
-then
-dns_setup_cloudflare
-fi
-}
-
-dns_setup_cloudflare() {
-  if [ -f /var/snap/lxd/common/mntns/var/snap/lxd/common/lxd/storage-pools/default/containers/nginx/rootfs/root/cloudflare.ini ];
-  then
-  $ECHO_YELLOW"cloudflare.ini already exists"$NC
-  lets_encrypt_wildcard
-  exit
-  fi
-  $ECHO_CYAN"What is your Cloudflare Email Address?"$NC
-  read cf_email
-  $ECHO_CYAN"What is your Cloudflare API Key?"$NC
-  read cf_key
-  $ECHO_YELLOW"Installing Cloudflare DNS Plugin"$NC
-  lxc exec nginx -- apt-get install python3-certbot-dns-cloudflare -y
-  $ECHO_YELLOW"Creating cloudflare.ini..." $NC
-  cat > cloudflare.ini <<EOF
-  # Cloudflare API credentials used by Certbot
-  dns_cloudflare_email = $cf_email
-  dns_cloudflare_api_key = $cf_key
-EOF
-  lxc file push cloudflare.ini nginx/root/
-  #rm cloudflare.ini
-if [ -f /var/snap/lxd/common/mntns/var/snap/lxd/common/lxd/storage-pools/default/containers/nginx/rootfs/root/cloudflare.ini ];
-  then
-  $ECHO_GREEN"SUCCESS:Cloudflare DNS setup complete!"$NC
-  lets_encrypt_wildcard
-  else
-  $ECHO_RED"ERROR: cloudflare.ini not created"$NC
-  exit
-fi
-}
+#if [ cloudflare = "$1" ]
+#then
+#dns_setup_cloudflare
+#fi
+#}
 
 
-refresh_firewall() {
 
-if [ -z "$PUBLIC_IP" ]
-then
-$ECHO_RED"ERROR: PUBLIC_IP missing from LXQ conf"$NC
-exit
-fi
-echo
-$ECHO_YELLOW"Clearing All PREROUTING Rules..."$NC
-echo
-for i in $( iptables -t nat --line-numbers -L | grep ^[0-9] | awk '{ print $1 }' | tac )
-do
-iptables -t nat -D PREROUTING $i  > /dev/null 2>&1
-done
-$ECHO_YELLOW"PUBLIC IP:$NC$PUBLIC_IP"
-echo
-for i in $(ls /var/snap/lxd/common/lxd/containers/); 
-do
-CONTAINER_IP=$(lxc list $i -c 4 --format csv | awk '{print $1}')
-source /opt/lxq/apps/$i/$i.rules > /dev/null 2>&1
-$ECHO_GREEN"Updated Firewall Rules for $i $NC($CONTAINER_IP)"
-done
-echo
-$ECHO_YELLOW"Saving Firewall Rules..."$NC
-netfilter-persistent save 
-echo
-$ECHO_GREEN"SUCCESS: All Firewall Rules Updated"$NC
-echo
-iptables -t nat -L PREROUTING
-unset CONTAINER_IP
-echo
-}
 
-create_container() {
-  lxc launch ubuntu:18.04 $1
-  echo "Updating $1"
-  sleep 10
-  lxc exec $1 -- apt-get update
-  lxc exec $1 -- apt-get upgrade -y
-  $ECHO_GREEN"SUCCESS: Container $1 Setup Complete"$NC
-}
+
 
 remove() {
   if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
@@ -328,41 +374,6 @@ remove() {
   fi
 }
 
-init() {
-  if [ -n "$LXQ_INIT" ]
-    then
-    $ECHO_RED"ERROR: LXQ Already Setup"$NC
-    else
-    echo "What domain name will you be using with LXQ?"
-    read DOMAIN_NAME
-    echo "Domain Name: $DOMAIN_NAME"
-    echo "DOMAIN_NAME=$DOMAIN_NAME" >> /etc/lxq/lxq.cfg
-    $ECHO_YELLOW"Allowing Ports and Enabling Firewall..."$NC
-    ufw allow ssh
-    ufw --force enable
-    $ECHO_YELLOW"Updating System..."$NC
-    apt-get update
-    apt-get upgrade -y
-    $ECHO_YELLOW"Installing Packages..."$NC
-    echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
-    echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
-    apt-get install zfsutils-linux iptables-persistent snapd fail2ban -y
-    $ECHO_YELLOW"Removing LXD Packages..."$NC
-    apt-get remove --purge lxd lxd-client liblxc1 lxcfs -y
-    apt-get autoremove -y
-    $ECHO_YELLOW"Installing LXD via Snap..."$NC
-    snap install lxd
-    export PATH=$PATH:/snap/bin
-    $ECHO_YELLOW"Configuring LXD..."$NC
-    cat /opt/lxq/preseed | lxd init --preseed
-    mkdir /etc/lxq/
-    echo "LXQ_INIT=TRUE" >> /etc/lxq/lxq.cfg
-    PUBLIC_IP=`curl -s ifconfig.me`
-    echo "Public IP: $PUBLIC_IP"
-    echo "PUBLIC_IP=$PUBLIC_IP" >> /etc/lxq/lxq.cfg
-    $ECHO_GREEN"SUCCESS: LXQ init Complete!"$NC
-    lxq install nginx null
-  fi
-}
+
     
 $@
