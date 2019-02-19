@@ -310,6 +310,7 @@ lxc export $1 $1.tar.xz
 mv $1.tar.xz /backups
 fi
 fi
+}
 
 remove() {
   if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
