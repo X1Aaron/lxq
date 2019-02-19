@@ -19,11 +19,12 @@ LXQ is an automation platform for LXD
 * Enables UFW (SSH Only)
 * Updates the Host
 * Removes LXD Packages and Installs LXD via Snap
-* Setup and Configures LXD
+* Runs lxd init
 * Setup and Configures a nginx container to serve as a reverse proxy
 * Forwards ports 80/443 from the host to the nginx container
+* Setups Wild Card cert from Let's Encrpt
 
-`lxq install <appname> <domain_name>`
+`lxq install <appname>`
 
 * Creates and updates a container
 * Installs the app inside the contianer
@@ -47,12 +48,6 @@ LXQ is an automation platform for LXD
 * edit - opens the conf file to edit it
 * run without an option shows you the LXQ configuation
 
-`lxq wildcard <dns>`
-* Setups Wildcard Cert
-* Only supports Cloudflare for now.
-*Want another DNS provider? Open a Issue.*
-
-
 ## Install
 
 First, get the script and make it executable :
@@ -68,6 +63,8 @@ Then run it :
 After the install is complete :
 
 `source ~/.profile`
+
+## One-Liner
 
 `wget https://raw.githubusercontent.com/aaronstuder/lxq/master/installer/setup.sh && chmod +x setup.sh && ./setup.sh && source ~/.profile`
 
