@@ -11,12 +11,7 @@
 source /etc/lxq/lxq.cfg  > /dev/null 2>&1
 
 init() {
-  if [ -n "$LXQ_INIT" ]
-    then
-    $ECHO_RED"ERROR: LXQ Already Setup"$NC
-    else
     mkdir /etc/lxq/
-    echo "LXQ_INIT=TRUE" >> /etc/lxq/lxq.cfg
     PUBLIC_IP=`curl -s ifconfig.me`
     echo "Public IP: $PUBLIC_IP"
     echo "PUBLIC_IP=$PUBLIC_IP" >> /etc/lxq/lxq.cfg
