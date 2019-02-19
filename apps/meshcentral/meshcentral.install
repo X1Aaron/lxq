@@ -1,6 +1,6 @@
 lxc exec $1 -- apt install nodejs npm -y
 lxc exec $1 -- setcap cap_net_bind_service=+ep /usr/bin/node
 lxc exec $1 -- npm install meshcentral
-lxc exec $1 -- cp /opt/lxq/apps/meshcentral/files/meshcentral.service /etc/systemd/system/
+lxc file push /opt/lxq/apps/meshcentral/files/meshcentral.service $1/etc/systemd/system/
 lxc exec $1 -- systemctl start meshcentral.service
 lxc exec $1 -- systemctl enable meshcentral.services
