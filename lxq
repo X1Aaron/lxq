@@ -225,7 +225,7 @@ update() {
 gen_conf() {
   CONTAINER_IP=$(lxc list $1 -c 4 --format csv | awk '{print $1}')
   source /opt/lxq/apps/$1/$1.conf
-  $ECHO_YELLOW"IP Address:$NC $CONTAINER_IP"
+  $ECHO_YELLOW"Container IP Address:$NC $CONTAINER_IP"
   $ECHO_YELLOW "Getting .conf File..."$NC
   cp /opt/lxq/templates/wildcard.temp $1.conf
   cp /opt/lxq/apps/$1/files/wc_nginx.conf $1.conf > /dev/null 2>&1
