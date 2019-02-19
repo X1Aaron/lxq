@@ -121,13 +121,6 @@ create_container() {
 #}
 
 refresh_firewall() {
-
-#if [ -z "$PUBLIC_IP" ]
-#then
-#$ECHO_RED"ERROR: PUBLIC_IP missing from LXQ conf"$NC
-#exit
-#fi
-echo
 $ECHO_YELLOW"Clearing All PREROUTING Rules..."$NC
 echo
 for i in $( iptables -t nat --line-numbers -L | grep ^[0-9] | awk '{ print $1 }' | tac )
