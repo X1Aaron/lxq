@@ -1,7 +1,8 @@
 [Unit]
 Description=MeshCentral Server
 
-[Service]Type=simple
+[Service]
+Type=simple
 ExecStart=/usr/bin/node /root/node_modules/meshcentral
 WorkingDirectory=/root
 User=root
