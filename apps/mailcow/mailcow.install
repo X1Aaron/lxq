@@ -9,6 +9,7 @@ lxc config set $1 raw.lxc "lxc.cap.drop="
 lxc start mailcow
 sleep 5s
 lxc exec $1 -- curl -sSL https://get.docker.com/ | CHANNEL=stable sh
+sleep 5s
 lxc exec $1 -- systemctl enable docker.service
 lxc exec $1 -- systemctl start docker.service
 lxc exec $1 -- curl -L https://github.com/docker/compose/releases/download/$(curl -Ls https://www.servercow.de/docker-compose/latest.php)/docker-compose-$(uname -s)-$(uname -m) > /usr/local/bin/docker-compose
