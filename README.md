@@ -1,6 +1,6 @@
 # LXQ
 
-LXQ is an automation platform for LXD
+LXQ takes your server or VPS installs LXD and runs each app in it own LXD Container. During setup a wild card certificate is generated for your domain, and apps are reachable via appname.domain.com - apps are automaticly configured to work with the nginx reverse proxy, so no setup is needed. Simply type `lxd install <appname>` wait for the installation to finish, then browse to appname.domain.com 
 
 # System Requirements
 
@@ -21,7 +21,7 @@ LXQ is an automation platform for LXD
 * Removes LXD Packages and Installs LXD via Snap
 * Runs lxd init
 * Setup and Configures a nginx container to serve as a reverse proxy
-* Forwards ports 80/443 from the host to the nginx container
+* Forwards ports 443 from the host to the nginx container
 * Setups Wild Card cert from Let's Encrpt
 
 `lxq install <appname>`
