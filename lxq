@@ -10,13 +10,6 @@
 
 source /etc/lxq/lxq.cfg  > /dev/null 2>&1
 
-test_colors() {
-  $ECHO_RED"This is Red"$NC
-  $ECHO_YELLOW"This is Yellow"$NC
-  $ECHO_GREEN"This is Green"$NC
-  $ECHO_CYAN"This is Cyan"$NC
-}
-
 init() {
   if [ -n "$LXQ_INIT" ]
     then
@@ -134,11 +127,11 @@ create_container() {
 
 refresh_firewall() {
 
-if [ -z "$PUBLIC_IP" ]
-then
-$ECHO_RED"ERROR: PUBLIC_IP missing from LXQ conf"$NC
-exit
-fi
+#if [ -z "$PUBLIC_IP" ]
+#then
+#$ECHO_RED"ERROR: PUBLIC_IP missing from LXQ conf"$NC
+#exit
+#fi
 echo
 $ECHO_YELLOW"Clearing All PREROUTING Rules..."$NC
 echo
@@ -323,43 +316,6 @@ mv $1.tar.xz /backups
 fi
 fi
 
-#rclone copy 20181106-160946-nginx.tar.xz wasabi:aaronstuder
-
-#if [ -f /usr/bin/rclone ];
-#    then 
-#    echo
-#    echo "Running Offsite Backup"
-#    echo
-#    else
-#    echo "rclone not installed"
-#   fi
-}
-
-#wildcard() {
-
-#if [ -n "$WILDCARD_DOMAIN" ]
-#then
-#$ECHO_RED"ERROR: Wildcard Already Setup"$NC
-#exit
-#fi
-
-#if [ -z $1 ]
-#then
-#$ECHO_RED"ERROR: Missing DNS Provider"$NC
-#exit
-#fi
-
-#if [ cloudflare = "$1" ]
-#then
-#dns_setup_cloudflare
-#fi
-#}
-
-
-
-
-
-
 remove() {
   if [ -d /var/snap/lxd/common/lxd/containers/$1 ];
   then
@@ -374,6 +330,4 @@ remove() {
   fi
 }
 
-
-    
 $@
