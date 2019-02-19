@@ -7,7 +7,7 @@ LXQ takes your server or VPS installs LXD and runs each app in it own LXD Contai
 * LXQ is tested on Ubuntu 18.04 and is designed to be used on a fresh Ubuntu 18.04 installation.
 * All containers are Ubuntu 18.04
 * Processor, RAM, and Hard drive requirements are based on what/how many apps you install and usage of those apps.
-* Cloudflare DNS
+* Cloudflare DNS - Other DNS Providers can be added by request :)
 
 # Commands
 
